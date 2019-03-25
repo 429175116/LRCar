@@ -45,7 +45,7 @@
   font-size: 26rpx;
   color:#4A4A4A;
 }
-.iconfont{
+.icon{
   width: 60rpx;
   height: 60rpx;
   margin-right: 20rpx;
@@ -116,7 +116,7 @@
       </view>
       <view class="center">
         <view class="price">￥{{ shopping.price }}<text class="centerText">（剩余{{ shopping.storage }}件）</text></view>
-        <view class="iconfont icon-gouwuchekong" @tap='addCart' data-id='{{shopping.id}}'></view>
+        <view class="icon iconfont icon-gouwuchekong" @tap='addCart' data-id='{{shopping.id}}'></view>
         <view class="centerText1"> {{ shopping.sale_count }}人购买过</view>
       </view>
     </view>

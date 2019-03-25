@@ -83,7 +83,7 @@
   color: #C70101;
   font-size: 28rpx;
 }
-.iconfont{
+.icon{
   width: 40rpx;
   height: 40rpx;
   margin-top: 10rpx;
@@ -171,7 +171,7 @@
             <view class="commodityView">{{ item.name }}</view>
             <view class="commodityBottom">
               <view class="btn">￥{{ item.price }}</view>
-              <view class="iconfont icon-gouwuchekong" @tap='goCart' data-id='{{item.id}}'></view>
+              <view class="icon iconfont icon-gouwuchekong" @tap='goCart' data-id='{{item.id}}'></view>
             </view>
             <view class="commodityBottom1">
               <view class="btn1">剩余:{{ item.storage }}</view>
@@ -184,7 +184,7 @@
               <view class="commodityView1">{{ item.name }}</view>
               <view class="commodityBottom2">
                 <view class="btn">￥{{ item.price }}</view>
-                <view class="iconfont icon-gouwuchekong" @tap='goCart' data-id='{{item.id}}'></view>
+                <view class="icon iconfont icon-gouwuchekong" @tap='goCart' data-id='{{item.id}}'></view>
               </view>
               <view class="commodityBottom3">
                 <view class="btn1">剩余:{{ item.storage }}</view>
