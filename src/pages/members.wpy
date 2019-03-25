@@ -1,0 +1,131 @@
+<style lang="less">
+.all {
+  margin-bottom: 140rpx;
+}
+.main {
+  display: flex;
+  justify-content: space-between;
+  background: #eee;
+  margin: 20rpx;
+  padding: 20rpx 40rpx;
+  font-size: 28rpx;
+}
+.left{
+  border: 2rpx solid #00A0E9;
+  height: 40rpx;
+  border-radius: 20rpx;
+  padding: 5rpx 10rpx;
+  font-size: 22rpx;
+  margin-top: 10rpx;
+  box-sizing: border-box;
+}
+.right{
+  color: #FF0000;
+  line-height: 90rpx;
+}
+.vip_status{
+  margin: 20rpx;
+  font-size: 26rpx;
+  line-height: 50rpx;
+}
+</style>
+<template>
+  <view class="all">
+    <repeat for="{{ couponList }}" item="item">
+      <view class="main" @tap="goMemberMsg" data-id="{{ item.id }}">
+        <view>
+          <view>{{ item.name }}</view>
+          <view class="left">{{ item.title }}免费洗车年</view>
+        </view>
+        <view class="right">
+          ￥{{ item.price }}
+        </view>
+      </view>
+    </repeat>
+    <view wx:if="{{user.vip_status != 'not_vip'}}" class="vip_status">您已成功购买会员，截至日期为{{user.vip_dead_line}}</view>
+    <nav @childFn.user="goPage" />
+  </view>
+</template>
+<script>
+import wepy from 'wepy'
+import nav from '../components/nav' // 底部导航
+export default class Members extends wepy.page {
+  // 页面配置
+  config = {
+    navigationBarTitleText: '会员列表'
+  };
+  // 生命组件ID
+  components = {
+    // 底部导航
+    nav: nav
+  };
+  data = {
+    couponList: [],
+    user: ''
+  }
+  methods = {
+    bindViewTap() {
+      console.log('button clicked')
+    },
+    goPage(url, evt) {
+      this.$redirect(url)
+    },
+    goMemberMsg(e) {
+      var id = e.currentTarget.dataset.id
+      wx.request({
+        url: `${this.$parent.globalData.requestUrl}/myInfoMation`,
+        method: 'GET',
+        header: {
+          AuthrizeOpenId: this.$parent.globalData.open_id
+        },
+        success: data => {
+          if (data.statusCode === 200) {
+            if (data.data.data.user.car_number) {
+              this.$navigate('/pages/memberPay?role=' + id)
+            } else {
+              this.$navigate('/pages/openMember?role=' + id)
+            }
+            this.$apply()
+          }
+        }
+      })
+    }
+  };
+
+  getVip() {
+    wx.request({
+      url: `${this.$parent.globalData.requestUrl}/vipCardList`,
+      method: 'GET',
+      // data: {
+      //   // 'code': res.code
+      //   'user_id': 8
+      // },
+      success: data => {
+        if (data.statusCode === 200) {
+          // console.log(data.data.data)
+          this.couponList = data.data.data.vips
+          this.$apply()
+        }
+      }
+    })
+    wx.request({
+      url: `${this.$parent.globalData.requestUrl}/myInfoMation`,
+      method: 'GET',
+      header: {
+        AuthrizeOpenId: this.$parent.globalData.open_id
+      },
+      success: data => {
+        if (data.statusCode === 200) {
+          this.user = data.data.data.user
+          this.$apply()
+        }
+      }
+    })
+  }
+
+  onLoad() {
+    this.$apply()
+    this.getVip()
+  }
+}
+</script>

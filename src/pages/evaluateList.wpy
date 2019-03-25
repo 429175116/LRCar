@@ -1,0 +1,181 @@
+<style>
+.all {
+  margin-bottom: 100rpx;
+}
+.no_order {
+  text-align: center;
+  margin-top: 200rpx;
+  color: #292929;
+  font-size: 28rpx;
+}
+.commodity {
+  margin: 20rpx;
+}
+.cart{
+  width: 40rpx;
+  height: 40rpx;
+  margin-top: 10rpx;
+}
+.commodityTitle1{
+  width: 500rpx;
+  margin-top: -30rpx;
+  padding: 20rpx;
+  display: flex;
+  justify-content: space-between;
+  width: 98%;
+  border: 2rpx solid #FAF9F9;
+  border-radius: 20rpx;
+  box-sizing: border-box;
+  background: #FAF9F9;
+}
+.commodityImg1{
+  width: 210rpx;
+  height: 270rpx;
+  border: 2rpx solid #faf9f9;
+  border-radius: 20rpx;
+}
+.commodityView1{
+  margin-bottom: 20rpx;
+  font-size: 28rpx;
+}
+.right{
+  width: 405rpx;
+}
+.commodityBottom3{
+  font-size: 20rpx;
+  line-height: 55rpx;
+  height: 60rpx;
+  padding-top: 10rpx;
+  margin-top: 20rpx;
+}
+.commodityBottom2{
+  width: 575rpx;
+  font-size: 36rpx;
+  line-height: 60rpx;
+  height: 60rpx;
+  padding-top: 10rpx;
+  margin-top: 20rpx;
+  color:#C70101;
+  text-align: center;
+}
+.address{
+  border-top: 1rpx solid #eee;
+  font-size: 28rpx;
+  color:#333;
+  line-height: 60rpx;
+}
+.btn {
+  width: 140rpx;
+  height: 30rpx;
+  line-height: 30rpx;
+  color: #333;
+  font-size: 22rpx;
+  margin-top: 10rpx;
+}
+.btn1 {
+  width: 150rpx;
+  height: 50rpx;
+  line-height: 50rpx;
+  color: #333;
+  font-size: 24rpx;
+  margin-right: 40rpx;
+  margin-top: -50rpx;
+  border: 2rpx solid #00A0E9;
+}
+.btn2 {
+  width: 170rpx;
+  height: 50rpx;
+  line-height: 50rpx;
+  color: #fff;
+  font-size: 24rpx;
+  background-color: #C61E1E;
+}
+.order{
+  margin-bottom: 40rpx;
+  padding-bottom: 20rpx;
+  border-bottom: 10rpx solid #eee;
+}
+</style>
+<template>
+  <view class="all">
+    <view>
+      <view class="no_order" wx:if="{{orderList.length==0}}">暂无数据</view>
+      <view wx:else class="commodity">
+        <repeat for='{{orderList}}' for-item='item'>
+          <view wx:if="{{item.id == id}}">
+            <repeat for='{{item.order_product}}' item='items'>
+              <view class="commodityTitle1">
+                <image src='{{imgUrl2 + items.product.img}}' class="commodityImg1">
+                <view class="right">
+                  <view class="commodityView1">{{items.product.name}}</view>
+                  <view class="commodityBottom3">
+                    <view class="btn">x{{items.num}}</view>
+                  </view>
+                  <view class="commodityBottom2">￥{{items.product.price}}</view>
+                </view>
+              </view>
+              <button class="btn1" @tap='goEvaluate' data-id="{{items.product.id}}"  data-img="{{items.product.img}}">评价</button>
+            </repeat>
+          </view>
+        </repeat>
+      </view>
+    </view>
+    <nav @childFn.user="goPage" />
+  </view>
+</template>
+<script>
+import wepy from 'wepy'
+import nav from '../components/nav' // 底部导航
+export default class EvaluateList extends wepy.page {
+  // 页面配置
+  config = {
+    navigationBarTitleText: '账单'
+  };
+  // 生命组件ID
+  components = {
+    // 底部导航
+    nav: nav
+  };
+  // alias example
+  data = {
+    motto: 'Hello World',
+    id: '',
+    imgUrl2: '',
+    orderList: []
+  };
+  methods = {
+    bindViewTap() {
+      console.log('button clicked')
+    },
+    goPage(url, evt) {
+      this.$redirect(url)
+    },
+    goEvaluate(e) {
+      var id = e.currentTarget.dataset.id
+      var img = e.currentTarget.dataset.img
+      // console.log(id)
+      this.$navigate('/pages/evaluate?id=' + id + '&img=' + img)
+    }
+  };
+  onLoad(options) {
+    this.id = options.id
+    this.imgUrl2 = this.$parent.globalData.imgUrl2
+    wx.request({
+      url: `${this.$parent.globalData.requestUrl}/orderList`,
+      method: 'GET',
+      header: {
+        AuthrizeOpenId: this.$parent.globalData.open_id
+      },
+      data: {
+        status: 'finished'
+      },
+      success: data => {
+        if (data.statusCode === 200) {
+          this.orderList = data.data.data.orders.data
+          this.$apply()
+        }
+      }
+    })
+  }
+}
+</script>

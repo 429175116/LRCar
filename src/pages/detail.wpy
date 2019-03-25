@@ -1,0 +1,242 @@
+<style lang="less">
+.all{
+  margin-bottom: 140rpx;
+}
+.main{
+  margin: 40rpx;
+  background: #FAF9F9;
+  text-align: center;
+  border: 1px solid #eee;
+  border-radius: 20rpx;
+}
+.img{
+  margin: 40rpx auto;
+  width: 440rpx;
+  height: 550rpx;
+  border-radius: 20rpx;
+  border: 2rpx solid #eee;
+  padding: 20rpx 40rpx;
+}
+.imgs{
+  width: 100%;
+  height: 540rpx;
+  border-radius: 20rpx;
+}
+.centerTitle{
+  font-size: 36rpx;
+  text-align: left;
+  margin-top: 40rpx;
+}
+.centerView{
+  font-size: 30rpx;
+  text-align: left;
+}
+.center{
+  display: flex;
+  justify-content: space-between;
+  margin-top: 120rpx;
+}
+.price{
+  width: 320rpx;
+  color: #C70101;
+  font-size: 40rpx;
+}
+.centerText{
+  font-size: 26rpx;
+  color:#4A4A4A;
+}
+.icon{
+  width: 60rpx;
+  height: 60rpx;
+  margin-right: 20rpx;
+  margin-left: 60rpx;
+}
+.centerText1{
+  font-size: 26rpx;
+  margin-top: 10rpx;
+  color:#333;
+  margin-right: 20rpx;
+}
+.bottom{
+  padding: 20rpx 50rpx;
+  font-size: 28rpx;
+}
+.btn{
+  position: fixed;
+  bottom: 160rpx;
+  left: 80rpx;
+  width: 600rpx;
+  background: #C70101;
+  color: #fff;
+  line-height: 80rpx;
+  height: 80rpx;
+  font-size: 30rpx;
+  border-radius: 40rpx;
+  z-index: 555;
+}
+.comment{
+  display: flex;
+  margin: 40rpx;
+  font-size: 24rpx;
+}
+.comment_left{
+  width: 420rpx;
+  display: flex;
+}
+.comment_left image{
+  width: 50rpx;
+  height: 50rpx;
+  margin-right: 20rpx;
+  border-radius: 50%;
+}
+.comment_center{
+  width: 600rpx;
+  font-size: 24rpx;
+  margin-left: 60rpx;
+}
+.comment_right{
+  width: 300rpx;
+}
+.imgList{
+  display: flex;
+  flex-wrap: wrap;
+}
+.imgList image{
+  width: 100rpx;
+  height: 100rpx;
+  margin-right: 40rpx;
+  margin-bottom: 20rpx;
+}
+</style>
+<template>
+  <view class="all">
+    <view class="main">
+      <view class="img">
+        <image src="{{ imgUrl2 + shopping.img }}" class="imgs"/>
+        <view class="centerTitle">{{ shopping.name }}</view>
+      <!-- <view class="centerView">陕西利仁汽车美容服务中心</view> -->
+      </view>
+      <view class="center">
+        <view class="price">￥{{ shopping.price }}<text class="centerText">（剩余{{ shopping.storage }}件）</text></view>
+        <image src="../img/cart1.png" class="icon" @tap='addCart' data-id='{{shopping.id}}'/>
+        <view class="centerText1"> {{ shopping.sale_count }}人购买过</view>
+      </view>
+    </view>
+    <view class="bottom">{{ shopping.description }}</view>
+    <repeat for="{{ shopping.comment }}" item="item">
+      <view class="comment">
+        <view class="comment_left">
+          <image src="{{item.user.profile}}"/>
+          <view>{{item.user.nick_name}}</view>
+        </view>
+        <view class="comment_right">{{item.created_at}}</view>
+      </view>
+      <view class="comment_center">
+        <view class="imgList">
+          <repeat for="{{item.imgs}}" item="itemss">
+            <image src="{{itemss.img}}"/>
+          </repeat>
+        </view>
+        <view>{{item.comment}}</view>
+      </view>
+    </repeat>
+    <button class="btn" @tap='goOrder' data-id='{{shopping.id}}'>立即购买</button>
+    <nav @childFn.user="goPage" />
+  </view>
+</template>
+
+<script>
+import wepy from 'wepy'
+import nav from '../components/nav' // 底部导航
+export default class Detail extends wepy.page {
+  config = {
+    navigationBarTitleText: '首页'
+  };
+  // 生命组件ID
+  components = {
+    // 底部导航
+    nav: nav
+  };
+  // alias example
+  data = {
+    motto: 'Hello World',
+    imgUrl: '',
+    imgUrl2: '',
+    reserveList: null,
+    userInfo: null,
+    prompt: false,
+    shopping: []
+  };
+  methods = {
+    goPage(url, evt) {
+      this.$redirect(url)
+    }
+  };
+  // 去支付
+  goOrder(e) {
+    var id = e.currentTarget.dataset.id
+    // console.log(id)
+    var goods = []
+    let dataJson = ''
+    dataJson = `{"product_id": ${id} ,"num": ${1}}`
+    dataJson = JSON.parse(dataJson)
+    goods.push(dataJson)
+    goods = JSON.stringify(goods)
+    this.$navigate('/pages/pay?id=' + goods + '&totalPrice=' + this.shopping.price)
+  }
+  // 加入购物车
+  addCart(e) {
+    var id = e.currentTarget.dataset.id
+    wx.request({
+      url: `${this.$parent.globalData.requestUrl}/addShoppingCart`,
+      header: {
+        AuthrizeOpenId: this.$parent.globalData.open_id
+      },
+      method: 'POST',
+      data: {
+        product_id: id,
+        num: 1
+      },
+      success: data => {
+        if (data.statusCode === 200) {
+          if (data.data.success) {
+            wepy.showToast({
+              title: '加入成功',
+              icon: 'success',
+              duration: 2000
+            })
+          } else {
+            wepy.showModal({
+              title: '',
+              content: data.data.errmsg,
+              showCancel: false
+            })
+          }
+
+          // this.$navigate('/pages/cart?id=' + this.id)
+          this.$apply()
+        }
+      }
+    })
+  };
+  onLoad(option) {
+    var id = option.id
+    this.imgUrl2 = this.$parent.globalData.imgUrl2
+    this.imgUrl = this.$parent.globalData.imgUrl
+    // console.log(id)
+    wx.request({
+      url: `${this.$parent.globalData.requestUrl}/productsDetail/${id}`,
+      method: 'GET',
+//      data: {
+//        id: id
+//      },
+      success: data => {
+        if (data.statusCode === 200) {
+          this.shopping = data.data.data.product
+          this.$apply()
+        }
+      }
+    })
+  };
+}
+</script>

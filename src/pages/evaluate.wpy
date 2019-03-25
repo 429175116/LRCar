@@ -1,0 +1,263 @@
+<style lang="less">
+.all {
+  margin-bottom: 140rpx;
+}
+.shopping{
+  display: flex;
+  justify-content: space-between;
+  margin: 40rpx;
+  font-size: 28rpx;
+}
+.score{
+  margin: auto;
+}
+.img{
+  padding: 10rpx;
+  border-radius: 20rpx;
+  border: 1px solid #eee;
+}
+.img image{
+  width: 200rpx;
+  height: 250rpx;
+  border-radius: 20rpx;
+}
+textarea{
+  margin-left: 60rpx;
+  padding: 20rpx;
+  font-size: 24rpx;
+  background: #eee;
+  color:#828282;
+  height: 200rpx;
+}
+.addimg{
+  margin-left: 60rpx;
+  font-size: 26rpx;
+  margin-top: 40rpx;
+}
+.zan-font-16 {
+  font-size: 20px;
+  display: flex;
+  justify-content: space-between;
+}
+.zan-c-red {
+  color: #00A0E9;
+}
+.zan-c-gray-darks {
+  font-size: 16px;
+  margin-top: 5px;
+}
+.save-btn {
+  width: 667rpx;
+  height: 80rpx;
+  font-size: 30rpx;
+  text-align: center;
+  color: #fff;
+  border-radius: 40rpx;
+  position: fixed;
+  bottom: 140rpx;
+  margin-left: 40rpx;
+  background-color: #00A0E9;
+  z-index: 555;
+}
+.img-v{
+  margin-top: 40rpx;
+}
+.upload-img-btn{
+  background: #00A0E9;
+  width: 150rpx;
+  height: 150rpx;
+  font-size: 200rpx;
+  color: #fff;
+  line-height: 120rpx;
+  text-align: center;
+}
+.img-v{
+  display: flex;
+  flex-wrap: wrap;
+}
+.imgs image{
+  width: 150rpx;
+  height: 150rpx;
+  margin-right: 20rpx;
+}
+.delete-btn{
+  position: relative;
+  top: -150rpx;
+  left: 130rpx;
+  z-index: 555;
+}
+.delete-btn image{
+  width: 30rpx;
+  height: 30rpx;
+}
+</style>
+<template>
+  <view class="all">
+    <view class="shopping">
+      <view class="img">
+        <image src="{{imgUrl2 + img}}"/>
+      </view>
+      <view class="score">商品评分：</view>
+       <view class="zan-font-16 score" @tap="myStarChoose">
+        <repeat for="{{starMap}}">
+          <view wx:if="{{star>=index+1}}" style="padding-right: .5em" class="zan-c-red" data-star="{{index+1}}">
+            ★
+          </view>
+          <view wx:if="{{star<index+1}}" style="padding-right: .5em" class="zan-c-gray-dark" data-star="{{index+1}}">
+            ☆
+          </view>
+        </repeat>
+         <text class="zan-c-gray-darks">{{starMap[star-1]}}</text>
+      </view>
+    </view>
+    <textarea bindblur="bindTextAreaBlur"></textarea>
+    <view class="addimg">
+      <view>添加图片（{{imgs.length}}/9）</view>
+      <view class="img-v">
+        <view class="imgs" wx:for="{{imgs}}" wx:for-item="item" wx:key="*this">
+          <image src="{{item}}" data-index="{{index}}" mode="aspectFill"  />
+          <view class="delete-btn" data-index="{{index}}" catchtap="deleteImg">
+            <image src="../img/delete.jpg"/>
+          </view>
+        </view>
+        <view class="upload-img-btn" @tap="chooseImg" wx:if="{{imgs.length<9}}">+</view>
+      </view>
+    </view>
+    <button class="save-btn" @tap="evaluate">评价</button>
+    <nav @childFn.user="goPage" />
+  </view>
+</template>
+<script>
+import wepy from 'wepy'
+import nav from '../components/nav' // 底部导航
+export default class evaluate extends wepy.page {
+  // 页面配置
+  config = {
+    navigationBarTitleText: '评价'
+  };
+  // 生命组件ID
+  components = {
+    // 底部导航
+    nav: nav
+  };
+  data = {
+    star: 0,
+    id: '',
+    starMap: [ '1', '2', '3', '4', '5' ],
+    imgs: [],
+    lenMore: 1,
+    ceshi: '',
+    pics: [],
+    imgUrl2: '',
+    img: ''
+  };
+  methods = {
+    bindViewTap() {
+      console.log('button clicked')
+    },
+    goPage(url, evt) {
+      this.$redirect(url)
+    },
+    myStarChoose(e) {
+      let star = parseInt(e.target.dataset.star) || 0
+      this.star = star
+    },
+    bindTextAreaBlur(e) {
+      this.ceshi = e.detail.value
+    }
+  };
+  // 上传图片
+  chooseImg (e) {
+    var that = this
+    wx.chooseImage({
+      // count: 1, // 默认9
+      sizeType: ['original', 'compressed'], // 可以指定是原图还是压缩图，默认二者都有
+      sourceType: ['album', 'camera'], // 可以指定来源是相册还是相机，默认二者都有
+      success: function (res) {
+        // 返回选定照片的本地文件路径列表，tempFilePath可以作为img标签的src属性显示图片
+        var tempFilePaths = res.tempFilePaths
+        var imgs = that.imgs
+        // console.log(tempFilePaths + '----');
+        for (var i = 0; i < tempFilePaths.length; i++) {
+          if (imgs.length >= 9) {
+            that.imgs = imgs
+            return false
+          } else {
+            imgs.push(tempFilePaths[i])
+          }
+        }
+        var n = 0
+        for (n in tempFilePaths) {
+          wx.uploadFile({
+            url: `${that.$parent.globalData.requestUrl}/uploadImage`,
+            method: 'POST',
+            header: {
+              'Content-Type': 'multipart/form-data'
+            },
+            filePath: tempFilePaths[n],
+            name: 'image',
+            formData: {},
+            success: data => {
+              var datas = JSON.parse(data.data)
+              if (datas.success) {
+                var imgs = datas.url
+                console.log("5444454545",imgs)
+                that.pics.push(imgs)
+                // this.$navigate(`/pages/user`)
+              }
+            }
+          })
+        }
+        that.imgs = imgs
+        that.$apply()
+      }
+    })
+  };
+  // 删除图片
+  deleteImg (e) {
+    var imgs = this.data.imgs
+    var index = e.currentTarget.dataset.index
+    imgs.splice(index, 1)
+    this.imgs = imgs
+    this.$apply()
+  };
+  // 提交评论
+  evaluate() {
+    var score = this.star
+    var text = this.ceshi
+    var img = this.imgs
+    if (score === 0 || text === '' || img.length === 0) {
+      wx.showModal({
+        title: '提示',
+        content: '请完善信息',
+        showCancel: false
+      })
+    } else {
+      wx.request({
+        url: `${this.$parent.globalData.requestUrl}/commentProduct`,
+        method: 'POST',
+        header: {
+          AuthrizeOpenId: this.$parent.globalData.open_id
+        },
+        data: {
+          product_id: this.id,
+          comment: text,
+          score: score,
+          imgs: this.pics
+        },
+        success: data => {
+          if (data.statusCode === 200) {
+            this.$navigate(`/pages/user`)
+          }
+        }
+      })
+    }
+  }
+  onLoad(options) {
+    this.id = options.id
+    this.img = options.img
+    this.imgUrl2 = this.$parent.globalData.imgUrl2
+    // console.log(options)
+  }
+}
+</script>

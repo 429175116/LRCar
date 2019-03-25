@@ -1,0 +1,245 @@
+<style lang="less">
+page{
+  background-color: #fff;
+}
+.setInfo{
+  width: 750rpx;
+  min-height: 700rpx;
+  height: auto;
+  border-radius: 30rpx;
+  background-color: #eee;
+}
+.item{
+  width: 750rpx;
+  min-height: 90rpx;
+  height: auto;
+  border-bottom: 1rpx solid #dcdcdc;
+  display: flex;
+  align-items: center;
+  padding: 0 30rpx;
+  color: #333;
+  font-size: 30rpx;
+}
+.label{
+  width: 150rpx;
+}
+.labelCon{
+  // display: flex;
+  // align-items: center;
+  // justify-content: center;
+  // word-wrap:break-word;
+  height: auto;
+}
+.labelCon view{
+  display:inline-block;
+  border: 1rpx solid #d5d5d5;
+  border-radius: 10rpx;
+  padding: 5rpx 10rpx;
+  margin: 10rpx 10rpx;
+}
+.labelCon .new{
+  margin: 0rpx;
+  width: 30rpx;
+  height: 30rpx;
+  color: #fff;
+  line-height: 30rpx;
+  text-align: center;
+  // margin-left: 10rpx;
+  border-radius: 15rpx;
+  background-color: #777;
+  margin-right: 0rpx;
+  padding: 0;
+
+
+}
+.button{
+  position: absolute;
+  width: 750rpx;
+  bottom: 110rpx;
+  height: 110rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.button button{
+  width: 640rpx;
+  height: 80rpx;
+  font-size: 30rpx;
+  color: #fff;
+  border-radius: 40rpx;
+  background-color: #00A0E9;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+</style>
+
+<template>
+  <view>
+    <form class="appointment_form" bindsubmit='newAddss'>
+      <view class="setInfo">
+        <view class="item">
+          <view class="label">收货人:</view>
+          <input type="text" name="real_name" />
+        </view>
+        <view class="item">
+          <view class="label">联系方式:</view>
+          <input type="digit" name="mobile" />
+        </view>
+        <view class="item">
+          <view class="label">所在地区:</view>
+          <!-- <input type="text" name="area" /> -->
+          <picker mode="region" @change="bindRegionChange" value="{{region}}" custom-item="{{customItem}}">
+            <view class="picker">
+              {{region}}
+              <!-- {{region[0]}}{{region[1]}}{{region[2]}} -->
+            </view>
+          </picker>
+        </view>
+        <view class="item">
+          <view class="label">详细地址:</view>
+          <input type="text" name="address" />
+        </view>
+      </view>
+      <view class="button">
+        <button class="mod_btn" formType="submit">确认</button>
+      </view>
+    </form>
+    <nav @childFn.user="goPage" />
+  </view>
+</template>
+
+<script>
+import wepy from 'wepy'
+import nav from '../components/nav' // 底部导航
+import citys from '../mixins/citys'
+import check from '../mixins/check'
+export default class Newaddss extends wepy.page {
+  mixins = [citys, check]
+  config = {
+    'navigationBarTitleText': '新建地址'
+  };
+  // 生命组件ID
+  components = {
+  // 底部导航
+    nav: nav
+  };
+  // alias example
+  data = {
+    userInfo: null,
+    invite: 'hide',
+    setLabel: '',
+    labelNum: 0,
+    total: '',
+    city: '',
+    region: '请选择详细地址',
+    customItem: '全部',
+    id: []
+  };
+
+  methods = {
+    // 底部导航跳转
+    goPage (url, evt) {
+      // 销毁当前页{跳转}
+      this.$redirect(url)
+    },
+    bindRegionChange: function (e) {
+      this.region = e.detail.value
+      let area = ''
+      let area1 = ''
+      let area2 = []
+      for (let i in this.region) {
+        if (this.region[i] !== '全部' && this.region[i] !== '请选择详细地址') {
+          area += this.region[i]
+          area1 = this.region[i]
+          area2.push(area1)
+        }
+      }
+      this.region = area
+      this.city = area2
+    },
+    newAddss(e) {
+      // 收货人
+      let realName = e.detail.value.real_name
+      // 电话
+      let mobile = e.detail.value.mobile
+      // 区域
+      let area = this.region
+      let city = this.city
+      // 详细地址
+      let address = e.detail.value.address
+      if (this.check.isNull(realName)) {
+        wepy.showModal({
+          title: '',
+          content: '请输入收货人姓名',
+          showCancel: false
+        })
+        return
+      }
+      if (this.check.isPhone(mobile)) {
+        wepy.showModal({
+          title: '',
+          content: '请输入正确的电话格式',
+          showCancel: false
+        })
+        return
+      }
+      if (this.check.isNull(area) || area === '请选择详细地址') {
+        wepy.showModal({
+          title: '',
+          content: '请选择地区',
+          showCancel: false
+        })
+        return
+      }
+      if (this.check.isNull(address)) {
+        wepy.showModal({
+          title: '',
+          content: '请输入详细地址',
+          showCancel: false
+        })
+        return
+      }
+      wepy.login().then(res => {
+        wx.request({
+          url: `${this.$parent.globalData.requestUrl}/addShipment`,
+          method: 'POST',
+          header: {
+            AuthrizeOpenId: this.$parent.globalData.open_id
+          },
+          data: {
+            // 收货人
+            real_name: realName,
+            // 电话
+            mobile: mobile,
+            area: area,
+            address: address
+          },
+          success: data => {
+              if (data.data.success) {
+                wx.showToast({
+                  title: '添加成功',
+                  duration: 2000,
+                  mask: true,
+                  icon: 'success'
+                })
+                this.$navigate('/pages/addressList?id=' + this.id + '&totalPrice=' + this.total)
+              } else {
+                wx.showModal({
+                  title: '',
+                  content: data.data.errmsg
+                })
+              }
+          }
+        })
+      })
+    }
+  };
+  onLoad(options) {
+    this.id = options.id
+    this.total = options.totalPrice
+    console.log('999999',options)
+  };
+}
+</script>

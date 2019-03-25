@@ -1,0 +1,182 @@
+<style lang="less">
+.all {
+  margin-bottom: 140rpx;
+}
+.bo {
+  width: 100%;
+  height: 136px;
+  overflow: hidden;
+}
+.bo image {
+  width: 100%;
+  height: 100%;
+}
+.noMeg{
+  font-size: 28rpx;
+  text-align: center;
+  width: 100%;
+  color:#938f99;
+}
+.bannerImg {
+  width: 100%;
+  height: 300rpx;
+  margin-bottom: 20rpx;
+}
+.commodity {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  margin: 20rpx;
+}
+.commodityTitle {
+  margin: 20rpx 0;
+  padding: 20rpx;
+  width: 48%;
+  border: 2rpx solid #FAF9F9;
+  border-radius: 20rpx;
+  box-sizing: border-box;
+  background: #FAF9F9;
+}
+.commodityImg {
+  width: 100%;
+  height: 400rpx;
+  border: 1rpx solid #faf9f9;
+  border-radius: 20rpx;
+}
+.commodityView {
+  font-size: 28rpx;
+  text-align: center;
+  margin-bottom: 20rpx;
+  width: 300rpx;
+  overflow: hidden;
+  white-space:nowrap;
+  text-overflow:ellipsis;
+}
+.commodityBottom {
+  display: flex;
+  justify-content: space-between;
+  font-size: 20rpx;
+  line-height: 50rpx;
+}
+.btn {
+  width: 159rpx;
+  height: 50rpx;
+  line-height: 50rpx;
+  color: #fff;
+  background: #7ecef4;
+  font-size: 22rpx;
+  border-radius: 25rpx;
+}
+</style>
+<template>
+  <view class="all">
+    <!-- 轮播图 -->
+    <view>
+      <swiper class='bo' indicator-dots="true" autoplay='true' interval='5000' duration='2000'>
+        <repeat for={{bannerList}} item="item">
+          <swiper-item>
+            <image src="{{ imgUrl2 + item.img }}" />
+          </swiper-item>
+        </repeat>
+      </swiper>
+    </view>
+    <view class="noMeg" wx:if="{{shopList.length==0}}">暂无信息</view>
+    <view class="commodity" wx:else>
+      <repeat for="{{shopList}}" item="item">
+        <view class="commodityTitle" @tap="detail" data-id="{{item.id}}">
+          <image src='{{ imgUrl2 + item.img }}' class="commodityImg">
+          <view class="commodityView">{{item.name}}</view>
+          <view class="commodityBottom">
+            <button class="btn">立即预约</button>
+            <text><text style="color:#7ecef4">{{ item.reservation_count }}</text>人预约过</text>
+          </view>
+        </view>
+      </repeat>
+    </view>
+    <nav @childFn.user="goPage" />
+  </view>
+</template>
+
+<script>
+import wepy from 'wepy'
+import nav from '../components/nav' // 底部导航
+export default class Appointment extends wepy.page {
+  config = {
+    navigationBarTitleText: '预约洗车'
+  };
+  // 生命组件ID
+  components = {
+    // 底部导航
+    nav: nav
+  };
+  data = {
+    motto: 'Hello World',
+    shopList: [],
+    imgUrl: '',
+    bannerList: [],
+    userInfo: null,
+    prompt: false,
+    imgUrl2: '',
+    getUrl: '',
+    indexs: ''
+  };
+  methods = {
+    goPage(url, evt) {
+      this.$redirect(url)
+    },
+    // 详情页
+    detail(e) {
+      var id = e.currentTarget.dataset.id
+      this.$navigate('/pages/appointmentDetail?id=' + id)
+    }
+  };
+  async onReachBottom() {
+    if (!this.getUrl) {
+      this.prompt = false
+      this.$apply()
+      return
+    }
+    await wx.request({
+      url: this.getUrl,
+      method: 'GET',
+      success: data => {
+        if (data.statusCode === 200) {
+          let shopList = data.data.data.shops.data
+          // 将新的请求结果加入原有数组  concat连接两个或更多的数组，并返回结果。
+          this.shopList = this.shopList.concat(shopList)
+          // 更新下一页请求地址
+          this.getUrl = data.data.data.shops.meta.pagination.links.next
+        }
+      }
+    })
+  };
+  onLoad() {
+    this.imgUrl = this.$parent.globalData.imgUrl
+    this.imgUrl2 = this.$parent.globalData.imgUrl2
+    // 店铺列表
+    wx.request({
+      url: `${this.$parent.globalData.requestUrl}/shopList`,
+      method: 'GET',
+      success: data => {
+        if (data.statusCode === 200) {
+          this.shopList = data.data.data.shops.data
+          this.$apply()
+          this.getUrl = data.data.data.shops.meta.pagination.links.next
+          this.indexs = data.data.data.shops.meta.pagination.current_page
+        }
+      }
+    })
+    // 轮播图
+    wx.request({
+      url: `${this.$parent.globalData.requestUrl}/rollingImgsList`,
+      method: 'GET',
+      success: data => {
+        if (data.statusCode === 200) {
+          this.bannerList = data.data.data.rolling_imgs
+          this.$apply()
+        }
+      }
+    })
+  }
+}
+</script>

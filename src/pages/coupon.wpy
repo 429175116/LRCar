@@ -1,0 +1,255 @@
+<style lang="less">
+.all {
+  margin-bottom: 140rpx;
+}
+.main {
+  display: flex;
+  justify-content: space-between;
+  background: #eee;
+  margin: 20rpx;
+  padding: 20rpx 40rpx;
+  font-size: 28rpx;
+  border-radius: 20rpx;
+}
+.left{
+  color: #00A0E9;
+  font-size: 22rpx;
+  margin-top: 10rpx;
+}
+.right{
+  color: #00A0E9;
+  height: 60rpx;
+  background: #ffff;
+  border-radius: 40rpx;
+  line-height: 60rpx;
+  width: 150rpx;
+  font-size: 24rpx;
+  text-align: center;
+  margin: auto 0;
+}
+.money{
+  font-size: 28rpx;
+  color:#FF0000;
+  text-align: center;
+}
+.lefts{
+  color: #969696;
+  font-size: 22rpx;
+  margin-top: 10rpx;
+}
+.tui-h1{
+  padding: 20rpx;
+  font-size: 24rpx;
+  margin-left: 200rpx;
+  margin-right: 40rpx;
+  background: #D6F0FC;
+  border-radius: 20rpx;
+  width:480rpx;
+  overflow: hidden;
+  line-height: 50rpx;
+}
+.coupon{
+  position: fixed;
+  top: 250rpx;
+  left: 170rpx;
+  z-index: 555;
+  border-radius: 40rpx;
+  width: 350rpx;
+  height: 350rpx;
+  text-align: center;
+  background: linear-gradient(to bottom,#CC0D0D,#550D0D);
+  padding-top: 40rpx;
+  color:#fff;
+  font-size: 28rpx;
+  box-sizing: border-box;
+  margin: 0rpx auto;
+}
+.coupon .view{
+  margin: 20rpx 0;
+}
+.coupon text{
+  color:#FFF600;
+  font-size: 50rpx;
+}
+.btn1{
+  background: #660909;
+  width: 220rpx;
+  height: 60rpx;
+  line-height: 60rpx;
+  text-align: center;
+  border-radius: 40rpx;
+  margin: 30rpx auto 0 auto; 
+}
+.view2{
+  border-bottom: 1rpx solid #fff;
+  width: 250rpx;
+  padding-bottom: 30rpx; 
+  margin: 0 auto;
+  font-size: 24rpx;
+}
+</style>
+<template>
+  <view class="all">
+    <repeat for='{{couponList}}' for-item='item' key='index'>
+      <view>
+        <view class="main">
+          <view class="money">
+            <view>￥<text style="font-size:60rpx">{{item.amount}}</text></view>
+            <view class="moneyName">代金券</view>
+          </view>
+          <view>
+            <view>{{item.coupon_info.name}}</view>
+            <view class="left">到期时间：{{item.coupon_info.updated_at}}</view>
+            <view class="lefts" @tap="showFrom" data-index="{{index}}">使用规则</view>
+          </view>
+          <view class="right" wx:if="{{item.status=='已使用'}}">已使用</view>
+          <view class="right" @tap="coupon" data-index="{{index}}" wx:else> 立即使用</view>
+        </view>
+        <view wx:if="{{item.rules==1}}">
+          <view class="tui-h1">{{item.coupon_info.description}}</view>
+        </view>
+        <view class="coupon" wx:if="{{item.detail==1}}">
+          <view class="view"><text>{{item.amount}}</text>元代金券</view>
+          <view class="view2">{{item.coupon_info.name}}</view>
+          <view class="btn1" wx:if="{{item.status=='已使用'}}">已使用</view>
+          <view class="btn1" @tap='useCoupon' data-id="{{item.id}}" wx:else>立即使用</view>
+        </view>
+      </view>
+    </repeat>
+    <nav @childFn.user="goPage" />
+  </view>
+</template>
+<script>
+import wepy from 'wepy'
+import nav from '../components/nav' // 底部导航
+export default class Coupon extends wepy.page {
+  // 页面配置
+  config = {
+    navigationBarTitleText: '代金券'
+  };
+  // 生命组件ID
+  components = {
+    // 底部导航
+    nav: nav
+  };
+  data = {
+    coupon: false,
+    couponList: [],
+    getUrl: '',
+    indexs: ''
+  }
+  methods = {
+    bindViewTap() {
+      console.log('button clicked')
+    },
+    goPage(url, evt) {
+      this.$redirect(url)
+    },
+    coupon (e) {
+      var index = e.currentTarget.dataset.index
+      var list = this.couponList
+      var i = 0
+      for (i in list) {
+        if (i == index) {
+          if (list[i].detail == 1) {
+            list[i].detail = 0
+          } else {
+            list[i].detail = 1
+          }
+        } else {
+          list[i].detail = 0
+        }
+      }
+    }
+  };
+  showFrom (e) {
+    var index = e.currentTarget.dataset.index
+    var list = this.couponList
+    var i = 0
+    for (i in list) {
+      if (i == index) {
+        if (list[i].rules == 1) {
+          list[i].rules = 0
+        } else {
+          list[i].rules = 1
+        }
+      } else {
+        list[i].rules = 0
+      }
+    }
+  };
+  useCoupon(e) {
+    var id = e.currentTarget.dataset.id
+    var list = this.couponList
+    wx.request({
+      url: `${this.$parent.globalData.requestUrl}/useCoupon/${id}`,
+      method: 'PUT',
+      header: {
+        AuthrizeOpenId: this.$parent.globalData.open_id
+      },
+      success: data => {
+        if (data.statusCode === 200) {
+          wepy.showToast({
+            title: '使用成功',
+            icon: 'success',
+            duration: 2000
+          })
+          var i = 0
+          for (i in list) {
+            list[i].detail = 0
+          }
+          this.onLoad()
+          this.$apply()
+        }
+      }
+    })
+  }
+  async onReachBottom() {
+    if (!this.getUrl) {
+      this.prompt = false
+      this.$apply()
+      return
+    }
+    await wx.request({
+      url: this.getUrl,
+      method: 'GET',
+      success: data => {
+        if (data.statusCode === 200) {
+          let couponList = data.data.data.user_coupons.data
+          var i = 0
+          for (i in couponList) {
+            couponList[i].rules = 0
+            couponList[i].detail = 0
+          }
+          // 将新的请求结果加入原有数组  concat连接两个或更多的数组，并返回结果。
+          this.couponList = this.couponList.concat(couponList)
+          // 更新下一页请求地址
+          this.getUrl = data.data.data.user_coupons.data.meta.pagination.links.next
+        }
+      }
+    })
+  };
+  onLoad() {
+    wx.request({
+      url: `${this.$parent.globalData.requestUrl}/userCouponList`,
+      method: 'GET',
+      header: {
+        AuthrizeOpenId: this.$parent.globalData.open_id
+      },
+      success: data => {
+        if (data.statusCode === 200) {
+          // console.log(data.data.data)
+          var couponList = data.data.data.user_coupons.data
+          var i = 0
+          for (i in couponList) {
+            couponList[i].rules = 0
+            couponList[i].detail = 0
+          }
+          this.couponList = couponList
+          this.$apply()
+        }
+      }
+    })
+  }
+}
+</script>

@@ -1,0 +1,371 @@
+<style lang="less">
+.users {
+  font-size: 28rpx;
+  width: 100%;
+  color: #fff;
+  height: 400rpx;
+  background: linear-gradient(to bottom, #1297db, #6000ff);
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 40rpx;
+}
+.userinfo-avatar {
+  width: 260rpx;
+  height: 336rpx;
+  margin: 30rpx;
+  border-radius: 20rpx;
+}
+.userImg{
+  width: 460rpx;
+  height: 333rpx;
+  z-index: 555;
+  position: absolute;
+  top: 38rpx;
+  right: 22rpx;
+}
+.top_img {
+  width: 100%;
+  height: 438rpx;
+  border-bottom: 10rpx solid #eee;
+}
+.main_centers {
+  color: #333;
+  font-size: 28rpx;
+  border-bottom: 1px solid #eeeeee;
+  height: 100rpx;
+  line-height: 100rpx;
+}
+.center_icon {
+  width: 41rpx;
+  height: 41rpx;
+  float: left;
+  margin-right: 20rpx;
+  margin-top: 29rpx;
+  margin-left: 40rpx;
+}
+.center_icon1 {
+  width: 41rpx;
+  height: 41rpx;
+  float: right;
+  margin-right: 40rpx;
+  margin-top: -60rpx;
+}
+.center_status{  width: 100rpx;  float: right;  margin-right: 80rpx;  margin-top: -90rpx;  }
+.center_icons {
+  width: 80rpx;
+  height: 80rpx;
+}
+.right_icon {
+  width: 40rpx;
+  height: 40rpx;
+  float: right;
+  margin-right: 20rpx;
+  margin-top: 20rpx;
+}
+.page__bd {
+  padding-bottom: 0;
+}
+.weui-tab__content {
+  padding-top: 60px;
+  text-align: center;
+}
+.body {
+  margin-bottom: 50px;
+  border-top: 2rpx solid #fff;
+}
+.navs {
+  width: 100%;
+  height: 80rpx;
+  display: flex;
+  flex-direction: row;
+  background: linear-gradient(to bottom, #447ee0, #0f4eb2);
+  font-size: 24rpx;
+  text-align: center;
+}
+
+.default {
+  line-height: 80rpx;
+  text-align: center;
+  flex: 1;
+  color: #fff;
+  font-size: 28rpx;
+}
+.noMessage {
+  font-size: 28rpx;
+  text-align: center;
+}
+.sanjiao {
+  position: absolute;
+  top: 475rpx;
+  left: 177rpx;
+  width: 30rpx;
+  height: 30rpx;
+}
+.sanjiao1 {
+  position: absolute;
+  top: 475rpx;
+  right: 177rpx;
+  width: 30rpx;
+  height: 30rpx;
+}
+.show {
+  display: block;
+}
+.hidden {
+  display: none;
+}
+.no_order {
+  text-align: center;
+  margin-top: 200rpx;
+  color: #292929;
+  font-size: 28rpx;
+}
+.bottom {
+  display: flex;
+  flex-wrap: wrap;
+  text-align: center;
+  padding-bottom: 30rpx;
+  border-bottom: 10rpx solid #eee;
+}
+.bottom_main {
+  width: 25%;
+  text-align: center;
+}
+.bottom_text {
+  font-size: 28rpx;
+  color: #333;
+}
+.usersRight {
+  width:413rpx;
+  margin-top:40rpx;
+  background:rgba(255, 255, 255, 0.2);
+  margin-right:25rpx;
+  height:304rpx;
+  padding-left: 20rpx;
+  box-sizing: border-box;
+
+}
+.usersRightView {
+  margin: 40rpx 0;
+  font-size: 28rpx;
+}
+.usersRightView1 {
+  background: #fff;
+  margin: 10rpx 60rpx;
+  height: 1rpx;
+}
+</style>
+
+<template>
+  <view class="all">
+    <view class='users' @tap='userInfo'>
+      <image @tap="goUserInfo" class="userinfo-avatar" src="{{userInfo.profile}}" mode="cover" />
+      <view class="usersRight">
+        <view class="usersRightView">昵称：{{userInfo.nick_name}}</view>
+        <view class="usersRightView">电话：{{userInfo.mobile}}</view>
+        <!-- <view class="usersRightView">userInfonickName</view> -->
+        <view class="usersRightView1"></view>
+        <!-- <view class="usersRightView">高新区外来大厦高新区外来大厦</view> -->
+      </view>
+      <image src="../img/user2.png" class="userImg"/>
+    </view>
+    <!-- 中 -->
+    <view class="bottom">
+      <view class="bottom_main" @tap='goCart'>
+        <image src="../img/cart.png" class="center_icons"/>
+        <view class="bottom_text">购物车</view>
+      </view>
+      <view class="bottom_main" @tap="goOrder">
+        <image src="../img/order.png" class="center_icons"/>
+        <view class="bottom_text">账单</view>
+      </view>
+      <view class="bottom_main" @tap="goNoPayOrder">
+        <image src="../img/pay.png" class="center_icons"/>
+        <view class="bottom_text">待付款</view>
+      </view>
+      <view class="bottom_main" @tap="goNoConfirmOPay">
+        <image src="../img/shou.png" class="center_icons"/>
+        <view class="bottom_text">待收货</view>
+      </view>
+    </view>
+    <!-- 下 -->
+    <view class="center">
+      <view class="main_centers" @tap="goMyCoupon">
+        <image src="../img/coupon.png" class="center_icon"/>
+        <view>代金券</view>
+        <image src="../img/jiantou2.png" class="center_icon1"/>
+      </view>
+      <view class="main_centers" @tap="goAddress">
+        <image src="../img/address.png" class="center_icon"/>
+        <view>地址</view>
+        <image src="../img/jiantou2.png" class="center_icon1"/>
+      </view>
+      <view class="main_centers" @tap="goMember">
+        <image src="../img/member.png" class="center_icon"/>
+        <view>会员</view>
+        <image src="../img/jiantou2.png" class="center_icon1"/>
+        <!--<repeat for="{{couponList}}" item='item'>-->
+        <view wx:if="{{ userList.vip_status == 'vip' }}" class="center_status">已开通</view>
+        <!--</repeat>-->
+      </view>
+      <view class="main_centers" @tap="goMyAppointment">
+        <image src="../img/appointment1.png" class="center_icon"/>
+        <view>预约</view>
+        <image src="../img/jiantou2.png" class="center_icon1"/>
+      </view>
+      <view class="main_centers">
+        <image src="../img/service.png" class="center_icon"/>
+        <view @tap="calling">联系我们</view>
+        <image src="../img/jiantou2.png" class="center_icon1"/>
+      </view>
+    </view>
+    <nav @childFn.user="goPage" />
+  </view>
+</template>
+
+<script>
+import wepy from 'wepy'
+import nav from '../components/nav' // 底部导航
+export default class User extends wepy.page {
+  config = {
+    navigationBarTitleText: '个人中心'
+  };
+  // 生命组件ID
+  components = {
+    // 底部导航
+    nav: nav
+  };
+  // alias example
+  data = {
+    motto: 'Hello World',
+    selected: true,
+    selected1: false,
+    userList: {},
+    userInfo: '',
+    couponList: [],
+    telephone: {}
+  };
+  methods = {
+    bindViewTap() {
+      console.log('button clicked')
+    },
+    goPage(url, evt) {
+      this.$redirect(url)
+    },
+    selected(e) {
+      this.selected1 = false
+      this.selected = true
+    },
+    selected1(e) {
+      this.selected = false
+      this.selected1 = true
+    }
+  };
+  // 联系客服
+  calling() {
+    wx.makePhoneCall({
+      phoneNumber: this.telephone.telephone,
+      success: function() {
+        // console.log('拨打电话成功！')
+      },
+      fail: function() {}
+    })
+  };
+  // 个人中心
+  userInfo() {
+    this.$navigate('/pages/userInfo')
+  }
+  // 购物车
+  goCart() {
+    this.$navigate('/pages/cart')
+  }
+  // 我的账单
+  goOrder() {
+    this.$navigate('/pages/myOrder')
+  }
+  // 未支付账单
+  goNoPayOrder() {
+    this.$navigate('/pages/noPayOrder')
+  }
+  // 未确认账单
+  goNoConfirmOPay() {
+    this.$navigate('/pages/noConfirmOrder')
+  }
+  // 我的地址
+  goAddress() {
+    this.$navigate('/pages/addressList')
+  }
+  // 优惠券
+  goMyCoupon() {
+    this.$navigate('/pages/coupon')
+  }
+  // 预约
+  goMyAppointment() {
+    this.$navigate('/pages/myAppointment')
+  }
+  // 会员
+  goMember() {
+    this.$navigate('/pages/members')
+  }
+
+  getCompanyTelephone() {
+    wx.request({
+      url: `${this.$parent.globalData.requestUrl}/companyTelephone`,
+      method: 'GET',
+      success: data => {
+        if (data.statusCode === 200) {
+          this.telephone = data.data.data.telephone
+          this.$apply()
+        }
+      }
+    })
+  }
+
+  onLoad() {
+    let date = new Date()
+    let now = date.getFullYear() + '-' + date.getMonth() + '-' + date.getDay() + ' ' + date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds()
+    console.log(now)
+    wx.request({
+      url: `${this.$parent.globalData.requestUrl}/myInfoMation`,
+      method: 'GET',
+      header: {
+        AuthrizeOpenId: this.$parent.globalData.open_id
+      },
+      success: data => {
+        if (data.statusCode === 200) {
+          this.$parent.globalData.userInfo = data.data.data.user
+          this.userInfo = data.data.data.user
+          this.$apply()
+        }
+      }
+    })
+    this.userInfo = this.$parent.globalData.userInfo
+//    wx.request({
+//      url: `${this.$parent.globalData.requestUrl}/member-type`,
+//      method: 'POST',
+//      success: data => {
+//        if (data.statusCode === 200) {
+//          this.couponList = data.data.data
+//          this.$apply()
+//        }
+//      }
+//    })
+
+    wx.request({
+      url: `${this.$parent.globalData.requestUrl}/myInfoMation`,
+      method: 'GET',
+      header: {
+        AuthrizeOpenId: this.$parent.globalData.open_id
+      },
+      success: data => {
+        if (data.statusCode === 200) {
+          this.userList = data.data.data.user
+          this.$apply()
+        }
+      }
+    })
+    this.getCompanyTelephone()
+    // console.log('onLoad')
+  }
+}
+</script>

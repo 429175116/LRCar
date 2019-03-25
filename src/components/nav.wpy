@@ -1,0 +1,114 @@
+<style lang="less">
+.footer {
+  width: 100%;
+  position: fixed;
+  bottom: 0;
+  background: #fff;
+  border-top: 1rpx solid #f3f1f1;
+  z-index: 5;
+}
+.footer .ft_item {
+  width: 25%;
+  height: 100%;
+  text-align: center;
+  float: left;
+}
+.text {
+  font-size: 24rpx;
+  color: #bdbdbd;
+}
+.text1 {
+  font-size: 24rpx;
+  color: #00A0E9;
+}
+.footer .ft_item image {
+  height: 50rpx;
+  width: 50rpx;
+  margin: 20rpx auto 0rpx auto;
+  display: block;
+}
+</style>
+<template>
+  <view>
+  <view class="footer">
+    <view class="ft_item on">
+      <view @tap="goIndex">
+        <image src="/img/index1.png" wx:if="{{text_color}}" />
+        <image src="/img/index.png" wx:else/>
+        <text class="{{text_color? 'text' : 'text1'}}">首页</text>
+      </view>
+    </view>
+    <view class="ft_item">
+      <view @tap="goAppointment">
+        <image src="/img/appointment1.png" wx:if="{{text_color1}}" />
+        <image src="/img/appointment.png" wx:else/>
+        <text class="{{text_color1? 'text' : 'text1'}}">预约洗车</text>
+      </view>
+    </view>
+    <view class="ft_item">
+      <view @tap="goShopping">
+        <image src="/img/shopping1.png" wx:if="{{text_color2}}" />
+        <image src="/img/shopping.png" wx:else/>
+        <text class="{{text_color2? 'text' : 'text1'}}">商城</text>
+      </view>
+    </view>
+    <view class="ft_item">
+      <view @tap="goUser">
+        <image src="/img/user1.png" wx:if="{{text_color3}}" />
+        <image src="/img/user.png" wx:else />
+        <text class="{{text_color3? 'text' : 'text1'}}">个人中心</text>
+      </view>
+    </view>
+  </view>
+</view>
+</template>
+<script>
+import wepy from 'wepy'
+export default class Nav extends wepy.component {
+  data = {
+    userInfo: {},
+    text_color: false,
+    text_color1: false,
+    text_color2: false,
+    text_color3: false,
+    carts: []
+  };
+  methods = {
+    goIndex() {
+      this.$parent.$parent.globalData.text_color = false
+      this.$parent.$parent.globalData.text_color1 = true
+      this.$parent.$parent.globalData.text_color2 = true
+      this.$parent.$parent.globalData.text_color3 = true
+      this.$emit('childFn', '/pages/index')
+    },
+    goAppointment() {
+      this.$parent.$parent.globalData.text_color = true
+      this.$parent.$parent.globalData.text_color1 = false
+      this.$parent.$parent.globalData.text_color2 = true
+      this.$parent.$parent.globalData.text_color3 = true
+      this.$emit('childFn', '/pages/appointment')
+    },
+    goShopping() {
+      this.$parent.$parent.globalData.text_color = true
+      this.$parent.$parent.globalData.text_color1 = true
+      this.$parent.$parent.globalData.text_color2 = false
+      this.$parent.$parent.globalData.text_color3 = true
+      this.$emit('childFn', '/pages/shopping')
+    },
+    goUser() {
+      this.$parent.$parent.globalData.text_color = true
+      this.$parent.$parent.globalData.text_color1 = true
+      this.$parent.$parent.globalData.text_color2 = true
+      this.$parent.$parent.globalData.text_color3 = false
+      this.$emit('childFn', '/pages/user')
+    }
+  };
+  onLoad() {
+    this.text_color = this.$parent.$parent.globalData.text_color
+    this.text_color1 = this.$parent.$parent.globalData.text_color1
+    this.text_color2 = this.$parent.$parent.globalData.text_color2
+    this.text_color3 = this.$parent.$parent.globalData.text_color3
+    this.$apply()
+  };
+}
+</script>

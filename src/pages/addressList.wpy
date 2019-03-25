@@ -1,0 +1,271 @@
+<style>
+.all {
+  margin-bottom: 140rpx;
+}
+.wdd {
+  width: 120px;
+  height: 80rpx;
+  line-height: 80rpx;
+  font-size: 26rpx;
+  text-align: center;
+  color: #696969;
+  position: fixed;
+  bottom: 200rpx;
+  left: 30%;
+  background-color: #E5E5E5;
+}
+.goods_main_list {
+  border-radius: 15rpx;
+  margin: 20rpx 40rpx;
+  margin-bottom: 10px;
+  display: flex;
+  justify-content: space-between;
+}
+.userName {
+  font-size: 30rpx;
+  color: #333;
+  float: left;
+  width: 263rpx;
+  overflow: hidden;
+  white-space:nowrap;
+  text-overflow:ellipsis;
+}
+.userRess {
+  clear: both;
+  font-size: 28rpx;
+  color: #333;
+}
+.userDeleteRess {
+  width: 5%;
+  float: right;
+  height: 100rpx;
+  z-index: 999;
+}
+.modify {
+  width: 40rpx;
+  height: 40rpx;
+  margin: auto;
+}
+.delete{
+  width: 30rpx;
+  height: 30rpx;
+}
+.address {
+  font-size:24rpx;
+  margin-top:20rpx;
+  color:#333;
+}
+.noCommodity {
+  color: #938f99;
+  text-align: center;
+  font-size: 28rpx;
+  margin-top: 480rpx;
+}
+.goods_title{
+  width: 600rpx;
+  margin: 0 40rpx;
+}
+</style>
+<template>
+  <!--pages/user/address/address.wxml-->
+<!-- 收货地址列表页面 -->
+  <view class="all">
+    <!-- 地址显示列表 -->
+    <view class="noCommodity" wx:if="{{ addressList.length==0 }}">暂无收货地址</view>
+    <view wx:else>
+      <repeat for="{{ addressList }}" item="item">
+        <view class='goods_main_list' @tap="order" data-id="{{ item.id }}">
+          <image src='../img/xuan.png' class='modify' data-id="{{ item.id }}" wx:if="{{ item.status == '默认地址' }}"/>
+          <image src='../img/xuan1.png' class='modify' data-id="{{ item.id }}" wx:else @tap='defaultAddress'/>
+          <view class='goods_title' id="{{ item.id }}">
+            <view class='userRess'>地址：{{ item.area + item.address }}</view>
+          </view>
+          <image src='../img/delete.jpg' class='delete' @tap='deleteList' data-id="{{ item.id }}" />
+        </view>
+      </repeat>
+    </view>
+    <!-- 新增地址按钮 -->
+    <view @tap="goAddress">
+      <view class='wdd'>+新建地址</view>
+    </view>
+    <nav @childFn.user="goPage" />
+  </view>
+</template>
+<script>
+import wepy from 'wepy'
+import nav from '../components/nav' // 底部导航
+export default class AddressList extends wepy.page {
+  // 页面配置
+  config = {
+    navigationBarTitleText: '地址列表'
+  };
+  // 生命组件ID
+  components = {
+    // 底部导航
+    nav: nav
+  };
+  data = {
+    addressList: [],
+    addssList: [],
+    bookList: 0,
+    id: [],
+    totalPrice: 0,
+    type: '',
+    name: '',
+    prompt: true,
+    getUrl: '',
+    total: '',
+    indexs: ''
+  };
+  methods = {
+    bindViewTap() {
+      console.log('button clicked')
+    },
+    goPage(url, evt) {
+      this.$redirect(url)
+    },
+    // 新建地址
+    goAddress() {
+      this.$navigate(`/pages/address?id=${this.id}&totalPrice=${this.total}`)
+    },
+    // 返回订单页
+    order(e) {
+      var ads = e.currentTarget.dataset.id
+      var id = this.id
+      if (id.length !== 0) {
+        id = JSON.parse(id)
+        if (id.length !== 0) {
+          this.$navigate(`/pages/pay?ads_id=${ads}&id=${this.id}&totalPrice=${this.total}`)
+        }
+      }
+    }
+  }
+
+  // 删除地址
+  deleteList(e) {
+    var id = e.currentTarget.dataset.id
+    var that = this
+    wx.showModal({
+      title: '提示',
+      content: '您确定要删除这条地址吗？',
+      success: function(res) {
+        if (res.confirm) {
+          wx.request({
+            url: `${that.$parent.globalData.requestUrl}/deleteShipment/${id}`,
+            method: 'DELETE',
+            header: {
+              AuthrizeOpenId: that.$parent.globalData.open_id
+            },
+            success: data => {
+              if (data.data.success) {
+                wx.showToast({
+                  title: '删除地址成功',
+                  duration: 2000,
+                  mask: true,
+                  icon: 'success'
+                })
+                that.getShipmentList()
+              } else {
+                wx.showModal({
+                  title: '',
+                  content: data.data.errmsg
+                })
+              }
+            }
+          })
+        } else if (res.cancel) {}
+      }
+    })
+  }
+
+  // 默认收货地址
+  defaultAddress(e) {
+    var id = e.currentTarget.dataset.id
+    // console.log(id)
+    wx.request({
+      url: `${this.$parent.globalData.requestUrl}/setDefaultShipment/${id}`,
+      method: 'PUT',
+      header: {
+        AuthrizeOpenId: this.$parent.globalData.open_id
+      },
+      success: data => {
+        if (data.data.success) {
+          wx.showToast({
+            title: '设置默认地址成功',
+            duration: 2000,
+            mask: true,
+            icon: 'success'
+          })
+        } else {
+          wx.showModal({
+            title: '',
+            content: data.data.errmsg
+          })
+        }
+      }
+    })
+  }
+  async onReachBottom() {
+    if (!this.getUrl) {
+      this.prompt = false
+      this.$apply()
+      return
+    }
+    await wx.request({
+      url: this.getUrl,
+      method: 'GET',
+      header: {
+        AuthrizeOpenId: this.$parent.globalData.open_id
+      },
+      success: data => {
+        if (data.statusCode === 200) {
+          let addressList = data.data.data.user_shipments.data
+          // 将新的请求结果加入原有数组  concat连接两个或更多的数组，并返回结果。
+          this.addressList = this.addressList.concat(addressList)
+          // 更新下一页请求地址
+          this.getUrl = data.data.data.orders.data.meta.pagination.links.next
+        }
+      }
+    })
+  };
+  getShipmentList() {
+    wepy.login().then(res => {
+      wx.request({
+        url: `${this.$parent.globalData.requestUrl}/shipmentList`,
+        method: 'GET',
+        header: {
+          AuthrizeOpenId: this.$parent.globalData.open_id
+        },
+        success: data => {
+          if (data.data.success) {
+            data = data.data.data.user_shipments
+            this.addressList = data.data
+            this.$apply()
+            this.getUrl = data.data.data.orders.meta.pagination.links.next
+            this.indexs = data.data.data.orders.meta.pagination.current_page
+          } else {
+            wx.showModal({
+              title: '',
+              content: data.data.errmsg
+            })
+          }
+        }
+      })
+    })
+  }
+
+  onLoad(options) {
+    var id = []
+    if (options.id !== undefined) {
+      id = options.id
+    }
+    this.id = id
+    this.total = options.totalPrice
+    // this.totalPrice = options.totalPrice
+    // this.type = options.type
+    // this.name = options.name
+    this.$apply()
+    this.getShipmentList()
+  };
+}
+</script>

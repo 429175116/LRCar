@@ -1,0 +1,309 @@
+<style lang="less">
+.all{
+  margin-bottom: 140rpx;
+}
+.bo {
+  width: 100%;
+  height: 136px;
+  overflow: hidden;
+}
+.bo image {
+  width: 100%;
+  height: 100%;
+}
+.center{
+  width: 100%;
+  padding: 40rpx 20rpx;
+  border-bottom: 10rpx solid rgb(219, 217, 217);
+}
+.center1{
+  width: 100%;
+  padding: 20rpx;
+}
+.noMessage{
+  font-size: 26rpx;
+  text-align: center;
+  width: 100%;
+  margin: 40rpx 0;
+}
+.centerTitle{
+  width: 180rpx;
+  height: 60rpx;
+  line-height: 60rpx;
+  font-size: 26rpx;
+  background: #00A0E9;
+  text-align: center;
+  margin: 10rpx auto 40rpx auto;
+  border-radius: 10rpx;
+  color:#fff;
+  margin-top: 40rpx;
+}
+.centerView{
+  width: 95%;
+  font-size: 24rpx;
+  line-height: 50rpx;
+  margin-right: 20rpx;
+}
+.centerView1{
+  width: 98%;
+  font-size: 24rpx;
+  line-height: 50rpx;
+  margin-right: 20rpx;
+  border-bottom: 1rpx solid #eee;
+  margin: 20rpx 0;
+}
+.commodity{
+  display: flex;
+  justify-content: space-between;
+  margin: 20rpx 0;
+}
+.commodity1{
+  display: flex;
+  justify-content: space-between;
+  margin: 20rpx 40rpx 0 0;
+}
+.commodityImg{
+  width: 260rpx;
+  height: 369rpx;
+  border-radius: 20rpx;
+}
+.commodityView{
+  width: 408rpx;
+  height: 360rpx;
+  font-size: 24rpx;
+  line-height: 50rpx;
+  margin-right: 50rpx;
+  overflow: hidden;
+}
+.commodityImg1{
+  width: 130rpx;
+  height: 130rpx;
+}
+.bottomImg{
+  width: 710rpx;
+  height: 300rpx;
+  margin-top: 60rpx;
+  margin-bottom: 20rpx;
+  border-radius: 20rpx;
+}
+#getUserInfo{
+  position: fixed;
+  top: 0;
+  width: 100% !important;
+  height: 100% !important;
+  padding: 0rpx !important;
+  z-index: 999;
+  opacity: .0;
+}
+.hide{
+  display: none;
+}
+.more{
+  margin-left: 344rpx;
+  font-size: 20rpx;
+}
+</style>
+<template>
+  <view class="all">
+    <view>
+      <button open-type="getUserInfo" class='{{authorizationButton}}' id='getUserInfo' lang="zh_CN" @getuserinfo="onGotUserInfo">授权按钮</button>
+    </view>
+     <!-- 轮播图 -->
+    <view>
+      <swiper class='bo' indicator-dots="true" autoplay='true' interval='5000' duration='2000'>
+        <repeat for="{{bannerList}}" item="item">
+        <swiper-item>
+          <image src="{{ imgUrl + item.img }}" />
+        </swiper-item>
+        </repeat>
+      </swiper>
+    </view>
+    <view class="centerTitle">品牌连锁</view>
+    <view wx:if="{{shopList.length==0}}" class="noMessage">暂无数据</view>
+    <view  wx:else>
+      <repeat for="{{shopList}}" item="item">
+        <view class="center">
+          <view class="centerView">{{ item.name }}</view>
+          <view class="centerView">电话：{{ item.contact_mobile }}</view>
+          <view class="centerView1">地址：{{ item.address }}</view>
+          <view class="centerView">{{ item.description }}</view>
+        </view>
+      </repeat>
+    </view>
+    <!-- <view class="more">加载更多</view> -->
+    <view class="centerTitle">爆款展示</view>
+    <view wx:if="{{commodityList.length==0}}" class="noMessage">暂无数据</view>
+    <view  wx:else>
+      <repeat for="{{commodityList}}" item="item" key='index'>
+        <view class="center1" @tap="detail" data-id="{{item.id}}" wx:if='{{index%2==0}}'>
+          <view class="commodity">
+            <image src='{{ imgUrl + item.img }}' class="commodityImg">
+            <view class="commodityView">{{item.description}}</view>
+          </view>
+          <view class="commodity1">
+            <repeat for="{{ item.imgs }}" item="items"  key='index'>
+            <image src='{{ imgUrl + items.img }}' class="commodityImg1" />
+            </repeat>
+          </view>
+        </view>
+        <view  class="center1" @tap="detail" data-id="{{item.id}}" wx:if='{{index%2!=0}}'>
+          <image src='{{ imgUrl + item.img }}' class="bottomImg">
+          <view class="centerView">{{item.description}}</view>
+        </view>
+      </repeat>
+    </view>
+    <nav @childFn.user="goPage" />
+  </view>
+</template>
+
+<script>
+import wepy from 'wepy'
+import nav from '../components/nav' // 底部导航
+export default class Index extends wepy.page {
+  config = {
+    navigationBarTitleText: '首页'
+  };
+  // 生命组件ID
+  components = {
+    // 底部导航
+    nav: nav
+  };
+  // alias example
+  data = {
+    motto: 'Hello World',
+    reserveList: null,
+    userInfo: null,
+    prompt: false,
+    authorizationButton: '',
+    bannerList: [],
+    shopList: [],
+    commodityList: [],
+    imgUrl: '',
+    getUrl: '',
+    indexs: ''
+  };
+  methods = {
+    goPage(url, evt) {
+      this.$redirect(url)
+    },
+    // 详情页
+    detail(e) {
+      var id = e.currentTarget.dataset.id
+      this.$navigate('/pages/detail?id=' + id)
+    }
+  };
+  async onGotUserInfo() {
+    // wx.request({
+    //   url: `${this.$parent.globalData.requestUrl}/booklist`,
+    //   method: 'GET',
+    //   data: {},
+    //   success: data => {
+    //     if (data.statusCode === 200) {
+    //       this.bookList = data.data.data.books.data
+    //       this.$apply()
+    //       // 更新下一页请求地址
+    //       this.getUrl = data.data.data.books.meta.pagination.links.next
+    //       this.indexs = data.data.data.books.meta.pagination.current_page
+    //     }
+    //   }
+    // })
+    // 轮播图
+
+    wx.request({
+      url: `${this.$parent.globalData.requestUrl}/rollingImgsList`,
+      method: 'GET',
+      success: data => {
+        if (data.statusCode === 200) {
+          this.bannerList = data.data.data.rolling_imgs
+          this.$apply()
+        }
+      }
+    })
+    // 店铺列表
+    wx.request({
+      url: `${this.$parent.globalData.requestUrl}/shopList`,
+      method: 'GET',
+      success: data => {
+        if (data.statusCode === 200) {
+          this.shopList = data.data.data.shops.data
+          this.$apply()
+          this.getUrl = data.data.data.shops.meta.pagination.links.next
+          this.indexs = data.data.data.shops.meta.pagination.current_page
+        }
+      }
+    })
+    // 商品爆款
+    wx.request({
+      url: `${this.$parent.globalData.requestUrl}/productsList`,
+      method: 'GET',
+      success: data => {
+        if (data.statusCode === 200) {
+          this.commodityList = data.data.data.products.data
+          this.$apply()
+        }
+      }
+    })
+    // 获取用户信息
+    this.userInfo = await wepy.getUserInfo()
+    // console.log(this.userInfo)
+    // 判断用户信息是否为空
+    if (this.userInfo.rawData) {
+      // 隐藏授权按钮
+      this.authorizationButton = 'hide'
+      this.$apply()
+      // 存储用户信息
+      this.userInfo = this.userInfo.rawData
+      this.userInfo = JSON.parse(this.userInfo)
+      this.$parent.globalData.userInfo = this.userInfo
+      this.$apply()
+      wepy.login().then(res => {
+        // 登录
+        wx.request({
+          url: `${this.$parent.globalData.requestUrl}/userLogin`,
+          method: 'POST',
+          data: {
+            'code': res.code,
+            'nick_name': this.$parent.globalData.userInfo.nickName,
+            'profile': this.$parent.globalData.userInfo.avatarUrl
+          },
+          success: data => {
+            if (data.statusCode === 200) {
+              // console.log(data.data.data)
+              this.$parent.globalData.userInfo = data.data.data.user
+              this.$parent.globalData.open_id = data.data.data.user.openid
+              console.log(data.data.data.user.openid)
+              this.$apply()
+            }
+          }
+        })
+      })
+    }
+  }
+  async onReachBottom() {
+    if (!this.getUrl) {
+      this.prompt = false
+      this.$apply()
+      return
+    }
+    await wx.request({
+      url: this.getUrl,
+      method: 'GET',
+      success: data => {
+        if (data.statusCode === 200) {
+          let shopList = data.data.data.shops.data
+          // 将新的请求结果加入原有数组  concat连接两个或更多的数组，并返回结果。
+          this.shopList = this.shopList.concat(shopList)
+          // 更新下一页请求地址
+          this.getUrl = data.data.data.shops.meta.pagination.links.next
+        }
+      }
+    })
+  };
+  onLoad() {
+    this.imgUrl = this.$parent.globalData.imgUrl2
+    this.$apply()
+    this.onGotUserInfo()
+    // this.id = options.id
+  };
+}
+</script>

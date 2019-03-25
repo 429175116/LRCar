@@ -1,0 +1,115 @@
+<style lang="less">
+.all {
+  margin-bottom: 140rpx;
+}
+.main{
+  border: 1px solid #ccc;
+  border-radius: 20rpx;
+  font-size: 24rpx;
+  line-height: 50rpx;
+  margin: 20rpx;
+  padding: 40rpx;
+}
+</style>
+<template>
+  <view class="all">
+    <repeat for='{{ couponList }}' for-item='item' key='index'>
+      <view class="main">
+        <view>预约人：{{ item.appointment_person }}</view>
+        <view>联系人电话：{{ item.mobile }}</view>
+        <view>预约店铺：{{ item.shop.name }}</view>
+        <view>店铺电话：{{ item.shop.contact_mobile }}</view>
+        <view>预约时间：{{ item.time }}</view>
+        <view>预约店铺地址：{{ item.shop.address }}</view>
+      </view>
+    </repeat>
+    <nav @childFn.user="goPage" />
+  </view>
+</template>
+<script>
+import wepy from 'wepy'
+import nav from '../components/nav' // 底部导航
+export default class myAppointment extends wepy.page {
+  // 页面配置
+  config = {
+    navigationBarTitleText: '预约信息'
+  };
+  // 生命组件ID
+  components = {
+    // 底部导航
+    nav: nav
+  };
+  data = {
+    isShowFrom3: false,
+    coupon: false,
+    couponList: []
+  }
+  methods = {
+    bindViewTap() {
+      console.log('button clicked')
+    },
+    goPage(url, evt) {
+      this.$redirect(url)
+    },
+    coupon (e) {
+      if (this.coupon === true) {
+        this.coupon = false
+      } else {
+        this.coupon = true
+      }
+    }
+  };
+  showFrom (e) {
+    if (this.isShowFrom3 === true) {
+      this.isShowFrom3 = false
+    } else {
+      this.isShowFrom3 = true
+    }
+  }
+  async onReachBottom() {
+    if (!this.getUrl) {
+      this.prompt = false
+      this.$apply()
+      return
+    }
+    await wx.request({
+      url: this.getUrl,
+      method: 'GET',
+      header: {
+        AuthrizeOpenId: this.$parent.globalData.open_id
+      },
+      success: data => {
+        if (data.statusCode === 200) {
+           var couponList = data.data.data.my_reservations.data
+          // 将新的请求结果加入原有数组  concat连接两个或更多的数组，并返回结果。
+          this.couponList = this.couponList.concat(couponList)
+          // 更新下一页请求地址
+          this.getUrl = data.data.data.my_reservations.meta.pagination.links.next
+        }
+      }
+    })
+  };
+  onLoad() {
+    wx.request({
+      url: `${this.$parent.globalData.requestUrl}/myReservationList`,
+      method: 'GET',
+      header: {
+        AuthrizeOpenId: this.$parent.globalData.open_id
+      },
+      success: data => {
+        if (data.data.success) {
+          this.couponList = data.data.data.my_reservations.data
+          this.$apply()
+          this.getUrl = data.data.data.my_reservations.meta.pagination.links.next
+          this.indexs = data.data.data.my_reservations.meta.pagination.current_page
+        } else {
+          wx.showModal({
+            title: '',
+            content: data.data.errmsg
+          })
+        }
+      }
+    })
+  }
+}
+</script>

@@ -1,0 +1,418 @@
+<style>
+.all {
+  margin-bottom: 100rpx;
+}
+.no_order {
+  text-align: center;
+  margin-top: 200rpx;
+  color: #292929;
+  font-size: 28rpx;
+}
+.commodity {
+  margin: 20rpx;
+}
+.cart{
+  width: 40rpx;
+  height: 40rpx;
+  margin-top: 10rpx;
+}
+.commodityTitle1{
+  width: 500rpx;
+  margin-top: 20rpx;
+  padding: 20rpx;
+  display: flex;
+  justify-content: space-between;
+  width: 98%;
+  border: 2rpx solid #FAF9F9;
+  border-radius: 20rpx;
+  box-sizing: border-box;
+  background: #FAF9F9;
+}
+.commodityImg1{
+  width: 210rpx;
+  height: 270rpx;
+  border: 2rpx solid #faf9f9;
+  border-radius: 20rpx;
+}
+.commodityView1{
+  margin-bottom: 20rpx;
+  font-size: 28rpx;
+}
+.right{
+  width: 400rpx;
+}
+.commodityBottom3{
+  font-size: 20rpx;
+  line-height: 55rpx;
+  height: 60rpx;
+  padding-top: 10rpx;
+}
+.commodityBottom2{
+  width: 575rpx;
+  font-size: 36rpx;
+  line-height: 60rpx;
+  height: 60rpx;
+  padding-top: 10rpx;
+
+  color:#C70101;
+  text-align: center;
+}
+.address{
+  border-top: 1rpx solid #eee;
+  font-size: 28rpx;
+  color:#333;
+  line-height: 60rpx;
+  margin: 20rpx;
+}
+.addres{
+  font-size: 28rpx;
+  color:#333;
+  line-height: 60rpx;
+  margin: 20rpx;
+}
+.btn {
+  width: 140rpx;
+  height: 30rpx;
+  line-height: 30rpx;
+  color: #333;
+  font-size: 20rpx;
+  margin-top: 10rpx;
+}
+.order{
+  margin-bottom: 40rpx;
+  padding-bottom: 20rpx;
+}
+.commodity{
+  border-top: 10rpx solid #eee;
+  border-bottom: 2rpx solid #eee;
+  font-size: 28rpx;
+  color:#333;
+  line-height: 60rpx;
+  display: flex;
+  justify-content: space-between;
+  padding: 40rpx 40rpx;
+}
+.btn2{
+  width: 667rpx;
+  height: 80rpx;
+  line-height: 80rpx;
+  font-size: 30rpx;
+  text-align: center;
+  color: #fff;
+  background-color: #C70101;
+  margin-left:20rpx;
+}
+</style>
+<template>
+  <view class="all">
+    <view>
+      <view class="address">
+        <view class="order">
+          <view class="addres" @tap="goAddress">
+            <view>{{ addressList.real_name }}：{{ addressList.mobile }}</view>
+            <view>地址：{{ addressList.area +  addressList.address }}</view>
+          </view>
+          <!-- 推荐 -->
+          <repeat for="{{shopping}}" for-item='item'>
+            <view class="commodityTitle1">
+              <image src='{{ imgUrl2 + item.img }}' class="commodityImg1">
+              <view class="right">
+                <view class="commodityView1">{{ item.name }}</view>
+                <view class="commodityBottom3">
+                   <view class="btn"></view>
+                  <!-- <repeat for="{{number}}" item="item">
+                    <view class="btn">{{item}}</view>
+                  </repeat> -->
+                  <text><text style="color:#7ecef4">{{ item.sale_count }}</text>人购买过</text>
+                </view>
+                <view class="commodityBottom2">￥{{ item.price }}</view>
+              </view>
+            </view>
+          </repeat>
+          <view class="commodity">
+            <view>
+              <view>数量：</view>
+              <view>商品总金额：</view>
+              <view>运费：</view>
+              <view>合计金额：</view>
+            </view>
+            <view style='color:#FF0000'>
+              <view style='color:#333'>{{nums}}</view>
+              <view>￥{{total}}</view>
+              <view>￥0</view>
+              <view>￥{{totals}}</view>
+            </view>
+          </view>
+          <view class="btn2"  @tap='goPayment' data-adsId="{{ addressList.id }}">立即支付</view>
+        </view>
+      </view>
+    </view>
+    <nav @childFn.user="goPage" />
+  </view>
+</template>
+<script>
+import wepy from 'wepy'
+import nav from '../components/nav' // 底部导航
+export default class Pay extends wepy.page {
+  // 页面配置
+  config = {
+    navigationBarTitleText: '支付'
+  };
+  // 生命组件ID
+  components = {
+    // 底部导航
+    nav: nav
+  };
+  // alias example
+  data = {
+    motto: 'Hello World',
+    userInfo: {},
+    addressList: [],
+    shopping: [],
+    orderId: '',
+    imgUrl: '',
+    id: '',
+    nums: '',
+    total: '',
+    totals: '',
+    number: [],
+    imgUrl2: ''
+  };
+  methods = {
+    bindViewTap() {
+      console.log('button clicked')
+    },
+    goPage(url, evt) {
+      this.$redirect(url)
+    },
+    // 选择地址
+    goAddress() {
+      var id = JSON.stringify(this.id)
+      this.$navigate('/pages/addressList?id=' + id + '&totalPrice=' + this.total)
+    }
+  };
+  // 支付
+  goPayment(e) {
+    var adsId = e.currentTarget.dataset.adsid
+    var orderId = this.orderId
+    let params = []
+    var id = this.id
+    var that = this
+    var i = 0
+    for (i in id) {
+      params.push({
+        product_id: id[i].product_id,
+        num: id[i].num
+      })
+    }
+    // goods.push()
+    if (!adsId) {
+      wx.showModal({
+        title: '提示',
+        content: '请先选择地址',
+        showCancel: false
+      })
+    } else {
+      // 下单
+      if (orderId) {
+        wx.request({
+          url: `${this.$parent.globalData.requestUrl}/payOrder/${orderId}`,
+          method: 'POST',
+          header: {
+            AuthrizeOpenId: this.$parent.globalData.open_id
+          },
+          success: function(res) {
+            var pay = res.data.data.config
+            that.$apply()
+            wx.requestPayment({
+              'nonceStr': pay.nonceStr,
+              'package': pay.package,
+              'signType': pay.signType,
+              'paySign': pay.paySign,
+              'timeStamp': pay.timestamp,
+              'success': function(res) {
+                wx.request({
+                  url: `${that.$parent.globalData.requestUrl}/findWetherCoupon/${orderId}`,
+                  method: 'POST',
+                  header: {
+                    AuthrizeOpenId: that.$parent.globalData.open_id
+                  },
+                  success: data => {
+                    if (data.data.data.whether_coupon) {
+                      wx.showModal({
+                        title: '',
+                        content: '购买成功，您已获得优惠券，请去优惠券查看',
+                        showCancel: false
+                      })
+                    } else {
+                      wx.showModal({
+                        title: '',
+                        content: '购买成功',
+                        showCancel: false
+                      })
+                    }
+                  }
+                })
+                that.$apply()
+                // console.log("支付成功");
+              },
+              'fail': function(res) {
+                // console.log(res)
+                wx.showModal({
+                  title: '',
+                  content: '付款失败',
+                  showCancel: false
+                })
+              }
+            })
+          }
+        })
+      } 
+      else {
+        wepy.login().then(res => {
+          wx.request({
+            url: `${this.$parent.globalData.requestUrl}/addOrder`,
+            method: 'POST',
+            header: {
+              AuthrizeOpenId: this.$parent.globalData.open_id
+            },
+            data: {
+              // 'user_id': res.code,
+              'exchange_list': params,
+              'shipment_id': adsId
+            },
+            success: data => {
+             if (data.statusCode === 200) {
+               // 统一支付
+               var orderId = data.data.data.order_id
+               wx.request({
+                 url: `${this.$parent.globalData.requestUrl}/payOrder/${orderId}`,
+                 method: 'POST',
+                  header: {
+                    AuthrizeOpenId: this.$parent.globalData.open_id
+                  },
+                 success: function(res) {
+                   var pay = res.data.data.config
+                   that.$apply()
+                   wx.requestPayment({
+                     'nonceStr': pay.nonceStr,
+                     'package': pay.package,
+                     'signType': pay.signType,
+                     'paySign': pay.paySign,
+                     'timeStamp': pay.timestamp,
+                     'success': function(res) {
+                        wx.request({
+                          url: `${that.$parent.globalData.requestUrl}/findWetherCoupon/${orderId}`,
+                          method: 'POST',
+                          header: {
+                            AuthrizeOpenId: that.$parent.globalData.open_id
+                          },
+                          success: data => {
+                            if (data.data.data.whether_coupon) {
+                              wx.showModal({
+                                title: '',
+                                content: '购买成功，您已获得优惠券，请去优惠券查看',
+                                showCancel: false
+                              })
+                            } else {
+                              wx.showModal({
+                                title: '',
+                                content: '购买成功',
+                                showCancel: false
+                              })
+                            }
+                          }
+                        })
+                       that.$apply()
+                       // console.log("支付成功");
+                     },
+                     'fail': function(res) {
+                       // console.log(res)
+                       wx.showModal({
+                         title: '',
+                         content: '付款失败',
+                         showCancel: false
+                       })
+                     }
+                   })
+                 }
+               })
+             }
+            }
+          })
+        })
+      }
+    }
+  }
+  onLoad(options) {
+    this.imgUrl2 = this.$parent.globalData.imgUrl2
+    this.imgUrl = this.$parent.globalData.imgUrl
+    var adsId = ''
+    if (options.ads_id !== undefined) {
+      adsId = options.ads_id
+    }
+    if (options. orderId !== undefined) {
+      this.orderId = options. orderId
+    }
+    wx.request({
+      url: `${this.$parent.globalData.requestUrl}/shipmentList`,
+      method: 'GET',
+      header: {
+        AuthrizeOpenId: this.$parent.globalData.open_id
+      },
+      success: data => {
+        if (data.statusCode === 200) {
+          var addressList = data.data.data.user_shipments.data
+          var i = 0
+          if (adsId === '') {
+            for (i in addressList) {
+              if (addressList[i].status === '默认地址') {
+                this.addressList = addressList[i]
+                this.adsId = addressList[i].id
+                break
+              }
+            }
+          } else {
+            for (i in addressList) {
+              if (addressList[i].id === Number(options.ads_id)) {
+                this.addressList = addressList[i]
+                this.adsId = addressList[i].id
+              }
+            }
+          }
+          this.$apply()
+        }
+      }
+    })
+    var id = options.id
+    id = JSON.parse(id)
+    this.id = id
+    this.totals = options.totalPrice
+    this.total = options.totalPrice
+    this.$apply()
+    var shopping = []
+    var nums = 0
+    var number = []
+    var i = 0
+    for (i in id) {
+      var num = id[i].num
+      number.push(num)
+      nums += num
+      wx.request({
+        url: `${this.$parent.globalData.requestUrl}/productsDetail/${id[i].product_id}`,
+        method: 'GET',
+        success: data => {
+          if (data.statusCode === 200) {
+            shopping.push(data.data.data.product)
+            this.$apply()
+          }
+        }
+      })
+    }
+    this.shopping = shopping
+    this.nums = nums
+    this.number = number
+    this.$apply()
+  }
+}
+</script>

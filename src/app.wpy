@@ -1,0 +1,122 @@
+<style lang="less">
+.container {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  box-sizing: border-box;
+}
+</style>
+<script>
+import wepy from 'wepy'
+import 'wepy-async-function'
+import { setStore, getStore } from 'wepy-redux'
+import configStore from './store'
+const store = configStore()
+setStore(store)
+
+export default class extends wepy.app {
+  constructor () {
+    super()
+    this.use('promisify')
+//    this.intercept('request', {
+//      success (data) {
+//        wepy.hideLoading()
+//        if (data.statusCode === 401) {
+//          wepy.removeStorageSync('token')
+//          wepy.redirectTo({url: 'login'})
+//        }
+//        return data
+//      },
+//      fail (p) {
+//        wepy.hideLoading()
+//        return p
+//      }
+//    })
+  }
+  // -----json部分-----
+  config = {
+    pages: [
+      'pages/index', // 首页
+      'pages/evaluate', // 商品评价
+      'pages/evaluateList', // 账单
+      'pages/noConfirmOrder', // 未确认账单
+      'pages/noPayOrder', // 待付款账单
+      'pages/coupon', // 代金券
+      'pages/openMember', // 开通会员
+      'pages/memberPay', // 会员
+      'pages/members', // 会员列表
+      'pages/cart', // 购物车
+      'pages/appointmentDetail', // 店铺详情
+      'pages/myOrder', // 账单
+      'pages/address', // 新建地址
+      'pages/addressList', // 地址列表
+      'pages/detail', // 首页
+      'pages/user', // 个人中心
+      'pages/pay', // 支付
+      'pages/shopping', // 商城
+      'pages/userInfo', // 个人信息
+      'pages/appointment', // 预约洗车
+      'pages/myAppointment' // 预约信息
+    ],
+    window: {
+      backgroundTextStyle: 'light',
+      navigationBarBackgroundColor: '#fff',
+      navigationBarTitleText: 'WeChat',
+      navigationBarTextStyle: 'black'
+    }
+  }
+  // -----json部分结束-----
+  // 全局变量
+  globalData = {
+    userInfo: null,
+    testData: 'globalData',
+    code: null,
+    // 线下
+    // requestUrl: 'http://140.143.203.12:8091/api',
+    // 线上
+    requestUrl: 'https://car.beaconway.cn/api',
+    // 图片资源--线下
+    // imgUrl2: 'http://140.143.203.12:8091/storage/',
+    open_id: '',
+    // 图片资源--线上
+    imgUrl2: 'https://car.beaconway.cn/storage/',
+    userShopInfo: null,
+    shopInfo: null,
+    guangGao: null,
+    text_color: false,
+    text_color1: true,
+    text_color2: true,
+    text_color3: true
+  };
+
+  testFunctiong() {
+    console.log('testFunctiong')
+  }
+  // 获取用户信息
+  // getUserInfo(cb) {
+  //   const that = this
+  //   if (this.globalData.userInfo) {
+  //     return this.globalData.userInfo
+  //   }
+  //   wepy.getUserInfo({
+  //     success (res) {
+  //       that.globalData.userInfo = res.userInfo
+  //       cb && cb(res.userInfo)
+  //     }
+  //   })
+  // };
+  onShow() {
+    let token = wepy.getStorageSync('token')
+    if (token) {
+      getStore().getState().login.login_info.access_token = token
+    }
+  }
+
+  onHide() {
+    let state = getStore().getState()
+    wepy.setStorageSync('token', state.login.login_info.access_token)
+  }
+}
+</script>

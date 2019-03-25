@@ -1,0 +1,435 @@
+<style>
+.all {
+  margin-bottom: 200rpx;
+}
+.no_order {
+  text-align: center;
+  margin-top: 200rpx;
+  color: #938f99;
+  font-size: 28rpx;
+}
+.commodity {
+  border-bottom: 10rpx solid #EEEEEE;
+}
+.cart{
+  width: 40rpx;
+  height: 40rpx;
+  margin-top: 10rpx;
+}
+.commodityTitle1{
+  width: 500rpx;
+  padding: 20rpx;
+  display: flex;
+  justify-content: space-between;
+  width: 98%;
+  border-top: 2rpx solid #EEEEEE;
+  box-sizing: border-box;
+  background: #fafafa;
+}
+.commodityImg1{
+  width: 230rpx;
+  height: 300rpx;
+  border: 2rpx solid #faf9f9;
+  border-radius: 20rpx;
+}
+.commodityView1{
+  font-size: 28rpx;
+  margin-top: 20rpx;
+}
+.right{
+  width: 320rpx;
+}
+.commodityBottom3{
+  font-size: 20rpx;
+  line-height: 55rpx;
+  height: 60rpx;
+  padding-top: 10rpx;
+}
+.commodityBottom2{
+  width: 575rpx;
+  font-size: 36rpx;
+  line-height: 60rpx;
+  height: 60rpx;
+  padding-top: 10rpx;
+  margin-top: 70rpx;
+  color:#C70101;
+  text-align: center;
+}
+.address{
+  border-top: 1rpx solid #eee;
+  font-size: 28rpx;
+  color:#333;
+  line-height: 60rpx;
+}
+.btn {
+  width: 140rpx;
+  height: 30rpx;
+  line-height: 30rpx;
+  color: #333;
+  font-size: 20rpx;
+  margin-top: 10rpx;
+}
+.btn1 {
+  width: 110rpx;
+  height: 50rpx;
+  line-height: 50rpx;
+  color: #333;
+  font-size: 24rpx;
+  margin-right: 20rpx;
+  border: 2rpx solid #00A0E9;
+}
+.btn2 {
+  width: 160rpx;
+  height: 50rpx;
+  line-height: 50rpx;
+  color: #fff;
+  font-size: 24rpx;
+  background-color: #C61E1E;
+}
+.buttons{
+  display: flex;
+  justify-content: space-between;
+  width: 300rpx;
+  position: relative;
+  top: -207rpx;
+  right: -403rpx;
+}
+.order{
+  margin-bottom: 40rpx;
+  padding-bottom: 20rpx;
+  border-bottom: 10rpx solid #eee;
+}
+.icon{
+  width: 30rpx;
+  height: 30rpx;
+  margin: auto 10rpx;
+}
+.delete{
+  width: 30rpx;
+  height: 30rpx;
+  margin-top: 20rpx;
+}
+.num{
+  display: flex;
+  justify-content: space-between;
+  width: 160rpx;
+  font-size: 24rpx;
+  line-height: 75rpx;
+}
+.add{
+  width: 50rpx;
+  height: 50rpx;
+  border: 2rpx solid #EEEEEE;
+  text-align: center;
+  line-height: 50rpx;
+  margin-top: 10rpx;
+}
+.nav{
+  display: flex;
+  justify-content:space-between;
+  position: fixed;
+  bottom: 90rpx;
+  height: 110rpx;
+  line-height: 80rpx;
+  padding-left: 40rpx;
+  font-size: 28rpx;
+  background: #fff;
+}
+.view{
+  width: 510rpx;
+}
+.btn3{
+  background: #C61E1E;
+  color:#fff;
+  text-align: center;
+  height: 80rpx;
+  line-height: 80rpx;
+  width: 200rpx;
+  font-size: 28rpx;
+}
+</style>
+<template>
+  <view class="all">
+    <view>
+      <view class="no_order" wx:if="{{carts.length==0}}">暂无数据</view>
+      <view wx:else class="commodity">
+        <repeat for="{{carts}}" for-item='item'>
+            <!-- 推荐 -->
+          <view class="commodityTitle1">
+            <image src='../img/xuan1.png' class="icon" wx:if="{{!item.hidden}}" @tap="chance"  data-index="{{item.product_id}}">
+            <image src='../img/xuan.png' class="icon" wx:else @tap="chance"  data-index="{{item.product_id}}">
+            <image src='{{ imgUrl2 + item.product_information.img }}' class="commodityImg1">
+            <view class="right">
+              <view class="commodityView1">{{ item.product_information.name }}</view>
+              <view class="commodityBottom3">
+                <text><text style="color:#7ecef4">{{ item.product_information.sale_count }}</text>人购买过</text>
+                <view class="num">
+                  <view class="add" @tap="reduce" data-num='{{ item.product_id }}'>-</view>
+                  <view>{{ item.num }}</view>
+                  <view class="add" @tap="add" data-num='{{ item.product_id }}'>+</view>
+                </view>
+              </view>
+              <view class="commodityBottom2">￥{{item.product_information.price}}</view>
+            </view>
+            <image src='../img/delete.jpg' class="delete" @tap="deleteList"  data-id="{{item.product_id}}">
+          </view>
+        </repeat>
+      </view>
+      <view class="nav">
+        <view class="view">共{{nums}}件：<text style="color:#FF0000">￥{{totalPrice}}</text></view>
+        <view class="btn3" @tap='goPayment'>付款</view>
+      </view>
+    </view>
+    <nav @childFn.user="goPage" />
+  </view>
+</template>
+<script>
+import wepy from 'wepy'
+import nav from '../components/nav' // 底部导航
+export default class Cart extends wepy.page {
+  // 页面配置
+  config = {
+    navigationBarTitleText: '购物车'
+  };
+  // 生命组件ID
+  components = {
+    // 底部导航
+    nav: nav
+  };
+  // alias example
+  data = {
+    motto: 'Hello World',
+    userInfo: {},
+    carts: [],
+    totalPrice: '',
+    nums: 0,
+    num: 1,
+    imgUrl2: ''
+  };
+  methods = {
+    bindViewTap() {
+      console.log('button clicked')
+    },
+    goPage(url, evt) {
+      this.$redirect(url)
+    },
+    // 结算
+    goPayment() {
+      if (this.nums === 0) {
+        wx.showModal({
+          title: '提示',
+          content: '请选择要购买的商品',
+          showCancel: false
+        })
+      } else {
+        let carts = this.carts // 获取购物车列表
+        var goods = []
+        var n = 0
+        for (n in carts) {
+          // 循环列表得到每个数据
+          let dataJson = ''
+          if (carts[n].hidden === 1) {
+            // 判断选中才会计算价格
+            dataJson = `{"product_id": ${carts[n].product_id} ,"num": ${carts[n].num}}`
+            dataJson = JSON.parse(dataJson)
+            goods.push(dataJson)
+          }
+        }
+        goods = JSON.stringify(goods)
+        this.$navigate('/pages/pay?id=' + goods + '&totalPrice=' + this.totalPrice)
+      }
+    },
+    // 选中图片改变
+    chance(e) {
+      const index = e.currentTarget.dataset.index // 获取data- 传进来的index
+      let carts = this.carts // 获取购物车列表
+      var i = 0
+      var j = 0
+      for (i in carts) {
+        if (carts[i].product_id === index) {
+          j = i
+        }
+      }
+      // console.log(carts[j].hidden)
+      if (carts[j].hidden === 0) {
+        carts[j].hidden = 1 // 改变状态
+      } else {
+        carts[j].hidden = 0 // 改变状态
+      }
+      this.carts = carts
+      this.TotalPrice()
+    },
+    // 数量加
+    add(e) {
+      let that = this
+      const index = e.currentTarget.dataset.num
+      let carts = this.carts // 获取购物车列表
+      var i = 0
+      var j = 0
+      for (i in carts) {
+        if (carts[i].product_id === index) {
+          j = i
+        }
+      }
+      carts[j].num += 1
+      wx.request({
+        url: `${this.$parent.globalData.requestUrl}/addShoppingCart`,
+        method: 'POST',
+        header: {
+          AuthrizeOpenId: that.$parent.globalData.open_id
+        },
+        data: {
+          'product_id': carts[j].product_id,
+          'num': carts[j].num
+        },
+        success: data => {
+          if (data.data.success) {
+          } else {
+            wx.showModal({
+              title: '',
+              content: data.data.errmsg
+            })
+          }
+        }
+      })
+      this.carts = carts
+      this.TotalPrice()
+    },
+    // 数量减
+    reduce(e) {
+      let that = this
+      const index = e.currentTarget.dataset.num
+      let carts = this.carts // 获取购物车列表
+      var i = 0
+      var j = 0
+      for (i in carts) {
+        if (carts[i].product_id === index) {
+          j = i
+        }
+      }
+      if (carts[j].num === 1) {
+        carts[j].num = 1
+      } else {
+        carts[j].num -= 1
+        wx.request({
+          url: `${that.$parent.globalData.requestUrl}/addShoppingCart`,
+          method: 'POST',
+          header: {
+            AuthrizeOpenId: that.$parent.globalData.open_id
+          },
+          data: {
+            'product_id': carts[j].product_id,
+            'num': carts[j].num
+          },
+          success: data => {
+            if (data.data.success) {
+            } else {
+              wx.showModal({
+                title: '',
+                content: data.data.errmsg
+              })
+            }
+          }
+        })
+        this.carts = carts
+        this.TotalPrice()
+      }
+    },
+    // 删除
+    deleteList(e) {
+      // let carts = this.carts // 获取购物车列表
+      // var n = 0
+      // var id = []
+      // for (n in carts) {
+      //   // 循环列表得到每个数据
+      //   if (carts[n].hidden === 1) {
+      //     // 判断选中才会计算价格
+      //     id.push(carts[n].book_id)
+      //   }
+      // }
+      const id = e.currentTarget.dataset.id
+      var that = this
+      wx.showModal({
+        title: '提示',
+        content: '您确定要删除这些商品吗？',
+        success: function(res) {
+          if (res.confirm) {
+            wx.request({
+              url: `${that.$parent.globalData.requestUrl}/deleteShoppingCart`,
+              method: 'DELETE',
+              header: {
+                AuthrizeOpenId: that.$parent.globalData.open_id
+              },
+              data: {
+                'product_ids': [id]
+              },
+              success: data => {
+                if (data.data.success) {
+                  that.getShoppingCart()
+                } else {
+                  wx.showModal({
+                    title: '',
+                    content: data.data.errmsg
+                  })
+                }
+              }
+            })
+          } else if (res.cancel) {
+            // console.log('用户点击取消')
+          }
+        }
+      })
+    }
+  };
+  // 获取总价
+  TotalPrice() {
+    let carts = this.carts // 获取购物车列表
+    let total = 0
+    let nums = 0
+    var n = 0
+    for (n in carts) {
+      // 循环列表得到每个数据
+      if (carts[n].hidden === 1) {
+        // 判断选中才会计算价格
+        total += Number(carts[n].product_information.price) * Number(carts[n].num) // 所有价格加起来
+        nums += Number(carts[n].num)
+      }
+    }
+    this.totalPrice = total.toFixed(2)
+    this.nums = nums
+  }
+
+  getShoppingCart() {
+    wx.request({
+      url: `${this.$parent.globalData.requestUrl}/getShoppingCart`,
+      method: 'GET',
+      header: {
+        AuthrizeOpenId: this.$parent.globalData.open_id
+      },
+      success: data => {
+        if (data.statusCode === 200) {
+          var carts = data.data.data.shopping_cart.list
+          var i = 0
+          for (i in carts) {
+            carts[i].hidden = 0
+          }
+          // 清空总价
+          this.totalPrice = 0
+          // 清空种类数量
+          this.nums = 0
+          this.carts = carts
+          this.$apply()
+        }
+      }
+    })
+  }
+
+  onLoad(options) {
+    this.imgUrl2 = this.$parent.globalData.imgUrl2
+    // console.log(options.id)
+    // this.id = options.id
+    // this.name = options.name
+    this.getShoppingCart()
+  }
+}
+</script>

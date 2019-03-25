@@ -1,0 +1,203 @@
+<style lang="less">
+.container {
+}
+.form-box {
+  width: 100%;
+  background-color: #EEEEEE;
+  height: 550rpx;
+  border-radius: 20rpx;
+}
+.row-wrap {
+  width: 720rpx;
+  height: 88rpx;
+  line-height: 88rpx;
+  margin-left: 30rpx;
+  border-bottom: 1rpx solid #DCDCDC;
+  display: flex;
+  font-size: 28rpx;
+  /*justify-content: space-between;*/
+}
+.row-wrap .label {
+  width: 160rpx;
+  color: #000;
+}
+.row-wrap .label-right {
+  flex: 1;
+  height: 88rpx;
+  line-height: 88rpx;
+}
+.row-wrap .label-right input {
+  height: 100%;
+  width: 500rpx;
+  font-size: 28rpx;
+  padding-right: 30rpx;
+}
+.row-wrap .right-box {
+  margin-right: 30rpx;
+}
+.arrow-right {
+  width: 15rpx;
+  height: 24rpx;
+}
+.save-btn {
+  width: 640rpx;
+  height: 80rpx;
+  font-size: 30rpx;
+  text-align: center;
+  color: #fff;
+  border-radius: 40rpx;
+  margin-top: 440rpx;
+  background-color: #00A0E9;
+}
+picker {
+  min-width: 20rpx;
+  height: 100%;
+  margin-right: 20rpx;
+}
+.hui {
+  color: #777;
+}
+</style>
+<template>
+  <view class="">
+    <form bindsubmit="addAddress">
+        <view class="form-box">
+            <view class="row-wrap">
+              <view class="label">真实姓名</view>
+              <view class="label-right">
+                <input name="real_name" class="input" type="text" placeholder="请输入昵称" value="{{userList.real_name}}" />
+              </view>
+            </view>
+            <view class="row-wrap">
+              <view class="label">联系方式</view>
+              <view class="label-right">
+                <input name="mobile" class="input" maxlength="11" type="number" placeholder="请输入手机号码" value="{{userList.mobile}}" />
+              </view>
+            </view>
+            <view class="row-wrap">
+              <view class="label">性别</view>
+              <view class="label-right">
+                <radio-group class="radio-group" name="sex" >
+                  <label class="radio">
+                    <radio value="male" checked="{{ userList.sex === 'male' ? true : false }}"/>
+                    男
+                  </label>
+                  <label class="radio">
+                    <radio value="female" checked="{{ userList.sex === 'female' ? true : false }}"/>
+                    女
+                  </label>
+                </radio-group>
+                <!-- <input class="input" type="text" placeholder="请输入您的性别" name="sex" value="{{sex}}"/> -->
+              </view>
+            </view>
+            <view class="row-wrap">
+              <view class="label">生日</view>
+              <view class="label-right">
+                <picker class="input" mode="date" value="{{userList.date}}" start="2015-09-01 00:00" end="2050-12-31 00:00" bindchange="bindDateChange">
+                  <view>{{date}}</view>
+                  <!-- <input name="date" value="{{date}}" /> -->
+                </picker>
+                <!-- <input name="birthday"  placeholder="生日" type="text" value="{{birthday}}" /> -->
+              </view>
+            </view>
+        </view>
+        <button class="save-btn" formType="submit">保存</button>
+    </form>
+    <nav @childFn.user="goPage" />
+  </view>
+</template>
+<script>
+import wepy from 'wepy'
+import nav from '../components/nav' // 底部导航
+import check from '../mixins/check' // 校验封装
+export default class UserInfo extends wepy.page {
+  config = {
+    navigationBarTitleText: '个人信息'
+  };
+  components = {
+    // 底部导航
+    nav: nav
+  };
+  mixins = [check]
+  data = {
+    motto: 'Hello World',
+    userInfo: {},
+    sex: '',
+    date: '1900-01-01',
+    birthday: '',
+    userList: []
+  };
+  methods = {
+    bindViewTap() {
+      console.log('button clicked')
+    },
+    goDetail() {
+      this.$emit('childFn', '/pages/detail')
+    },
+    goPage(url, evt) {
+      this.$redirect(url)
+    },
+    // 生日
+    bindDateChange(e) {
+      this.date = e.detail.value
+    },
+    // 新建地址
+    addAddress(e) {
+      var realName = e.detail.value.real_name
+      var birthday = this.date
+      var mobile = e.detail.value.mobile
+      var sex = e.detail.value.sex
+      console.log(sex)
+      if (this.check.isPhone(mobile)) {
+        wx.showModal({
+          title: '提示',
+          content: '请输入正确的手机号',
+          showCancel: false
+        })
+      } else if (realName === '' || mobile === '' || birthday === '' || sex === '') {
+        wx.showModal({
+          title: '提示',
+          content: '请完善信息',
+          showCancel: false
+        })
+      } else {
+        wepy.login().then(res => {
+          wx.request({
+            url: `${this.$parent.globalData.requestUrl}/perfectUserInfomation`,
+            method: 'POST',
+            header: {
+              AuthrizeOpenId: this.$parent.globalData.open_id
+            },
+            data: {
+              real_name: realName,
+              sex: sex,
+              mobile: mobile,
+              birthday: birthday
+            },
+            success: data => {
+              if (data.statusCode === 200) {
+                this.$navigate(`/pages/user`)
+              }
+            }
+          })
+        })
+      }
+    }
+  };
+  onLoad(options) {
+    wx.request({
+      url: `${this.$parent.globalData.requestUrl}/myInfoMation`,
+      method: 'GET',
+      header: {
+        AuthrizeOpenId: this.$parent.globalData.open_id
+      },
+      success: data => {
+        if (data.statusCode === 200) {
+          this.userList = data.data.data.user
+          this.$apply()
+        }
+      }
+    })
+  };
+}
+</script>

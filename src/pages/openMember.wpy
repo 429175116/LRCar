@@ -1,0 +1,188 @@
+<style lang="less">
+.container {
+}
+.form-box {
+  width: 100%;
+  background-color: #EEEEEE;
+  padding: 20rpx;
+}
+.row-wrap {
+  width: 660rpx;
+  height: 80rpx;
+  line-height: 80rpx;
+  margin-left: 30rpx;
+  border: 2rpx solid #fff;
+  font-size: 28rpx;
+  background: #fff;
+  border-radius: 40rpx;
+  margin: 40rpx 20rpx;
+}
+.row-wrap input {
+  height: 100%;
+  width: 500rpx;
+  font-size: 28rpx;
+  padding-left: 30rpx;
+}
+.row-wrap .right-box {
+  margin-right: 30rpx;
+}
+.arrow-right {
+  width: 15rpx;
+  height: 24rpx;
+}
+.save-btn {
+  width: 660rpx;
+  height: 80rpx;
+  font-size: 30rpx;
+  text-align: center;
+  color: #fff;
+  margin-top: 125rpx;
+  background-color: #00A0E9;
+}
+picker {
+  min-width: 20rpx;
+  height: 100%;
+  margin-right: 20rpx;
+}
+.hui {
+  color: #777;
+}
+.weui-btn{
+  float:left;
+  margin-left: 40rpx;
+}
+</style>
+<template>
+  <view class="">
+    <form bindsubmit="addAddress">
+        <view class="form-box">
+            <view class="row-wrap">
+              <input disabled name="name" class="input" type="text" placeholder="姓名" value="{{ userInfo.real_name }}" />
+            </view>
+            <view class="row-wrap">
+              <!--{{ userInfo.mobile }}-->
+              <input disabled name="mobile" class="input" maxlength="11" type="number" placeholder="电话" value="{{ userInfo.mobile }}" />
+            </view>
+            <view class="row-wrap">
+              <!--<picker disabled class="weui-btn" mode="date" value="{{date}}" start="1900-01-01 00:00" end="2050-12-31 00:00" bindchange="bindDateChange1">-->
+                <!--<view class="pickers">{{ userInfo.birthday }}</view>-->
+                 <input disabled name="date" class="input" value="{{ userInfo.birthday }}" />
+              <!--</picker>-->
+            </view>
+            <!-- <view class="row-wrap">
+              <input name="sex" class="input" placeholder="性别" type="text" value="{{sex}}" />
+            </view> -->
+            <view class="row-wrap">
+              <input name="carNum" class="input" placeholder="车牌号" type="text" value="{{ userInfo.car_number }}" />
+            </view>
+            <view class="row-wrap">
+              <picker class="weui-btn" mode="date" value="{{date}}" start="2015-09-01 00:00" end="2050-12-31 00:00" bindchange="bindDateChange">
+                <view class="pickers">{{ date}}</view>
+              </picker>
+            </view>
+        </view>
+        <button class="save-btn" formType="submit">提交</button>
+    </form>
+    <nav @childFn.user="goPage" />
+  </view>
+</template>
+<script>
+import wepy from 'wepy'
+import nav from '../components/nav' // 底部导航
+import check from '../mixins/check' // 校验封装
+export default class OpenMember extends wepy.page {
+  config = {
+    navigationBarTitleText: '开通会员'
+  };
+  components = {
+    // 底部导航
+    nav: nav
+  };
+  mixins = [check]
+  data = {
+    motto: 'Hello World',
+    userInfo: {},
+    role: '',
+    date: '2018-09-01',
+    time: '12:01',
+    birthday: '1900-01-01'
+  };
+  methods = {
+    bindViewTap() {
+      console.log('button clicked')
+    },
+    goDetail() {
+      this.$emit('childFn', '/pages/detail')
+    },
+    goPage(url, evt) {
+      this.$redirect(url)
+    },
+    // 选择时间
+    bindTimeChange(e) {
+      this.time = e.detail.value
+    },
+    // 选择日期
+    bindDateChange(e) {
+      this.date = e.detail.value
+    },
+    // 选择日期
+    bindDateChange1(e) {
+      this.birthday = e.detail.value
+    },
+    addAddress(e) {
+      var carNumber = e.detail.value.carNum
+      var uselessDate = this.date
+      if (carNumber === '' || uselessDate === '') {
+        wx.showModal({
+          title: '提示',
+          content: '请完善信息',
+          showCancel: false
+        })
+      } else {
+        wepy.login().then(res => {
+          wx.request({
+            url: `${this.$parent.globalData.requestUrl}/perfectCarNumber`,
+            method: 'POST',
+            header: {
+              AuthrizeOpenId: this.$parent.globalData.open_id
+            },
+            data: {
+              car_number: carNumber,
+              useless_date: uselessDate
+            },
+            success: data => {
+              if (data.statusCode === 200) {
+                this.$navigate('/pages/memberPay?role=' + this.role)
+              }
+            }
+          })
+        })
+      }
+    }
+  };
+
+  myInformation() {
+    wx.request({
+      url: `${this.$parent.globalData.requestUrl}/myInfoMation`,
+      method: 'GET',
+      header: {
+        AuthrizeOpenId: this.$parent.globalData.open_id
+      },
+      success: data => {
+        if (data.statusCode === 200) {
+          this.userInfo = data.data.data.user
+          this.$apply()
+        }
+      }
+    })
+  }
+
+  onLoad(options) {
+    this.totalPrice = options.totalPrice
+    this.bookList = options.bookList
+    this.type = options.type
+    this.role = options.role
+    this.myInformation()
+  };
+}
+</script>

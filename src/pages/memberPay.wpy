@@ -1,0 +1,167 @@
+<style lang="less">
+.all {
+  margin-bottom: 140rpx;
+}
+.main {
+  display: flex;
+  justify-content: space-between;
+  background: #eee;
+  margin: 20rpx;
+  padding: 20rpx 40rpx;
+  font-size: 28rpx;
+}
+.main1 {
+  display: flex;
+  justify-content: space-between;
+  background: #00A0E9;
+  margin: 20rpx;
+  padding: 20rpx 40rpx;
+  font-size: 28rpx;
+}
+.left{
+  border: 2rpx solid #00A0E9;
+  height: 40rpx;
+  border-radius: 20rpx;
+  padding: 5rpx 10rpx;
+  font-size: 22rpx;
+  margin-top: 10rpx;
+  box-sizing: border-box;
+}
+.right{
+  color: #FF0000;
+  line-height: 90rpx;
+}
+.btn{
+  position: fixed;
+  bottom: 160rpx;
+  width: 95%;
+  background: #C61E1E;
+  color:#fff;
+  height: 80rpx;
+  line-height: 80rpx;
+  margin: 0 2.5%;
+}
+</style>
+<template>
+  <view class="all">
+    <repeat for="{{memberList}}" item="item" key="index">
+      <view class="{{item.hidden==0 ? 'main' : 'main1'}}">
+        <view>
+          <view>{{ item.name }}</view>
+          <view class="left">{{ item.title }}</view>
+        </view>
+        <view class="right">
+          ￥{{ item.price }}
+        </view>
+      </view>
+    </repeat>
+    <button class="btn" @tap="pay">立即支付</button>
+    <nav @childFn.user="goPage" />
+  </view>
+</template>
+<script>
+import wepy from 'wepy'
+import nav from '../components/nav' // 底部导航
+export default class MemberPay extends wepy.page {
+  // 页面配置
+  config = {
+    navigationBarTitleText: '会员'
+  };
+  // 生命组件ID
+  components = {
+    // 底部导航
+    nav: nav
+  };
+  data = {
+    memberList: [],
+    id: '',
+    role: '',
+    pirce: ''
+  };
+  methods = {
+    bindViewTap() {
+      console.log('button clicked')
+    },
+    goPage(url, evt) {
+      this.$redirect(url)
+    }
+  };
+  pay() {
+    var id = this.role
+    var that = this
+    wepy.login().then(res => {
+      wx.request({
+        url: `${this.$parent.globalData.requestUrl}/payVip/${id}`,
+        method: 'POST',
+        header: {
+          AuthrizeOpenId: this.$parent.globalData.open_id
+        },
+        success: data => {
+          if (data.data.success) {
+            var pay = data.data.data.config
+            wx.requestPayment({
+              'nonceStr': pay.nonceStr,
+              'package': pay.package,
+              'signType': pay.signType,
+              'paySign': pay.paySign,
+              'timeStamp': pay.timestamp,
+              'success': function(res) {
+                wx.showToast({
+                  title: '购买成功',
+                  icon: 'success',
+                  duration: 2000
+                })
+                that.$apply()
+                that.$navigate('/pages/members')
+              },
+              'fail': function(res) {
+                // console.log(res)
+                wx.showModal({
+                  title: '',
+                  content: '付款失败',
+                  showCancel: false
+                })
+              }
+            })
+          } else {
+            wepy.showModal({
+              title: '',
+              content: data.data.errmsg,
+              showCancel: false
+            })
+          }
+        }
+      })
+    })
+  };
+
+  vipList() {
+    wx.request({
+      url: `${this.$parent.globalData.requestUrl}/vipCardList`,
+      method: 'GET',
+      success: data => {
+        if (data.statusCode === 200) {
+          var memberList = data.data.data.vips
+          var i = 0
+          for (i in memberList) {
+            if (memberList[i].id === Number(this.role)) {
+              memberList[i].hidden = 1
+              this.pirce = memberList[i].price
+            } else {
+              memberList[i].hidden = 0
+            }
+          }
+          this.memberList = memberList
+          this.$apply()
+        }
+      }
+    })
+  }
+
+  onLoad(options) {
+    this.role = options.role
+    // console.log(this.role)
+    this.vipList()
+  }
+}
+</script>
