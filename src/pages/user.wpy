@@ -61,10 +61,6 @@
   margin-top: -60rpx;
 }
 .center_status{  width: 100rpx;  float: right;  margin-right: 80rpx;  margin-top: -90rpx;  }
-.center_icons {
-  width: 80rpx;
-  height: 80rpx;
-}
 .right_icon {
   width: 40rpx;
   height: 40rpx;
@@ -141,6 +137,18 @@
   width: 25%;
   text-align: center;
 }
+.bottom_main .iconfont {
+  height: 80rpx;
+  width: 80rpx;
+  border-radius: 80rpx;
+  color: #fff;
+  line-height: 80rpx;
+  margin: auto;
+}
+.bottom .bottom_main:nth-child(1) .iconfont {background-color: #68BCFF;}
+.bottom .bottom_main:nth-child(2) .iconfont {background-color: #FFE24F;}
+.bottom .bottom_main:nth-child(3) .iconfont {background-color: #3DFF4F;}
+.bottom .bottom_main:nth-child(4) .iconfont {background-color: #FF6161;}
 .bottom_text {
   font-size: 28rpx;
   color: #333;
@@ -185,19 +193,19 @@
     <!-- 中 -->
     <view class="bottom">
       <view class="bottom_main" @tap='goCart'>
-        <image src="../img/cart.png" class="center_icons"/>
+        <view class="iconfont icon-gouwuchekong"></view>
         <view class="bottom_text">购物车</view>
       </view>
       <view class="bottom_main" @tap="goOrder">
-        <image src="../img/order.png" class="center_icons"/>
+        <view class="iconfont icon-zhangdan"></view>
         <view class="bottom_text">账单</view>
       </view>
       <view class="bottom_main" @tap="goNoPayOrder">
-        <image src="../img/pay.png" class="center_icons"/>
+        <view class="iconfont icon-daifukuan"></view>
         <view class="bottom_text">待付款</view>
       </view>
       <view class="bottom_main" @tap="goNoConfirmOPay">
-        <image src="../img/shou.png" class="center_icons"/>
+        <view class="iconfont icon-daishouhuo"></view>
         <view class="bottom_text">待收货</view>
       </view>
     </view>

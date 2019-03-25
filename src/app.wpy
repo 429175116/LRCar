@@ -26,6 +26,10 @@
 .icon-location:before { content: "\e611"; } // 地址
 .icon-huangguan:before { content: "\e6a7"; } // 会员
 .icon-service:before { content: "\e7bb"; } // 联系我们
+.icon-gouwuchekong:before { content: "\e600"; } // 购物车
+.icon-zhangdan:before { content: "\e65c"; } // 账单
+.icon-daifukuan:before { content: "\e68f"; } // 待付款
+.icon-daishouhuo:before { content: "\e61b"; } // 待收货
 
 </style>
 <script>
