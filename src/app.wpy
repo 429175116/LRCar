@@ -21,6 +21,12 @@
 .icon-leijiyuyue:before { content: "\e60a"; } // 预定洗车
 .icon-shangcheng:before { content: "\e72b"; } // 商城
 .icon-gerenyonghutouxiang:before { content: "\e7e4"; } // 我的
+.icon-jiantou:before { content: "\e621"; } // 箭头
+.icon-wodejuanbao:before { content: "\e670"; } // 代金券
+.icon-location:before { content: "\e611"; } // 地址
+.icon-huangguan:before { content: "\e6a7"; } // 会员
+.icon-service:before { content: "\e7bb"; } // 联系我们
+
 </style>
 <script>
 import wepy from 'wepy'

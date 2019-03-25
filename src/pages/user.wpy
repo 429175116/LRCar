@@ -29,11 +29,21 @@
   border-bottom: 10rpx solid #eee;
 }
 .main_centers {
+  width: 710rpx;
+  padding: 20rpx;
   color: #333;
   font-size: 28rpx;
   border-bottom: 1px solid #eeeeee;
-  height: 100rpx;
-  line-height: 100rpx;
+  height: 60rpx;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+.main_centers icon{
+  width: 60rpx;
+}
+.main_centers view{
+  width: 590rpx;
 }
 .center_icon {
   width: 41rpx;
@@ -154,6 +164,9 @@
   margin: 10rpx 60rpx;
   height: 1rpx;
 }
+.selCon{
+  margin-bottom: 130rpx;
+}
 </style>
 
 <template>
@@ -189,34 +202,34 @@
       </view>
     </view>
     <!-- 下 -->
-    <view class="center">
+    <view class="selCon">
       <view class="main_centers" @tap="goMyCoupon">
-        <image src="../img/coupon.png" class="center_icon"/>
+        <icon class="iconfont icon-wodejuanbao"></icon>
         <view>代金券</view>
-        <image src="../img/jiantou2.png" class="center_icon1"/>
+        <icon class="iconfont icon-jiantou"></icon>
       </view>
       <view class="main_centers" @tap="goAddress">
-        <image src="../img/address.png" class="center_icon"/>
+        <icon class="iconfont icon-location"></icon>
         <view>地址</view>
-        <image src="../img/jiantou2.png" class="center_icon1"/>
+        <icon class="iconfont icon-jiantou"></icon>
       </view>
       <view class="main_centers" @tap="goMember">
-        <image src="../img/member.png" class="center_icon"/>
+        <icon class="iconfont icon-huangguan"></icon>
         <view>会员</view>
-        <image src="../img/jiantou2.png" class="center_icon1"/>
+        <icon class="iconfont icon-jiantou"></icon>
         <!--<repeat for="{{couponList}}" item='item'>-->
         <view wx:if="{{ userList.vip_status == 'vip' }}" class="center_status">已开通</view>
         <!--</repeat>-->
       </view>
       <view class="main_centers" @tap="goMyAppointment">
-        <image src="../img/appointment1.png" class="center_icon"/>
+        <icon class="iconfont icon-leijiyuyue"></icon>
         <view>预约</view>
-        <image src="../img/jiantou2.png" class="center_icon1"/>
+        <icon class="iconfont icon-jiantou"></icon>
       </view>
       <view class="main_centers">
-        <image src="../img/service.png" class="center_icon"/>
+        <icon class="iconfont icon-service"></icon>
         <view @tap="calling">联系我们</view>
-        <image src="../img/jiantou2.png" class="center_icon1"/>
+        <icon class="iconfont icon-jiantou"></icon>
       </view>
     </view>
     <nav @childFn.user="goPage" />
