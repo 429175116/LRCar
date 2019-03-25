@@ -99,32 +99,24 @@
   <view class="footer">
     <view class="ft_item {{navAction[0]}}">
       <view @tap="goIndex">
-        <!-- <image src="/img/index1.png" wx:if="{{text_color}}" />
-        <image src="/img/index.png" wx:else/> -->
         <view class="iconfont icon-shouye"></view>
         <text class="text">首页</text>
       </view>
     </view>
     <view class="ft_item {{navAction[1]}}">
       <view @tap="goAppointment">
-        <!-- <image src="/img/appointment1.png" wx:if="{{text_color1}}" />
-        <image src="/img/appointment.png" wx:else/> -->
         <view class="iconfont icon-leijiyuyue"></view>
         <text class="text">预约洗车</text>
       </view>
     </view>
     <view class="ft_item {{navAction[2]}}">
       <view @tap="goShopping">
-        <!-- <image src="/img/shopping1.png" wx:if="{{text_color2}}" />
-        <image src="/img/shopping.png" wx:else/> -->
         <view class="iconfont icon-shangcheng"></view>
         <text class="text">商城</text>
       </view>
     </view>
     <view class="ft_item {{navAction[3]}}">
       <view @tap="goUser">
-        <!-- <image src="/img/user1.png" wx:if="{{text_color3}}" />
-        <image src="/img/user.png" wx:else /> -->
         <view class="iconfont icon-gerenyonghutouxiang"></view>
         <text class="text">个人中心</text>
       </view>
@@ -136,53 +128,27 @@
 import wepy from 'wepy'
 export default class Nav extends wepy.component {
   data = {
-    // userInfo: {},
-    // text_color: false,
-    // text_color1: false,
-    // text_color2: false,
-    // text_color3: false,
-    // carts: [],
     navAction: ['action', 'noAction', 'noAction', 'noAction']
   };
   methods = {
     goIndex() {
-      // this.$parent.$parent.globalData.text_color = false
-      // this.$parent.$parent.globalData.text_color1 = true
-      // this.$parent.$parent.globalData.text_color2 = true
-      // this.$parent.$parent.globalData.text_color3 = true
       this.$parent.$parent.globalData.navAction = ['action', 'noAction', 'noAction', 'noAction']
       this.$emit('childFn', '/pages/index')
     },
     goAppointment() {
-      // this.$parent.$parent.globalData.text_color = true
-      // this.$parent.$parent.globalData.text_color1 = false
-      // this.$parent.$parent.globalData.text_color2 = true
-      // this.$parent.$parent.globalData.text_color3 = true
       this.$parent.$parent.globalData.navAction = ['noAction', 'action', 'noAction', 'noAction']
       this.$emit('childFn', '/pages/appointment')
     },
     goShopping() {
-      // this.$parent.$parent.globalData.text_color = true
-      // this.$parent.$parent.globalData.text_color1 = true
-      // this.$parent.$parent.globalData.text_color2 = false
-      // this.$parent.$parent.globalData.text_color3 = true
       this.$parent.$parent.globalData.navAction = ['noAction', 'noAction', 'action', 'noAction']
       this.$emit('childFn', '/pages/shopping')
     },
     goUser() {
-      // this.$parent.$parent.globalData.text_color = true
-      // this.$parent.$parent.globalData.text_color1 = true
-      // this.$parent.$parent.globalData.text_color2 = true
-      // this.$parent.$parent.globalData.text_color3 = false
       this.$parent.$parent.globalData.navAction = ['noAction', 'noAction', 'noAction', 'action']
       this.$emit('childFn', '/pages/user')
     }
   };
   onLoad() {
-    // this.text_color = this.$parent.$parent.globalData.text_color
-    // this.text_color1 = this.$parent.$parent.globalData.text_color1
-    // this.text_color2 = this.$parent.$parent.globalData.text_color2
-    // this.text_color3 = this.$parent.$parent.globalData.text_color3
     this.navAction = this.$parent.$parent.globalData.navAction
     this.$apply()
   };
