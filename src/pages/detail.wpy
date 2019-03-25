@@ -169,14 +169,13 @@ export default class Detail extends wepy.page {
   // 去支付
   goOrder(e) {
     var id = e.currentTarget.dataset.id
-    // console.log(id)
     var goods = []
     let dataJson = ''
     dataJson = `{"product_id": ${id} ,"num": ${1}}`
     dataJson = JSON.parse(dataJson)
     goods.push(dataJson)
     goods = JSON.stringify(goods)
-    this.$navigate('/pages/pay?id=' + goods + '&totalPrice=' + this.shopping.price)
+    this.$navigate(`/pages/pay?id=${goods}&totalPrice=${this.shopping.price}`)
   }
   // 加入购物车
   addCart(e) {
