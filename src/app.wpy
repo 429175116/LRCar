@@ -1,12 +1,26 @@
 <style lang="less">
-.container {
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: space-between;
-  box-sizing: border-box;
+@font-face {
+  font-family: 'iconfont';  /* project id 1106191 */
+  src: url('//at.alicdn.com/t/font_1106191_uf1b2xb6hw.eot');
+  src: url('//at.alicdn.com/t/font_1106191_uf1b2xb6hw.eot?#iefix') format('embedded-opentype'),
+  url('//at.alicdn.com/t/font_1106191_uf1b2xb6hw.woff2') format('woff2'),
+  url('//at.alicdn.com/t/font_1106191_uf1b2xb6hw.woff') format('woff'),
+  url('//at.alicdn.com/t/font_1106191_uf1b2xb6hw.ttf') format('truetype'),
+  url('//at.alicdn.com/t/font_1106191_uf1b2xb6hw.svg#iconfont') format('svg');
 }
+
+.iconfont {
+  font-family:"iconfont" !important;
+  font-size: 50rpx;
+  font-style:normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-shouye:before { content: "\e607"; } // 首页
+.icon-leijiyuyue:before { content: "\e60a"; } // 预定洗车
+.icon-shangcheng:before { content: "\e72b"; } // 商城
+.icon-gerenyonghutouxiang:before { content: "\e7e4"; } // 我的
 </style>
 <script>
 import wepy from 'wepy'
