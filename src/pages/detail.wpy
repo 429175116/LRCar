@@ -45,11 +45,12 @@
   font-size: 26rpx;
   color:#4A4A4A;
 }
-.icon{
+.iconfont{
   width: 60rpx;
   height: 60rpx;
   margin-right: 20rpx;
   margin-left: 60rpx;
+  color: #C70101;
 }
 .centerText1{
   font-size: 26rpx;
@@ -60,11 +61,9 @@
 .bottom{
   padding: 20rpx 50rpx;
   font-size: 28rpx;
+  height: auto;
 }
 .btn{
-  position: fixed;
-  bottom: 160rpx;
-  left: 80rpx;
   width: 600rpx;
   background: #C70101;
   color: #fff;
@@ -72,7 +71,6 @@
   height: 80rpx;
   font-size: 30rpx;
   border-radius: 40rpx;
-  z-index: 555;
 }
 .comment{
   display: flex;
@@ -118,7 +116,7 @@
       </view>
       <view class="center">
         <view class="price">￥{{ shopping.price }}<text class="centerText">（剩余{{ shopping.storage }}件）</text></view>
-        <image src="../img/cart1.png" class="icon" @tap='addCart' data-id='{{shopping.id}}'/>
+        <view class="iconfont icon-gouwuchekong" @tap='addCart' data-id='{{shopping.id}}'></view>
         <view class="centerText1"> {{ shopping.sale_count }}人购买过</view>
       </view>
     </view>
@@ -150,7 +148,7 @@ import wepy from 'wepy'
 import nav from '../components/nav' // 底部导航
 export default class Detail extends wepy.page {
   config = {
-    navigationBarTitleText: '首页'
+    navigationBarTitleText: '详情'
   };
   // 生命组件ID
   components = {
@@ -159,12 +157,8 @@ export default class Detail extends wepy.page {
   };
   // alias example
   data = {
-    motto: 'Hello World',
     imgUrl: '',
     imgUrl2: '',
-    reserveList: null,
-    userInfo: null,
-    prompt: false,
     shopping: []
   };
   methods = {

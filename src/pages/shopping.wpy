@@ -83,10 +83,12 @@
   color: #C70101;
   font-size: 28rpx;
 }
-.cart{
+.iconfont{
   width: 40rpx;
   height: 40rpx;
   margin-top: 10rpx;
+  color: #C70101;
+  font-size: 28rpx;
 }
 .commodityBottom1{
   display: flex;
@@ -160,7 +162,6 @@
       </repeat>
     </view>
     <view>
-    <!-- <view class="{{selected0?'show':'hidden'}}"> -->
       <view class="no_order" wx:if="{{shoppingList.length==0}}">暂无数据</view>
       <view wx:else class="commodity">
         <repeat for="{{shoppingList}}" for-item="item" key='index'>
@@ -170,7 +171,7 @@
             <view class="commodityView">{{ item.name }}</view>
             <view class="commodityBottom">
               <view class="btn">￥{{ item.price }}</view>
-              <image src="../img/cart1.png" class="cart" @tap='goCart' data-id='{{item.id}}'>
+              <view class="iconfont icon-gouwuchekong" @tap='goCart' data-id='{{item.id}}'></view>
             </view>
             <view class="commodityBottom1">
               <view class="btn1">剩余:{{ item.storage }}</view>
@@ -183,7 +184,7 @@
               <view class="commodityView1">{{ item.name }}</view>
               <view class="commodityBottom2">
                 <view class="btn">￥{{ item.price }}</view>
-                <image src="../img/cart1.png" class="cart" @tap='goCart' data-id='{{item.id}}'>
+                <view class="iconfont icon-gouwuchekong" @tap='goCart' data-id='{{item.id}}'></view>
               </view>
               <view class="commodityBottom3">
                 <view class="btn1">剩余:{{ item.storage }}</view>
@@ -236,7 +237,7 @@ export default class Shopping extends wepy.page {
     // 产品详情
     goDetail(e) {
       var id = e.currentTarget.dataset.id
-      this.$navigate('/pages/detail?id=' + id)
+      this.$navigate(`/pages/detail?id=${id}`)
     },
     selected(e) {
       var id = e.currentTarget.dataset.id

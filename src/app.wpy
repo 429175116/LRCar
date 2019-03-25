@@ -76,7 +76,7 @@ export default class extends wepy.app {
       'pages/myOrder', // 账单
       'pages/address', // 新建地址
       'pages/addressList', // 地址列表
-      'pages/detail', // 首页
+      'pages/detail', // 商品详情
       'pages/user', // 个人中心
       'pages/pay', // 支付
       'pages/shopping', // 商城
