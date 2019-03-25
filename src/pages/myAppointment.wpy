@@ -13,6 +13,10 @@
 </style>
 <template>
   <view class="all">
+    <view class="no_order" wx:if="{{couponList.length==0}}">
+      <icon class="iconfont icon-kong"></icon>
+      暂无数据
+    </view>
     <repeat for='{{ couponList }}' for-item='item' key='index'>
       <view class="main">
         <view>预约人：{{ item.appointment_person }}</view>

@@ -1,12 +1,12 @@
 <style lang="less">
 @font-face {
   font-family: 'iconfont';  /* project id 1106191 */
-  src: url('//at.alicdn.com/t/font_1106191_uf1b2xb6hw.eot');
-  src: url('//at.alicdn.com/t/font_1106191_uf1b2xb6hw.eot?#iefix') format('embedded-opentype'),
-  url('//at.alicdn.com/t/font_1106191_uf1b2xb6hw.woff2') format('woff2'),
-  url('//at.alicdn.com/t/font_1106191_uf1b2xb6hw.woff') format('woff'),
-  url('//at.alicdn.com/t/font_1106191_uf1b2xb6hw.ttf') format('truetype'),
-  url('//at.alicdn.com/t/font_1106191_uf1b2xb6hw.svg#iconfont') format('svg');
+  src: url('//at.alicdn.com/t/font_1106191_j9u9e8uzcnc.eot');
+  src: url('//at.alicdn.com/t/font_1106191_j9u9e8uzcnc.eot?#iefix') format('embedded-opentype'),
+  url('//at.alicdn.com/t/font_1106191_j9u9e8uzcnc.woff2') format('woff2'),
+  url('//at.alicdn.com/t/font_1106191_j9u9e8uzcnc.woff') format('woff'),
+  url('//at.alicdn.com/t/font_1106191_j9u9e8uzcnc.ttf') format('truetype'),
+  url('//at.alicdn.com/t/font_1106191_j9u9e8uzcnc.svg#iconfont') format('svg');
 }
 
 .iconfont {
@@ -30,7 +30,16 @@
 .icon-zhangdan:before { content: "\e65c"; } // 账单
 .icon-daifukuan:before { content: "\e68f"; } // 待付款
 .icon-daishouhuo:before { content: "\e61b"; } // 待收货
+.icon-chahao:before { content: "\e617"; } // 叉号
+.icon-kong:before { content: "\e708"; } // 叉号
 
+
+.no_order {
+  text-align: center;
+  margin-top: 200rpx;
+  color: #292929;
+  font-size: 28rpx;
+}
 </style>
 <script>
 import wepy from 'wepy'

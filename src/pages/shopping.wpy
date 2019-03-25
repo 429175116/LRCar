@@ -162,7 +162,10 @@
       </repeat>
     </view>
     <view>
-      <view class="no_order" wx:if="{{shoppingList.length==0}}">暂无数据</view>
+      <view class="no_order" wx:if="{{shoppingList.length==0}}">
+        <icon class="iconfont icon-kong"></icon>
+        暂无数据
+      </view>
       <view wx:else class="commodity">
         <repeat for="{{shoppingList}}" for-item="item" key='index'>
           <!-- 推荐 -->

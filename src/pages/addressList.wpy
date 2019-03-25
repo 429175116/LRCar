@@ -47,8 +47,8 @@
   margin: auto;
 }
 .delete{
-  width: 30rpx;
-  height: 30rpx;
+  width: 50rpx;
+  height: 50rpx;
 }
 .address {
   font-size:24rpx;
@@ -71,7 +71,10 @@
 <!-- 收货地址列表页面 -->
   <view class="all">
     <!-- 地址显示列表 -->
-    <view class="noCommodity" wx:if="{{ addressList.length==0 }}">暂无收货地址</view>
+    <view class="noCommodity" wx:if="{{ addressList.length==0 }}">
+      <icon class="iconfont icon-kong"></icon>
+      暂无收货地址
+    </view>
     <view wx:else>
       <repeat for="{{ addressList }}" item="item">
         <view class='goods_main_list' @tap="order" data-id="{{ item.id }}">
@@ -80,7 +83,7 @@
           <view class='goods_title' id="{{ item.id }}">
             <view class='userRess'>地址：{{ item.area + item.address }}</view>
           </view>
-          <image src='../img/delete.jpg' class='delete' @tap='deleteList' data-id="{{ item.id }}" />
+          <view class="delete iconfont icon-chahao" @tap='deleteList' data-id="{{ item.id }}"></view>
         </view>
       </repeat>
     </view>

@@ -184,7 +184,7 @@
       <view class="usersRight">
         <view class="usersRightView">昵称：{{userInfo.nick_name}}</view>
         <view class="usersRightView">电话：{{userInfo.mobile}}</view>
-        <!-- <view class="usersRightView">userInfonickName</view> -->
+        <view class="usersRightView">车牌号：{{userInfo.mobile}}</view>
         <view class="usersRightView1"></view>
         <!-- <view class="usersRightView">高新区外来大厦高新区外来大厦</view> -->
       </view>
