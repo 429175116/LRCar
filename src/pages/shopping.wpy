@@ -153,149 +153,14 @@
   <view class="all">
     <view class="index_menu_list">
       <repeat for="{{ typeList }}" for-item='item' key='index'>
-        <view class="{{selected+index?'swiper-tab-item':'swiper-tab-item'}}" @tap="selected{{index}}" data-type="{{item.id}}">
+        <view class="{{selected+index?'swiper-tab-item':'swiper-tab-item'}}" @tap="selected" data-id="{{item.id}}">
           <image src="{{ imgUrl2 + item.img }}" class="index_menu_img"/>
           <view class="{{ selected+index?'active':''}}">{{ item.name }}</view>
         </view>
       </repeat>
     </view>
-    <view class="{{selected0?'show':'hidden'}}">
-      <view class="no_order" wx:if="{{shoppingList.length==0}}">暂无数据</view>
-      <view wx:else class="commodity">
-        <repeat for="{{shoppingList}}" for-item="item" key='index'>
-          <!-- 推荐 -->
-          <view class="commodityTitle" wx:if='{{index!=2}}'>
-            <image src='{{  imgUrl2 + item.img  }}' class="commodityImg" @tap="goDetail" data-id='{{item.id}}'>
-            <view class="commodityView">{{ item.name }}</view>
-            <view class="commodityBottom">
-              <view class="btn">￥{{ item.price }}</view>
-              <image src="../img/cart1.png" class="cart" @tap='goCart' data-id='{{item.id}}'>
-            </view>
-            <view class="commodityBottom1">
-              <view class="btn1">剩余:{{ item.storage }}</view>
-              <text><text style="color:#7ecef4">{{ item.sale_count }}</text>人购买过</text>
-            </view>
-          </view>
-          <view class="commodityTitle1" wx:else>
-            <image src='{{ imgUrl2 + item.img }}' class="commodityImg1"  @tap="goDetail" data-id='{{item.id}}'>
-            <view class="right">
-              <view class="commodityView1">{{ item.name }}</view>
-              <view class="commodityBottom2">
-                <view class="btn">￥{{ item.price }}</view>
-                <image src="../img/cart1.png" class="cart" @tap='goCart' data-id='{{item.id}}'>
-              </view>
-              <view class="commodityBottom3">
-                <view class="btn1">剩余:{{ item.storage }}</view>
-                <text><text style="color:#7ecef4">{{ item.sale_count }}</text>人购买过</text>
-              </view>
-            </view>
-          </view>
-        </repeat>
-      </view>
-    </view>
-    <view class="{{selected1?'show':'hidden'}}">
-      <view class="no_order" wx:if="{{shoppingList.length==0}}">暂无数据</view>
-      <view wx:else class="commodity">
-        <repeat for="{{shoppingList}}" for-item="item" key='index'>
-          <!-- 推荐 -->
-          <view class="commodityTitle" wx:if='{{index!=2}}'>
-            <image src='{{  imgUrl2 + item.img  }}' class="commodityImg" @tap="goDetail" data-id='{{item.id}}'>
-            <view class="commodityView">{{ item.name }}</view>
-            <view class="commodityBottom">
-              <view class="btn">￥{{ item.price }}</view>
-              <image src="../img/cart1.png" class="cart" @tap='goCart' data-id='{{item.id}}'>
-            </view>
-            <view class="commodityBottom1">
-              <view class="btn1">剩余:{{ item.storage }}</view>
-              <text><text style="color:#7ecef4">{{ item.sale_count }}</text>人购买过</text>
-            </view>
-          </view>
-          <view class="commodityTitle1" wx:else>
-            <image src='{{ imgUrl2 + item.img }}' class="commodityImg1"  @tap="goDetail" data-id='{{item.id}}'>
-            <view class="right">
-              <view class="commodityView1">{{ item.name }}</view>
-              <view class="commodityBottom2">
-                <view class="btn">￥{{ item.price }}</view>
-                <image src="../img/cart1.png" class="cart" @tap='goCart' data-id='{{item.id}}'>
-              </view>
-              <view class="commodityBottom3">
-                <view class="btn1">剩余:{{ item.storage }}</view>
-                <text><text style="color:#7ecef4">{{ item.sale_count }}</text>人购买过</text>
-              </view>
-            </view>
-          </view>
-        </repeat>
-      </view>
-    </view>
-    <view class="{{selected2?'show':'hidden'}}">
-      <view class="no_order" wx:if="{{shoppingList.length==0}}">暂无数据</view>
-      <view wx:else class="commodity">
-        <repeat for="{{shoppingList}}" for-item="item" key='index'>
-          <!-- 推荐 -->
-          <view class="commodityTitle" wx:if='{{index!=2}}'>
-            <image src='{{  imgUrl2 + item.img  }}' class="commodityImg" @tap="goDetail" data-id='{{item.id}}'>
-            <view class="commodityView">{{ item.name }}</view>
-            <view class="commodityBottom">
-              <view class="btn">￥{{ item.price }}</view>
-              <image src="../img/cart1.png" class="cart" @tap='goCart' data-id='{{item.id}}'>
-            </view>
-            <view class="commodityBottom1">
-              <view class="btn1">剩余:{{ item.storage }}</view>
-              <text><text style="color:#7ecef4">{{ item.sale_count }}</text>人购买过</text>
-            </view>
-          </view>
-          <view class="commodityTitle1" wx:else>
-            <image src='{{ imgUrl2 + item.img }}' class="commodityImg1"  @tap="goDetail" data-id='{{item.id}}'>
-            <view class="right">
-              <view class="commodityView1">{{ item.name }}</view>
-              <view class="commodityBottom2">
-                <view class="btn">￥{{ item.price }}</view>
-                <image src="../img/cart1.png" class="cart" @tap='goCart' data-id='{{item.id}}'>
-              </view>
-              <view class="commodityBottom3">
-                <view class="btn1">剩余:{{ item.storage }}</view>
-                <text><text style="color:#7ecef4">{{ item.sale_count }}</text>人购买过</text>
-              </view>
-            </view>
-          </view>
-        </repeat>
-      </view>
-    </view>
-    <view class="{{selected3?'show':'hidden'}}">
-      <view class="no_order" wx:if="{{shoppingList.length==0}}">暂无数据</view>
-      <view wx:else class="commodity">
-        <repeat for="{{shoppingList}}" for-item="item" key='index'>
-          <!-- 推荐 -->
-          <view class="commodityTitle" wx:if='{{index!=2}}'>
-            <image src='{{  imgUrl2 + item.img  }}' class="commodityImg" @tap="goDetail" data-id='{{item.id}}'>
-            <view class="commodityView">{{ item.name }}</view>
-            <view class="commodityBottom">
-              <view class="btn">￥{{ item.price }}</view>
-              <image src="../img/cart1.png" class="cart" @tap='goCart' data-id='{{item.id}}'>
-            </view>
-            <view class="commodityBottom1">
-              <view class="btn1">剩余:{{ item.storage }}</view>
-              <text><text style="color:#7ecef4">{{ item.sale_count }}</text>人购买过</text>
-            </view>
-          </view>
-          <view class="commodityTitle1" wx:else>
-            <image src='{{ imgUrl2 + item.img }}' class="commodityImg1"  @tap="goDetail" data-id='{{item.id}}'>
-            <view class="right">
-              <view class="commodityView1">{{ item.name }}</view>
-              <view class="commodityBottom2">
-                <view class="btn">￥{{ item.price }}</view>
-                <image src="../img/cart1.png" class="cart" @tap='goCart' data-id='{{item.id}}'>
-              </view>
-              <view class="commodityBottom3">
-                <view class="btn1">剩余:{{ item.storage }}</view>
-                <text><text style="color:#7ecef4">{{ item.sale_count }}</text>人购买过</text>
-              </view>
-            </view>
-          </view>
-        </repeat>
-      </view>
-    </view>
-    <view class="{{selected4?'show':'hidden'}}">
+    <view>
+    <!-- <view class="{{selected0?'show':'hidden'}}"> -->
       <view class="no_order" wx:if="{{shoppingList.length==0}}">暂无数据</view>
       <view wx:else class="commodity">
         <repeat for="{{shoppingList}}" for-item="item" key='index'>
@@ -373,55 +238,9 @@ export default class Shopping extends wepy.page {
       var id = e.currentTarget.dataset.id
       this.$navigate('/pages/detail?id=' + id)
     },
-    // 切换页面
-    selected0(e) {
-      var type = e.currentTarget.dataset.type
-      this.selected1 = false
-      this.selected2 = false
-      this.selected3 = false
-      this.selected4 = false
-      this.selected0 = true
-      this.clickTab(type)
-    },
-    // 切换页面
-    selected1(e) {
-      var type = e.currentTarget.dataset.type
-      this.selected0 = false
-      this.selected1 = true
-      this.selected2 = false
-      this.selected3 = false
-      this.selected4 = false
-      this.clickTab(type)
-    },
-    // 切换页面
-    selected2(e) {
-      var type = e.currentTarget.dataset.type
-      this.selected0 = false
-      this.selected1 = false
-      this.selected2 = true
-      this.selected3 = false
-      this.selected4 = false
-      this.clickTab(type)
-    },
-    // 切换页面
-    selected3(e) {
-      var type = e.currentTarget.dataset.type
-      this.selected0 = false
-      this.selected1 = false
-      this.selected2 = false
-      this.selected3 = true
-      this.selected4 = false
-      this.clickTab(type)
-    },
-    // 切换页面
-    selected4(e) {
-      var type = e.currentTarget.dataset.type
-      this.selected0 = false
-      this.selected1 = false
-      this.selected2 = false
-      this.selected3 = false
-      this.selected4 = true
-      this.clickTab(type)
+    selected(e) {
+      var id = e.currentTarget.dataset.id
+      this.clickTab(id)
     }
   };
   // 加入购物车
@@ -462,9 +281,7 @@ export default class Shopping extends wepy.page {
   };
   async onReachBottom() {
     if (!this.getUrl) {
-      this.prompt = false
-      this.$apply()
-      return
+      return ''
     }
     await wx.request({
       url: this.getUrl,
@@ -475,30 +292,14 @@ export default class Shopping extends wepy.page {
           // 将新的请求结果加入原有数组  concat连接两个或更多的数组，并返回结果。
           this.shoppingList = this.shoppingList.concat(shoppingList)
           // 更新下一页请求地址
+          this.getUrl = ''
           this.getUrl = data.data.data.products.data.meta.pagination.links.next
+          this.$apply()
         }
       }
     })
   };
-  clickTab(type) {
-    wx.request({
-      url: `${this.$parent.globalData.requestUrl}/categoryForProduct`,
-      method: 'GET',
-      data: {
-        category_id: type
-      },
-      success: data => {
-        if (data.statusCode === 200) {
-          let dataa = data.data.data
-          this.shoppingList = dataa.products.data
-          // console.log(this.shoppingList)
-          this.$apply()
-          this.getUrl = data.data.data.products.meta.pagination.links.next
-          this.indexs = data.data.data.products.meta.pagination.current_page
-        }
-      }
-    })
-  }
+  
   onLoad(options) {
     this.imgUrl = this.$parent.globalData.imgUrl
     this.imgUrl2 = this.$parent.globalData.imgUrl2
@@ -507,10 +308,36 @@ export default class Shopping extends wepy.page {
       url: `${this.$parent.globalData.requestUrl}/categoryList`,
       method: 'GET',
       success: data => {
-        let dataa = data.data.data
+        console.log(data)
         if (data.statusCode === 200) {
-          this.typeList = dataa.data
-          this.clickTab(1)
+          data = data.data.data
+          this.typeList = data.data
+          if (this.typeList.length > 0) {
+            this.clickTab(this.typeList[0].id)
+          }
+          this.$apply()
+        }
+      }
+    })
+  }
+
+  clickTab(id) {
+    wx.request({
+      url: `${this.$parent.globalData.requestUrl}/categoryForProduct`,
+      method: 'GET',
+      data: {
+        category_id: id
+      },
+      success: data => {
+        if (data.statusCode === 200) {
+          data = data.data.data
+          this.shoppingList = data.products.data
+          this.getUrl = ''
+          this.indexs = ''
+          // if (data.products.meta.pagination) {
+            this.getUrl = data.products.meta.pagination.links.next
+            this.indexs = data.products.meta.pagination.current_page
+          // }
           this.$apply()
         }
       }
