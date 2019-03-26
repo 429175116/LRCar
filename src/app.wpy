@@ -1,12 +1,12 @@
 <style lang="less">
 @font-face {
   font-family: 'iconfont';  /* project id 1106191 */
-  src: url('//at.alicdn.com/t/font_1106191_j9u9e8uzcnc.eot');
-  src: url('//at.alicdn.com/t/font_1106191_j9u9e8uzcnc.eot?#iefix') format('embedded-opentype'),
-  url('//at.alicdn.com/t/font_1106191_j9u9e8uzcnc.woff2') format('woff2'),
-  url('//at.alicdn.com/t/font_1106191_j9u9e8uzcnc.woff') format('woff'),
-  url('//at.alicdn.com/t/font_1106191_j9u9e8uzcnc.ttf') format('truetype'),
-  url('//at.alicdn.com/t/font_1106191_j9u9e8uzcnc.svg#iconfont') format('svg');
+  src: url('//at.alicdn.com/t/font_1106191_r93mjtoehed.eot');
+  src: url('//at.alicdn.com/t/font_1106191_r93mjtoehed.eot?#iefix') format('embedded-opentype'),
+  url('//at.alicdn.com/t/font_1106191_r93mjtoehed.woff2') format('woff2'),
+  url('//at.alicdn.com/t/font_1106191_r93mjtoehed.woff') format('woff'),
+  url('//at.alicdn.com/t/font_1106191_r93mjtoehed.ttf') format('truetype'),
+  url('//at.alicdn.com/t/font_1106191_r93mjtoehed.svg#iconfont') format('svg');
 }
 
 .iconfont {
@@ -26,12 +26,12 @@
 .icon-location:before { content: "\e611"; } // 地址
 .icon-huangguan:before { content: "\e6a7"; } // 会员
 .icon-service:before { content: "\e7bb"; } // 联系我们
-.icon-gouwuchekong:before { content: "\e600"; } // 购物车
+.icon-gouwuchekong:before { content: "\e78f"; } // 购物车
 .icon-zhangdan:before { content: "\e65c"; } // 账单
 .icon-daifukuan:before { content: "\e68f"; } // 待付款
 .icon-daishouhuo:before { content: "\e61b"; } // 待收货
 .icon-chahao:before { content: "\e617"; } // 叉号
-.icon-kong:before { content: "\e708"; } // 叉号
+.icon-kong:before { content: "\e708"; } // 空箱子
 
 
 .no_order {
@@ -95,9 +95,9 @@ export default class extends wepy.app {
     ],
     window: {
       backgroundTextStyle: 'light',
-      navigationBarBackgroundColor: '#fff',
+      navigationBarBackgroundColor: '#222121',
       navigationBarTitleText: 'WeChat',
-      navigationBarTextStyle: 'black'
+      navigationBarTextStyle: 'white'
     }
   }
   // -----json部分结束-----
