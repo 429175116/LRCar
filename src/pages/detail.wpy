@@ -1,118 +1,111 @@
 <style lang="less">
-.all{
-  margin-bottom: 140rpx;
-}
-.main{
-  margin: 40rpx;
-  background: #FAF9F9;
-  text-align: center;
-  border: 1px solid #eee;
-  border-radius: 20rpx;
-}
-.img{
-  margin: 40rpx auto;
-  width: 440rpx;
-  height: 550rpx;
-  border-radius: 20rpx;
-  border: 2rpx solid #eee;
-  padding: 20rpx 40rpx;
-}
-.imgs{
-  width: 100%;
-  height: 540rpx;
-  border-radius: 20rpx;
-}
-.centerTitle{
-  font-size: 36rpx;
-  text-align: left;
-  margin-top: 40rpx;
-}
-.centerView{
-  font-size: 30rpx;
-  text-align: left;
-}
-.center{
-  display: flex;
-  justify-content: space-between;
-  margin-top: 120rpx;
-}
-.price{
-  width: 320rpx;
-  color: #C70101;
-  font-size: 40rpx;
-}
-.centerText{
-  font-size: 26rpx;
-  color:#4A4A4A;
-}
-.icon{
-  width: 60rpx;
-  height: 60rpx;
-  margin-right: 20rpx;
-  margin-left: 60rpx;
-  color: #C70101;
-}
-.centerText1{
-  font-size: 26rpx;
-  margin-top: 10rpx;
-  color:#333;
-  margin-right: 20rpx;
-}
-.bottom{
-  padding: 20rpx 50rpx;
-  font-size: 28rpx;
-  height: auto;
-}
-.btn{
-  width: 600rpx;
-  background: #C70101;
-  color: #fff;
-  line-height: 80rpx;
-  height: 80rpx;
-  font-size: 30rpx;
-  border-radius: 40rpx;
-}
-.comment{
-  display: flex;
-  margin: 40rpx;
-  font-size: 24rpx;
-}
-.comment_left{
-  width: 420rpx;
-  display: flex;
-}
-.comment_left image{
-  width: 50rpx;
-  height: 50rpx;
-  margin-right: 20rpx;
-  border-radius: 50%;
-}
-.comment_center{
-  width: 600rpx;
-  font-size: 24rpx;
-  margin-left: 60rpx;
-}
-.comment_right{
-  width: 300rpx;
-}
-.imgList{
-  display: flex;
-  flex-wrap: wrap;
-}
-.imgList image{
-  width: 100rpx;
-  height: 100rpx;
-  margin-right: 40rpx;
-  margin-bottom: 20rpx;
-}
+  page{
+    background-color: #f9f9f9;
+  }
+  .swiper{
+    width: 750rpx;
+    height: 500rpx;
+  }
+  .swiper image{
+    width: 100%;
+    height: 100%;
+  }
+  .info{
+    width: 750rpx;
+    height: auto;
+    background-color: #fff;
+  }
+  .price{
+    width: 690rpx;
+    height: 105rpx;
+    line-height: 105rpx;
+    padding: 0 30rpx;
+    font-size: 50rpx;
+    color: #EE6667;
+  }
+  .name{
+    width: 690rpx;
+    padding: 0 30rpx 30rpx 30rpx;
+    font-size: 32rpx;
+    color: #282828;
+    font-weight: 600;
+    
+  }
+  .description{
+    width: 690rpx;
+    padding: 0 30rpx 30rpx 30rpx;
+    font-size: 28rpx;
+    color: #7a7a7a;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .commodityInfoImg{
+    margin-bottom: 110rpx;
+  }
+  .commodityInfoImg, .commodityInfoImg image{
+    display: block;
+  }
+  .perating{
+    position: fixed;
+    bottom: 0rpx;
+    width: 750rpx;
+    height: 97rpx;
+  }
+  .perating, .perating view{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .perating view{
+    width: 375rpx;
+    height: 97rpx;
+    background-color: #fff;
+    color: #333;
+    font-size: 30rpx;
+  }
+  .perating .seCar{
+    background-color: #EE6667;
+    color: #fff;
+  }
 </style>
 <template>
-  <view class="all">
+  <view>
+    <swiper class="swiper" indicator-dots="{{indicatorDots}}" autoplay="{{autoplay}}" interval="{{interval}}" duration="{{duration}}">
+      <swiper-item>
+        <image src="{{ imgUrl2 + shopping.img }}" class="slide-image" width="355" height="150" />
+      </swiper-item>
+    </swiper>
+  </view>
+  <view class="info">
+    <view class="price">￥{{shopping.price}}</view>
+    <view class="name">{{shopping.name}}</view>
+    <view class="description">
+      <view>剩余{{ shopping.storage }}件</view>
+      <view>{{ shopping.sale_count }}人购买过</view>
+    </view>
+    <!-- <view class="name">{{shopping.comment}}</view> -->
+    <view class="description">{{shopping.description}}</view>
+  </view>
+  <view class="commodityInfoImg">
+    <repeat for="{{shopping.imgs}}" key="{{index}}" item="item">
+      <image src="{{imgUrl2 + item.img}}" data-index="{{index}}" style="width:{{autoW[index]}}px;height:{{autoH[index]}}px" bindload='autoImage' />
+      <!-- <image src="{{imgUrl2 + item.img}}" /> -->
+    </repeat>
+  </view>
+  <view class="perating">
+    <view class="" @tap='goOrder' data-id='{{shopping.id}}'>立即购买</view>
+    <view class="seCar" @tap='addCart' data-id='{{shopping.id}}'>加入购物车</view>
+  </view>
+
+  <!-- <view class="all">
+    <image src="{{ imgUrl2 + shopping.img }}" class="bann"/>
     <view class="main">
       <view class="img">
-        <image src="{{ imgUrl2 + shopping.img }}" class="imgs"/>
+        
         <view class="centerTitle">{{ shopping.name }}</view>
-      <!-- <view class="centerView">陕西利仁汽车美容服务中心</view> -->
+      <view class="centerView">陕西利仁汽车美容服务中心</view>
       </view>
       <view class="center">
         <view class="price">￥{{ shopping.price }}<text class="centerText">（剩余{{ shopping.storage }}件）</text></view>
@@ -139,6 +132,7 @@
       </view>
     </repeat>
     <button class="btn" @tap='goOrder' data-id='{{shopping.id}}'>立即购买</button>
+  </view> -->
   </view>
 </template>
 
@@ -156,10 +150,44 @@ export default class Detail extends wepy.page {
   data = {
     imgUrl: '',
     imgUrl2: '',
-    shopping: []
+    shopping: [],
+    userInfo: null,
+    id: '',
+    name: '',
+    depict: '',
+    img: '',
+    detail:'',
+    money: '',
+    address_id: '',
+    indicatorDots: false,
+    autoplay: true,
+    interval: 3000,
+    duration: 1000,
+    autoW: [],
+    autoH: []
   };
   methods = {
-    
+    autoImage(e) {
+      // 获取图片的宽高
+      let index = e.currentTarget.dataset.index
+      var imgW = e.detail.width
+      var imgH = e.detail.height
+      // 计算图片比例
+      var imgScale = imgW / imgH
+      // 声明自适应宽高变量
+      var autoW = ''
+      var autoH = ''
+      // 获取屏幕宽度，并将图片设置为屏幕等宽
+      wx.getSystemInfo({
+        success: res => {
+          autoW = res.windowWidth
+          autoH = autoW / imgScale
+          this.autoW[index] = autoW
+          this.autoH[index] = autoH
+          this.$apply()
+        }
+      })
+    }
   };
   // 去支付
   goOrder(e) {
