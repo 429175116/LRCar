@@ -130,7 +130,6 @@
         <button class="btn1" formType="submit">确定预约</button>
       </view>
     </form>
-    <nav @childFn.user="goPage" />
   </view>
 </template>
 
@@ -144,8 +143,7 @@ export default class AppointmentDetail extends wepy.page {
   };
   // 生命组件ID
   components = {
-    // 底部导航
-    nav: nav
+    
   };
   mixins = [check]
   data = {
@@ -210,9 +208,6 @@ export default class AppointmentDetail extends wepy.page {
     ]
   };
   methods = {
-    goPage(url, evt) {
-      this.$redirect(url)
-    },
     // 预约提交
     appointmentMsg(e) {
        // 名字

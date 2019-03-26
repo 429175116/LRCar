@@ -120,7 +120,6 @@
         </repeat>
       </view>
     </view>
-    <nav @childFn.user="goPage" />
   </view>
 </template>
 <script>
@@ -133,8 +132,7 @@ export default class EvaluateList extends wepy.page {
   };
   // 生命组件ID
   components = {
-    // 底部导航
-    nav: nav
+    
   };
   // alias example
   data = {
@@ -146,9 +144,6 @@ export default class EvaluateList extends wepy.page {
   methods = {
     bindViewTap() {
       console.log('button clicked')
-    },
-    goPage(url, evt) {
-      this.$redirect(url)
     },
     goEvaluate(e) {
       var id = e.currentTarget.dataset.id

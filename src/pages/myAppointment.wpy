@@ -27,12 +27,10 @@
         <view>预约店铺地址：{{ item.shop.address }}</view>
       </view>
     </repeat>
-    <nav @childFn.user="goPage" />
   </view>
 </template>
 <script>
 import wepy from 'wepy'
-import nav from '../components/nav' // 底部导航
 export default class myAppointment extends wepy.page {
   // 页面配置
   config = {
@@ -40,8 +38,7 @@ export default class myAppointment extends wepy.page {
   };
   // 生命组件ID
   components = {
-    // 底部导航
-    nav: nav
+    
   };
   data = {
     isShowFrom3: false,
@@ -51,9 +48,6 @@ export default class myAppointment extends wepy.page {
   methods = {
     bindViewTap() {
       console.log('button clicked')
-    },
-    goPage(url, evt) {
-      this.$redirect(url)
     },
     coupon (e) {
       if (this.coupon === true) {

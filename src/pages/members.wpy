@@ -47,12 +47,10 @@
       </view>
     </repeat>
     <view wx:if="{{user.vip_status != 'not_vip'}}" class="vip_status">您已成功购买会员，截至日期为{{user.vip_dead_line}}</view>
-    <nav @childFn.user="goPage" />
   </view>
 </template>
 <script>
 import wepy from 'wepy'
-import nav from '../components/nav' // 底部导航
 export default class Members extends wepy.page {
   // 页面配置
   config = {
@@ -60,8 +58,7 @@ export default class Members extends wepy.page {
   };
   // 生命组件ID
   components = {
-    // 底部导航
-    nav: nav
+    
   };
   data = {
     couponList: [],
@@ -70,9 +67,6 @@ export default class Members extends wepy.page {
   methods = {
     bindViewTap() {
       console.log('button clicked')
-    },
-    goPage(url, evt) {
-      this.$redirect(url)
     },
     goMemberMsg(e) {
       var id = e.currentTarget.dataset.id

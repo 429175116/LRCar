@@ -124,12 +124,10 @@ textarea{
       </view>
     </view>
     <button class="save-btn" @tap="evaluate">评价</button>
-    <nav @childFn.user="goPage" />
   </view>
 </template>
 <script>
 import wepy from 'wepy'
-import nav from '../components/nav' // 底部导航
 export default class evaluate extends wepy.page {
   // 页面配置
   config = {
@@ -137,8 +135,7 @@ export default class evaluate extends wepy.page {
   };
   // 生命组件ID
   components = {
-    // 底部导航
-    nav: nav
+    
   };
   data = {
     star: 0,
@@ -154,9 +151,6 @@ export default class evaluate extends wepy.page {
   methods = {
     bindViewTap() {
       console.log('button clicked')
-    },
-    goPage(url, evt) {
-      this.$redirect(url)
     },
     myStarChoose(e) {
       let star = parseInt(e.target.dataset.star) || 0

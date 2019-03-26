@@ -106,13 +106,11 @@ page{
         <button class="mod_btn" formType="submit">确认</button>
       </view>
     </form>
-    <nav @childFn.user="goPage" />
   </view>
 </template>
 
 <script>
 import wepy from 'wepy'
-import nav from '../components/nav' // 底部导航
 import citys from '../mixins/citys'
 import check from '../mixins/check'
 export default class Newaddss extends wepy.page {
@@ -122,8 +120,6 @@ export default class Newaddss extends wepy.page {
   };
   // 生命组件ID
   components = {
-  // 底部导航
-    nav: nav
   };
   // alias example
   data = {
@@ -139,11 +135,6 @@ export default class Newaddss extends wepy.page {
   };
 
   methods = {
-    // 底部导航跳转
-    goPage (url, evt) {
-      // 销毁当前页{跳转}
-      this.$redirect(url)
-    },
     bindRegionChange: function (e) {
       this.region = e.detail.value
       let area = ''

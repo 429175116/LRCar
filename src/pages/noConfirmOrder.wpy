@@ -134,12 +134,10 @@
         </repeat>
       </view>
     </view>
-    <nav @childFn.user="goPage" />
   </view>
 </template>
 <script>
 import wepy from 'wepy'
-import nav from '../components/nav' // 底部导航
 export default class NoConfirmOrder extends wepy.page {
   // 页面配置
   config = {
@@ -147,8 +145,7 @@ export default class NoConfirmOrder extends wepy.page {
   };
   // 生命组件ID
   components = {
-    // 底部导航
-    nav: nav
+    
   };
   // alias example
   data = {
@@ -163,9 +160,6 @@ export default class NoConfirmOrder extends wepy.page {
   methods = {
     bindViewTap() {
       console.log('button clicked')
-    },
-    goPage(url, evt) {
-      this.$redirect(url)
     }
   };
   comfirm(e) {

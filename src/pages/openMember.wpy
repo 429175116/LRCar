@@ -83,20 +83,17 @@ picker {
         </view>
         <button class="save-btn" formType="submit">提交</button>
     </form>
-    <nav @childFn.user="goPage" />
   </view>
 </template>
 <script>
 import wepy from 'wepy'
-import nav from '../components/nav' // 底部导航
 import check from '../mixins/check' // 校验封装
 export default class OpenMember extends wepy.page {
   config = {
     navigationBarTitleText: '开通会员'
   };
   components = {
-    // 底部导航
-    nav: nav
+    
   };
   mixins = [check]
   data = {
@@ -113,9 +110,6 @@ export default class OpenMember extends wepy.page {
     },
     goDetail() {
       this.$emit('childFn', '/pages/detail')
-    },
-    goPage(url, evt) {
-      this.$redirect(url)
     },
     // 选择时间
     bindTimeChange(e) {

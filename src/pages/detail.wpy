@@ -139,21 +139,18 @@
       </view>
     </repeat>
     <button class="btn" @tap='goOrder' data-id='{{shopping.id}}'>立即购买</button>
-    <nav @childFn.user="goPage" />
   </view>
 </template>
 
 <script>
 import wepy from 'wepy'
-import nav from '../components/nav' // 底部导航
 export default class Detail extends wepy.page {
   config = {
     navigationBarTitleText: '详情'
   };
   // 生命组件ID
   components = {
-    // 底部导航
-    nav: nav
+    
   };
   // alias example
   data = {
@@ -162,9 +159,7 @@ export default class Detail extends wepy.page {
     shopping: []
   };
   methods = {
-    goPage(url, evt) {
-      this.$redirect(url)
-    }
+    
   };
   // 去支付
   goOrder(e) {
