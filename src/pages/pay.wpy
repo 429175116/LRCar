@@ -1,153 +1,230 @@
 <style>
-.all {
-  margin-bottom: 100rpx;
-}
-.no_order {
-  text-align: center;
-  margin-top: 200rpx;
-  color: #292929;
-  font-size: 28rpx;
-}
-.commodity {
-  margin: 20rpx;
-}
-.cart{
-  width: 40rpx;
-  height: 40rpx;
-  margin-top: 10rpx;
-}
-.commodityTitle1{
-  width: 500rpx;
-  margin-top: 20rpx;
-  padding: 20rpx;
-  display: flex;
-  justify-content: space-between;
-  width: 98%;
-  border: 2rpx solid #FAF9F9;
-  border-radius: 20rpx;
-  box-sizing: border-box;
-  background: #FAF9F9;
-}
-.commodityImg1{
-  width: 210rpx;
-  height: 270rpx;
-  border: 2rpx solid #faf9f9;
-  border-radius: 20rpx;
-}
-.commodityView1{
-  margin-bottom: 20rpx;
-  font-size: 28rpx;
-}
-.right{
-  width: 400rpx;
-}
-.commodityBottom3{
-  font-size: 20rpx;
-  line-height: 55rpx;
-  height: 60rpx;
-  padding-top: 10rpx;
-}
-.commodityBottom2{
-  width: 575rpx;
-  font-size: 36rpx;
-  line-height: 60rpx;
-  height: 60rpx;
-  padding-top: 10rpx;
-
-  color:#C70101;
-  text-align: center;
-}
-.address{
-  border-top: 1rpx solid #eee;
-  font-size: 28rpx;
-  color:#333;
-  line-height: 60rpx;
-  margin: 20rpx;
-}
-.addres{
-  font-size: 28rpx;
-  color:#333;
-  line-height: 60rpx;
-  margin: 20rpx;
-}
-.btn {
-  width: 140rpx;
-  height: 30rpx;
-  line-height: 30rpx;
-  color: #333;
-  font-size: 20rpx;
-  margin-top: 10rpx;
-}
-.order{
-  margin-bottom: 40rpx;
-  padding-bottom: 20rpx;
-}
-.commodity{
-  border-top: 10rpx solid #eee;
-  border-bottom: 2rpx solid #eee;
-  font-size: 28rpx;
-  color:#333;
-  line-height: 60rpx;
-  display: flex;
-  justify-content: space-between;
-  padding: 40rpx 40rpx;
-}
-.btn2{
-  width: 667rpx;
-  height: 80rpx;
-  line-height: 80rpx;
-  font-size: 30rpx;
-  text-align: center;
-  color: #fff;
-  background-color: #C70101;
-  margin-left:20rpx;
-}
+page{
+    background-color: #f5f5f5;
+  }
+  .address{
+    width: 750rpx;
+    height: 170rpx;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    padding: 20rpx;
+    background-color: #fff;
+  }
+  .address .name{
+    width: 130rpx;
+    height: 100%;
+  }
+  .address .name view{
+    width: 130rpx;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .address .name view{
+    width: 130rpx;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-size: 30rpx;
+  }
+  .address .name view:nth-child(2){
+    width: 63rpx;
+    height: 28rpx;
+    line-height: 28rpx;
+    text-align: center;
+    font-size: 20rpx;
+    border: 1rpx solid #fb4f4f;
+    color: #fb4f4f;
+    border-radius: 10rpx;
+    margin-top: 20rpx;
+  }
+  .info{
+    width: 475rpx;
+    height: 100%;
+    font-size: 30rpx;
+    margin-left: 20rpx;
+  }
+  .goAddressList{
+    width: 110rpx;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .add{
+    height: 120rpx;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-size: 25rpx;
+  }
+  .add icon{
+    font-size: 25rpx;
+  }
+  .sett{
+    width: 690rpx;
+    height: 98rpx;
+    background-color: #fff;
+    padding: 0 30rpx;
+    position: fixed;
+    bottom: 0rpx;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 26rpx;
+    color: #959595;
+  }
+  .sett view:nth-child(2){
+    width: 175rpx;
+    height: 64rpx;
+    border-radius: 64rpx;
+    font-size: 30rpx;
+    color: #fff;
+    background-color: #fb4f4f;
+    line-height: 64rpx;
+    text-align: center;
+  }
+  .list{
+    width: 690rpx;
+    height: auto;
+    padding: 0 30rpx;
+    background-color: #fff;
+  }
+  .list view{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 70rpx;
+    font-size: 30rpx;
+    color: #3a3a3a;
+  }
+  .balance{
+    border-top: 1rpx solid #dedede;
+  }
+  .listCommodity{
+    width: 690rpx;
+    height: auto;
+    padding: 30rpx;
+    background-color: #fff;
+    margin-top: 20rpx;
+    margin-bottom: 110rpx;
+  }
+  .title{
+    font-size: 27rpx;
+    color: #3a3a3a;
+  }
+  .listCommodity .item{
+    height: 128rpx;
+    width: 690rpx;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 20rpx 0;
+  }
+  .listCommodity image{
+    width: 128rpx;
+    height: 128rpx;
+  }
+  .listCommodity .name{
+    width: 420rpx;
+    height: 128rpx;
+    margin-left: 20rpx;
+    font-size: 25rpx;
+    color: #3a3a3a;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .listCommodity .info{
+    width: 130rpx;
+    height: 60rpx;
+    margin-top: 68rpx;
+  }
+  .listCommodity .info view{
+    text-align: right;
+    font-size: 25rpx;
+    color: #3a3a3a;
+    height: 30rpx;
+  }
+  .listCommodity .info view:nth-child(2){
+    color: #fb4f4f;
+  }
 </style>
 <template>
-  <view class="all">
-    <view>
-      <view class="address">
-        <view class="order">
-          <view class="addres" @tap="goAddress">
-            <view>{{ addressList.real_name }}：{{ addressList.mobile }}</view>
-            <view>地址：{{ addressList.area +  addressList.address }}</view>
-          </view>
-          <!-- 推荐 -->
-          <repeat for="{{shopping}}" for-item='item'>
-            <view class="commodityTitle1">
-              <image src='{{ imgUrl2 + item.img }}' class="commodityImg1">
-              <view class="right">
-                <view class="commodityView1">{{ item.name }}</view>
-                <view class="commodityBottom3">
-                   <view class="btn"></view>
-                  <!-- <repeat for="{{number}}" item="item">
-                    <view class="btn">{{item}}</view>
-                  </repeat> -->
-                  <text><text style="color:#7ecef4">{{ item.sale_count }}</text>人购买过</text>
-                </view>
-                <view class="commodityBottom2">￥{{ item.price }}</view>
-              </view>
-            </view>
-          </repeat>
-          <view class="commodity">
-            <view>
-              <view>数量：</view>
-              <view>商品总金额：</view>
-              <view>运费：</view>
-              <view>合计金额：</view>
-            </view>
-            <view style='color:#FF0000'>
-              <view style='color:#333'>{{nums}}</view>
-              <view>￥{{total}}</view>
-              <view>￥0</view>
-              <view>￥{{totals}}</view>
-            </view>
-          </view>
-          <view class="btn2"  @tap='goPayment' data-adsId="{{ addressList.id }}">立即支付</view>
+<view>
+  <view wx:if="{{addressList != null}}">
+    <view class="address" wx:if="{{!addressListShow}}">
+      <view class="name">
+        <view>{{addressShow.real_name}}</view>
+        <view>默认</view>
+      </view>
+      <view class="info">
+        <view class="phone">{{addressShow.mobile}}</view>
+        <view class="add">
+          <icon class="iconfont icon-kong" />
+          {{addressShow.address}}
         </view>
       </view>
+      <view class="goAddressList" @tap="addressListShow">
+        <icon class="iconfont icon-kong" />
+      </view>
+    </view>
+    <block wx:for="{{addressList}}" key="index" index="index" item="item" wx:if="{{addressListShow}}">
+      <view class="address" data-index="{{index}}" data-id="{{item.id}}" @tap="addressSel">
+        <view class="name">
+          <view>{{item.real_name}}</view>
+        </view>
+        <view class="info">
+          <view class="phone">{{item.mobile}}</view>
+          <view class="add">
+            <icon class="iconfont icon-kong" />
+            {{item.address}}
+          </view>
+        </view>
+        <view class="goAddressList">
+          <icon class="iconfont icon-kong" />
+        </view>
+      </view>
+    </block>
+  </view>
+  <view class="list">
+    <view>
+      <view>数量：</view>
+      <view>{{nums}}</view>
+    </view>
+    <view class="balance">
+      <view>商品总金额：</view>
+      <view>￥{{total}}</view>
+    </view>
+    <view class="balance">
+      <view>运费：</view>
+      <view>￥0</view>
+    </view>
+    <view class="balance">
+      <view>合计金额：</view>
+      <view>￥{{totals}}</view>
     </view>
   </view>
+  <view class="listCommodity">
+    <view class="title">商品</view>
+    <block wx:for="{{shopping}}" key="index" index="index" item="item">
+      <view class="item">
+        <view>
+          <image src="{{ imgUrl2 + item.img }}" />
+        </view>
+        <view class="name">{{item.name}}</view>
+        <view class="info">
+          <view>×{{item.num}}</view>
+          <view>￥{{ item.price }}</view>
+          <view>{{ item.sale_count }}人购买过</view>
+        </view>
+      </view>
+    </block>
+  </view>
+  <view class="sett">
+    <view>应付￥{{totals}}</view>
+    <view @tap='goPayment' data-adsId="{{ addressShow.id }}">下单</view>
+  </view>
+</view>
 </template>
 <script>
 import wepy from 'wepy'
@@ -165,6 +242,7 @@ export default class Pay extends wepy.page {
     motto: 'Hello World',
     userInfo: {},
     addressList: [],
+    addressShow: null,
     shopping: [],
     orderId: '',
     imgUrl: '',
@@ -173,7 +251,8 @@ export default class Pay extends wepy.page {
     total: '',
     totals: '',
     number: [],
-    imgUrl2: ''
+    imgUrl2: '',
+    addressListShow: false
   };
   methods = {
     bindViewTap() {
@@ -183,6 +262,20 @@ export default class Pay extends wepy.page {
     goAddress() {
       var id = JSON.stringify(this.id)
       this.$navigate('/pages/addressList?id=' + id + '&totalPrice=' + this.total)
+    },
+    addressListShow() {
+      if (this.addressListShow) {
+        this.addressListShow = false
+      } else {
+        this.addressListShow = true
+      }
+      this.$apply()
+    },
+    addressSel(e) {
+      let index = e.currentTarget.dataset.index
+      this.addressShow = this.addressList[index]
+      this.addressListShow = false
+      this.$apply()
     }
   };
   // 支付
@@ -357,23 +450,17 @@ export default class Pay extends wepy.page {
       success: data => {
         if (data.statusCode === 200) {
           var addressList = data.data.data.user_shipments.data
+          console.log(addressList)
+          this.addressList = addressList
           var i = 0
-          if (adsId === '') {
-            for (i in addressList) {
-              if (addressList[i].status === '默认地址') {
-                this.addressList = addressList[i]
-                this.adsId = addressList[i].id
-                break
-              }
-            }
-          } else {
-            for (i in addressList) {
-              if (addressList[i].id === Number(options.ads_id)) {
-                this.addressList = addressList[i]
-                this.adsId = addressList[i].id
-              }
+          for (i in addressList) {
+            if (addressList[i].status === '默认地址') {
+              this.addressShow = addressList[i]
+              this.adsId = addressList[i].id
+              break
             }
           }
+          console.log(this.addressListShow)
           this.$apply()
         }
       }
