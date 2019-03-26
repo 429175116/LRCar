@@ -160,12 +160,12 @@ page{
       <view class="info">
         <view class="phone">{{addressShow.mobile}}</view>
         <view class="add">
-          <icon class="iconfont icon-kong" />
+          <icon class="iconfont icon-location" />
           {{addressShow.address}}
         </view>
       </view>
       <view class="goAddressList" @tap="addressListShow">
-        <icon class="iconfont icon-kong" />
+        <icon class="iconfont icon-jiantou" />
       </view>
     </view>
     <block wx:for="{{addressList}}" key="index" index="index" item="item" wx:if="{{addressListShow}}">
@@ -176,12 +176,12 @@ page{
         <view class="info">
           <view class="phone">{{item.mobile}}</view>
           <view class="add">
-            <icon class="iconfont icon-kong" />
+            <icon class="iconfont icon-location" />
             {{item.address}}
           </view>
         </view>
         <view class="goAddressList">
-          <icon class="iconfont icon-kong" />
+          <icon class="iconfont icon-jiantou" />
         </view>
       </view>
     </block>
