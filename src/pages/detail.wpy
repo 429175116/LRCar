@@ -72,67 +72,32 @@
 </style>
 <template>
   <view>
-    <swiper class="swiper" indicator-dots="{{indicatorDots}}" autoplay="{{autoplay}}" interval="{{interval}}" duration="{{duration}}">
-      <swiper-item>
-        <image src="{{ imgUrl2 + shopping.img }}" class="slide-image" width="355" height="150" />
-      </swiper-item>
-    </swiper>
-  </view>
-  <view class="info">
-    <view class="price">￥{{shopping.price}}</view>
-    <view class="name">{{shopping.name}}</view>
-    <view class="description">
-      <view>剩余{{ shopping.storage }}件</view>
-      <view>{{ shopping.sale_count }}人购买过</view>
+    <view>
+      <swiper class="swiper" indicator-dots="{{indicatorDots}}" autoplay="{{autoplay}}" interval="{{interval}}" duration="{{duration}}">
+        <swiper-item>
+          <image src="{{ imgUrl2 + shopping.img }}" class="slide-image" width="355" height="150" />
+        </swiper-item>
+      </swiper>
     </view>
-    <!-- <view class="name">{{shopping.comment}}</view> -->
-    <view class="description">{{shopping.description}}</view>
-  </view>
-  <view class="commodityInfoImg">
-    <repeat for="{{shopping.imgs}}" key="{{index}}" item="item">
-      <image src="{{imgUrl2 + item.img}}" data-index="{{index}}" style="width:{{autoW[index]}}px;height:{{autoH[index]}}px" bindload='autoImage' />
-      <!-- <image src="{{imgUrl2 + item.img}}" /> -->
-    </repeat>
-  </view>
-  <view class="perating">
-    <view class="" @tap='goOrder' data-id='{{shopping.id}}'>立即购买</view>
-    <view class="seCar" @tap='addCart' data-id='{{shopping.id}}'>加入购物车</view>
-  </view>
-
-  <!-- <view class="all">
-    <image src="{{ imgUrl2 + shopping.img }}" class="bann"/>
-    <view class="main">
-      <view class="img">
-        
-        <view class="centerTitle">{{ shopping.name }}</view>
-      <view class="centerView">陕西利仁汽车美容服务中心</view>
+    <view class="info">
+      <view class="price">￥{{shopping.price}}</view>
+      <view class="name">{{shopping.name}}</view>
+      <view class="description">
+        <view>剩余{{ shopping.storage }}件</view>
+        <view>{{ shopping.sale_count }}人购买过</view>
       </view>
-      <view class="center">
-        <view class="price">￥{{ shopping.price }}<text class="centerText">（剩余{{ shopping.storage }}件）</text></view>
-        <view class="icon iconfont icon-gouwuchekong" @tap='addCart' data-id='{{shopping.id}}'></view>
-        <view class="centerText1"> {{ shopping.sale_count }}人购买过</view>
-      </view>
+      <!-- <view class="name">{{shopping.comment}}</view> -->
+      <view class="description">{{shopping.description}}</view>
     </view>
-    <view class="bottom">{{ shopping.description }}</view>
-    <repeat for="{{ shopping.comment }}" item="item">
-      <view class="comment">
-        <view class="comment_left">
-          <image src="{{item.user.profile}}"/>
-          <view>{{item.user.nick_name}}</view>
-        </view>
-        <view class="comment_right">{{item.created_at}}</view>
-      </view>
-      <view class="comment_center">
-        <view class="imgList">
-          <repeat for="{{item.imgs}}" item="itemss">
-            <image src="{{itemss.img}}"/>
-          </repeat>
-        </view>
-        <view>{{item.comment}}</view>
-      </view>
-    </repeat>
-    <button class="btn" @tap='goOrder' data-id='{{shopping.id}}'>立即购买</button>
-  </view> -->
+    <view class="commodityInfoImg">
+      <repeat for="{{shopping.imgs}}" key="{{index}}" item="item">
+        <image src="{{imgUrl2 + item.img}}" data-index="{{index}}" style="width:{{autoW[index]}}px;height:{{autoH[index]}}px" bindload='autoImage' />
+      </repeat>
+    </view>
+    <view class="perating">
+      <view class="" @tap='goOrder' data-id='{{shopping.id}}'>立即购买</view>
+      <view class="seCar" @tap='addCart' data-id='{{shopping.id}}'>加入购物车</view>
+    </view>
   </view>
 </template>
 
