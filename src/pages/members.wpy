@@ -5,6 +5,9 @@
   // align-items: center;
   // justify-content: center;
 }
+.list{
+  margin-bottom: 180rpx;
+}
 .main {
   width: 230rpx;
   height: 133rpx;
@@ -62,6 +65,7 @@
   font-size: 20rpx;
 }
 .pay{
+  background-color: #fff;
   width: 710rpx;
   height: auto;
   padding: 20rpx 0;
@@ -76,14 +80,12 @@
   margin: auto;
 }
 .pay .run{
-  
   color: #fff;
   border-radius: 20rpx;
   display: flex;
   align-items: center;
   justify-content: center;
-  
-  background-color: #c0a069;
+  background: linear-gradient(to right, #c0a069, #e9d5ac)
 }
 .pay .info{
   color: #d1b584;
@@ -95,27 +97,30 @@
 </style>
 <template>
   <view class="all">
-    <view class="no_order" wx:if="{{couponList.length==0}}">
-      <icon class="iconfont icon-kong"></icon>
-      暂无数据
-    </view>
-    <repeat for="{{ couponList }}" item="item">
-      <view class="main" @tap="goMemberMsg" data-id="{{ item.id }}">
-        <view class="vipSel">
-          <icon class="iconfont icon-duigou"></icon>
-        </view>
-        <view>
-          <icon class="iconfont icon-huangguan"></icon>
-        </view>
-        <view>
-          <view>{{ item.name }}</view>
-          <view class="left">{{ item.title }}</view>
-        </view>
-        <view class="right">
-          ￥{{ item.price }}
-        </view>
+    <view class="list">
+      <view class="no_order" wx:if="{{couponList.length==0}}">
+        <icon class="iconfont icon-kong"></icon>
+        暂无数据
       </view>
-    </repeat>
+      <repeat for="{{ couponList }}" item="item">
+        <view class="main" @tap="goMemberMsg" data-id="{{ item.id }}">
+          <view class="vipSel">
+            <icon class="iconfont icon-duigou"></icon>
+          </view>
+          <view>
+            <icon class="iconfont icon-huangguan"></icon>
+          </view>
+          <view>
+            <view>{{ item.name }}</view>
+            <view class="left">{{ item.title }}</view>
+          </view>
+          <view class="right">
+            ￥{{ item.price }}
+          </view>
+        </view>
+      </repeat>
+    </view>
+    
     <view wx:if="{{user.vip_status != 'not_vip'}}" class="vip_status">您已成功购买会员，截至日期为{{user.vip_dead_line}}</view>
     <view class="pay">
       <view class="info">
