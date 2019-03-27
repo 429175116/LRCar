@@ -1,4 +1,7 @@
 <style>
+page{
+  background-color: #f8f8f8;
+}
 .all {
   margin-bottom: 100rpx;
 }
@@ -49,11 +52,9 @@
 .commodityTitle {
   margin: 20rpx 0;
   padding: 20rpx;
-  width: 48%;
-  border: 2rpx solid #FAF9F9;
+  width: 345rpx;
   border-radius: 20rpx;
-  box-sizing: border-box;
-  background: #FAF9F9;
+  background-color: #fff;
 }
 .commodityImg {
   width: 100%;

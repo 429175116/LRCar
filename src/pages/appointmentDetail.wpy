@@ -1,126 +1,123 @@
 <style lang="less">
+page{
+  background-color: #f8f8f8;
+}
 .all {
   margin-bottom: 140rpx;
 }
-.title{
-  font-size: 30rpx;
-  line-height: 60rpx;
-  width: 100%;
-  text-align: center;
-}
-.shop{
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
-  margin: 0 10rpx;
-}
 .bannerImg{
-  width: 210rpx;
-  height: 310rpx;
-  margin: 20rpx 10px 20rpx 10rpx;
+  width: 750rpx;
+  height: 360rpx;
 }
 .center{
-  width: 100%;
-  padding: 20rpx;
-  margin-top: 20rpx;
-  border-top: 2rpx solid #eee;
-  border-bottom: 10rpx solid #eee;
+  width: 690rpx;
+  padding: 30rpx;
+  background-color: #fff;
 }
 .centerTitle{
-  width: 180rpx;
+  width: 690rpx;
   height: 60rpx;
   line-height: 60rpx;
-  font-size: 26rpx;
-  background: #00A0E9;
-  text-align: center;
-  margin: 10rpx auto 40rpx auto;
-  border-radius: 10rpx;
-  color:#fff;
+  font-size: 35rpx;
+  font-weight: 600;
+  color: #353535;
 }
-.centerView{
-  width: 98%;
-  font-size: 24rpx;
-  line-height: 50rpx;
-  margin-right: 20rpx;
+.description{
+  width: 690rpx;
+  height: 60rpx;
+  line-height: 60rpx;
+  font-size: 28rpx;
+  color: #7a7a7a;
 }
-.centerView1{
-  width: 98%;
+.info{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   font-size: 24rpx;
-  line-height: 50rpx;
-  margin-right: 20rpx;
-  border-bottom: 1rpx solid #eee;
-  margin: 20rpx 0;
+  counter-reset: #7a7a7a;
+}
+.info view{
+  width: 345rpx;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
 }
 .commodity{
-  background: #eee;
-  margin: 40rpx 60rpx 5rpx 60rpx;
-  text-align: center;
-  padding: 40rpx 0 10rpx 0;
-}
-.commodity input{
-  margin: 40rpx auto;
-  width: 450rpx;
+  width: 750rpx;
   background: #fff;
-  text-align: center;
-  height: 80rpx;
-  font-size: 30rpx;
-  line-height: 80rpx;
-  border-radius: 40rpx;
+  margin-top: 10rpx;
 }
-.pickers{
-  margin: 40rpx auto;
-  width: 450rpx;
-  background: #fff;
-  text-align: center;
-  height: 80rpx;
+.item{
+  width: 690rpx;
+  margin: 0 30rpx;
+  height: 88rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-bottom: 1rpx solid #f1f1f1;
+}
+.item label{
+  width: 90rpx;
   font-size: 30rpx;
-  line-height: 80rpx;
-  border-radius: 40rpx;
+  height: 88rpx;
+  line-height: 88rpx;
+}
+.commodity .set{
+  width: 600rpx;
+  height: 88rpx;
+  line-height: 88rpx;
+  font-size: 30rpx;
 }
 .commodity1{
-  background: #eee;
   margin: 5rpx 60rpx 0rpx 60rpx;
   text-align: center;
   padding: 60rpx 0 40rpx 0;
 }
 .btn1{
-  background: #379ECF;
-  width: 550rpx;
-  line-height: 80rpx;
-  height: 80rpx;
+  background: linear-gradient(to right, #c0a069, #e9d5ac);
+  width: 555rpx;
+  line-height: 85rpx;
+  height: 85rpx;
   color: #fff;
   font-size: 30rpx;
-  border-radius: 40rpx;
+  border-radius: 10rpx;
 }
 </style>
 <template>
   <view class="all">
      <!-- 轮播图 -->
-    <view class="title">店面环境</view>
-      <view class="shop">
-        <repeat for="{{ shopDetail.imgs }}" item="item">
-          <image src='{{ imgUrl2 + item.img }}' class="bannerImg">
-        </repeat>
-      </view>
+    <repeat for="{{ shopDetail.imgs }}" item="item">
+      <image src='{{ imgUrl2 + item.img }}' class="bannerImg">
+    </repeat>
     <view class="center">
-      <view class="centerView">{{ shopDetail.name }}</view>
-      <view class="centerView">电话：{{ shopDetail.contact_mobile }}</view>
-      <view class="centerView1">地址：{{shopDetail.address}}</view>
-      <view class="centerView">{{ shopDetail.description }}</view>
+      <view class="centerTitle">{{ shopDetail.name }}</view>
+      <view class="description">{{ shopDetail.description }}</view>
+      <view class="info">
+        <view>电话：{{ shopDetail.contact_mobile }}</view>
+        <view>地址：{{shopDetail.address}}</view>
+      </view>
     </view>
     <form bindsubmit="appointmentMsg">
       <view class="commodity">
-        <input placeholder="姓名" name="name" value="{{name}}" />
-        <input placeholder="电话" name="phone" value="{{phone}}" />
-        <view class="order_num">
-          <picker class="weui-btn" mode="date" value="{{date}}" start="2015-09-01 00:00" end="2050-12-31 00:00" bindchange="bindDateChange">
-            <view class="pickers">{{date}}</view>
+        <view class="item">
+          <label>姓名</label>
+          <input placeholder="姓名" name="name" value="{{name}}" class="set" />
+        </view>
+        <view class="item">
+          <label>电话</label>
+          <input placeholder="电话" name="phone" value="{{phone}}" class="set" />
+        </view>
+        <view class="item">
+          <label>日期</label>
+          <picker class="set" mode="date" value="{{date}}" start="2015-09-01 00:00" end="2050-12-31 00:00" bindchange="bindDateChange">
+            <view class="set">{{date}}</view>
             <!-- <input name="date" value="{{date}}" /> -->
           </picker>
         </view>
-        <view class="order_num">
-          <picker bindchange="bindTimeChange" value="{{index}}" range="{{array}}" class="weui-btn">
-            <view class="pickers">
+        <view class="item">
+          <label>时间</label>
+          <picker class="set" bindchange="bindTimeChange" value="{{index}}" range="{{array}}" class="weui-btn">
+            <view class="set">
               {{array[index]}}
             </view>
           </picker>
