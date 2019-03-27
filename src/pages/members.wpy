@@ -61,6 +61,37 @@
 .vipSel .iconfont{
   font-size: 20rpx;
 }
+.pay{
+  width: 710rpx;
+  height: auto;
+  padding: 20rpx 0;
+  position: fixed;
+  bottom: 0rpx;
+}
+.pay .run,
+.pay .info{
+  width: 555rpx;
+  height: 85rpx;
+  font-size: 30rpx;
+  margin: auto;
+}
+.pay .run{
+  
+  color: #fff;
+  border-radius: 20rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  
+  background-color: #c0a069;
+}
+.pay .info{
+  color: #d1b584;
+}
+.pay .info span{
+  font-size: 25rpx;
+  color: #999;
+}
 </style>
 <template>
   <view class="all">
@@ -86,6 +117,11 @@
       </view>
     </repeat>
     <view wx:if="{{user.vip_status != 'not_vip'}}" class="vip_status">您已成功购买会员，截至日期为{{user.vip_dead_line}}</view>
+    <view class="pay">
+      <view class="info">
+        <span>应付</span>365元</view>
+      <view class="run">支付</view>
+    </view>
   </view>
 </template>
 <script>
@@ -117,11 +153,15 @@ export default class Members extends wepy.page {
         },
         success: data => {
           if (data.statusCode === 200) {
-            if (data.data.data.user.car_number) {
-              this.$navigate('/pages/memberPay?role=' + id)
-            } else {
-              this.$navigate('/pages/openMember?role=' + id)
-            }
+            // 一级存在用户信息
+            // this.$navigate('/pages/memberPay?role=' + id)
+            // 不存在用户信息
+            this.$navigate('/pages/openMember?role=' + id)
+            // if (data.data.data.user.car_number) {
+            //   this.$navigate('/pages/memberPay?role=' + id)
+            // } else {
+            //   this.$navigate('/pages/openMember?role=' + id)
+            // }
             this.$apply()
           }
         }
