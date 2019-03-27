@@ -1,12 +1,12 @@
 <style lang="less">
 @font-face {
   font-family: 'iconfont';  /* project id 1106191 */
-  src: url('//at.alicdn.com/t/font_1106191_r93mjtoehed.eot');
-  src: url('//at.alicdn.com/t/font_1106191_r93mjtoehed.eot?#iefix') format('embedded-opentype'),
-  url('//at.alicdn.com/t/font_1106191_r93mjtoehed.woff2') format('woff2'),
-  url('//at.alicdn.com/t/font_1106191_r93mjtoehed.woff') format('woff'),
-  url('//at.alicdn.com/t/font_1106191_r93mjtoehed.ttf') format('truetype'),
-  url('//at.alicdn.com/t/font_1106191_r93mjtoehed.svg#iconfont') format('svg');
+  src: url('//at.alicdn.com/t/font_1106191_1tc2akw3eng.eot');
+  src: url('//at.alicdn.com/t/font_1106191_1tc2akw3eng.eot?#iefix') format('embedded-opentype'),
+  url('//at.alicdn.com/t/font_1106191_1tc2akw3eng.woff2') format('woff2'),
+  url('//at.alicdn.com/t/font_1106191_1tc2akw3eng.woff') format('woff'),
+  url('//at.alicdn.com/t/font_1106191_1tc2akw3eng.ttf') format('truetype'),
+  url('//at.alicdn.com/t/font_1106191_1tc2akw3eng.svg#iconfont') format('svg');
 }
 
 .iconfont {
@@ -31,6 +31,7 @@
 .icon-daifukuan:before { content: "\e68f"; } // 待付款
 .icon-daishouhuo:before { content: "\e61b"; } // 待收货
 .icon-chahao:before { content: "\e617"; } // 叉号
+.icon-duigou:before { content: "\e659"; } // 对号
 .icon-kong:before { content: "\e708"; } // 空箱子
 
 
