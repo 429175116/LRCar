@@ -87,11 +87,11 @@
 
 .footer .action .iconfont,
 .footer .action{
-  color: #3498db !important;
+  color: #bba38c !important;
 }
 .footer,
 .footer .noAction .iconfont{
-  color: #999 !important;
+  color: #b2b2b2 !important;
 }
 </style>
 <template>
