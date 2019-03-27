@@ -3,41 +3,42 @@
 }
 .form-box {
   width: 100%;
-  background-color: #EEEEEE;
+  background: #fff;
   padding: 20rpx;
 }
 .row-wrap {
-  width: 660rpx;
-  height: 80rpx;
-  line-height: 80rpx;
-  margin-left: 30rpx;
-  border: 2rpx solid #fff;
+  width: 690rpx;
+  height: 88rpx;
+  margin: 30rpx 0;
   font-size: 28rpx;
-  background: #fff;
-  border-radius: 40rpx;
-  margin: 40rpx 20rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-bottom: 1rpx solid #f1f1f1;
+  font-size: 30rpx;
 }
-.row-wrap input {
-  height: 100%;
-  width: 500rpx;
-  font-size: 28rpx;
-  padding-left: 30rpx;
+.row-wrap label {
+  height: 60rpx;
+  width: 230rpx;
 }
-.row-wrap .right-box {
-  margin-right: 30rpx;
+.row-wrap input,
+.row-wrap .weui-btn {
+  height: 60rpx;
+  width: 460rpx;
 }
+
 .arrow-right {
   width: 15rpx;
   height: 24rpx;
 }
 .save-btn {
-  width: 660rpx;
-  height: 80rpx;
+  width: 555rpx;
+  height: 85rpx;
   font-size: 30rpx;
   text-align: center;
   color: #fff;
   margin-top: 125rpx;
-  background-color: #00A0E9;
+  background: linear-gradient(to right, #c0a069, #e9d5ac)
 }
 picker {
   min-width: 20rpx;
@@ -57,25 +58,29 @@ picker {
     <form bindsubmit="addAddress">
         <view class="form-box">
             <view class="row-wrap">
-              <input disabled name="name" class="input" type="text" placeholder="姓名" value="{{ userInfo.real_name }}" />
+              <label>姓名</label>
+              <input disabled name="name" class="input" type="text" placeholder="请输入姓名" value="{{ userInfo.real_name }}" />
             </view>
             <view class="row-wrap">
-              <!--{{ userInfo.mobile }}-->
-              <input disabled name="mobile" class="input" maxlength="11" type="number" placeholder="电话" value="{{ userInfo.mobile }}" />
+              <label>电话</label>
+              <input disabled name="mobile" class="input" maxlength="11" type="number" placeholder="请输入电话号码" value="{{ userInfo.mobile }}" />
             </view>
             <view class="row-wrap">
-              <!--<picker disabled class="weui-btn" mode="date" value="{{date}}" start="1900-01-01 00:00" end="2050-12-31 00:00" bindchange="bindDateChange1">-->
+              <label>出生日期</label>
+              <picker disabled class="weui-btn" mode="date" value="{{date}}" start="1900-01-01 00:00" end="2050-12-31 00:00" bindchange="bindDateChange1">
                 <!--<view class="pickers">{{ userInfo.birthday }}</view>-->
                  <input disabled name="date" class="input" value="{{ userInfo.birthday }}" />
-              <!--</picker>-->
+              </picker>
             </view>
             <!-- <view class="row-wrap">
               <input name="sex" class="input" placeholder="性别" type="text" value="{{sex}}" />
             </view> -->
             <view class="row-wrap">
+              <label>车牌号</label>
               <input name="carNum" class="input" placeholder="车牌号" type="text" value="{{ userInfo.car_number }}" />
             </view>
             <view class="row-wrap">
+              <label>行驶证截至日期</label>
               <picker class="weui-btn" mode="date" value="{{date}}" start="2015-09-01 00:00" end="2050-12-31 00:00" bindchange="bindDateChange">
                 <view class="pickers">{{ date}}</view>
               </picker>
