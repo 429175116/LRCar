@@ -12,7 +12,9 @@ page{
   font-size: 28rpx;
 }
 .index_menu_list {
-  margin: 0 20rpx;
+  width: 710rpx;
+  padding: 0 20rpx;
+  background-color: #fff;
 }
 .swiper-tab {
   width: 100%;
@@ -28,6 +30,11 @@ page{
   color: #333;
   margin: 30rpx 0;
   box-sizing: border-box;
+}
+.swiper-tab-item view {
+  font-size: 25rpx;
+  color: #353535;
+  padding-top: 20rpx;
 }
 .index_menu_img {
   width: 100rpx;
@@ -47,26 +54,27 @@ page{
   display: flex;
   justify-content: space-between;
   flex-wrap: wrap;
-  margin: 20rpx;
+  margin: 0 20rpx;
 }
 .commodityTitle {
-  margin: 20rpx 0;
-  padding: 20rpx;
+  margin: 0 5rpx;
   width: 345rpx;
+  height: 535rpx;
   border-radius: 20rpx;
   background-color: #fff;
+  margin-top: 20rpx;
 }
 .commodityImg {
   width: 100%;
-  height: 400rpx;
-  border: 1rpx solid #faf9f9;
-  border-radius: 20rpx;
+  height: 345rpx;
+  border-radius: 20rpx 20rpx 0 0;
 }
 .commodityView {
-  font-size: 28rpx;
+  padding: 10rpx 0;
+  font-size: 30rpx;
+  font-weight: 600;
   text-align: center;
-  margin-bottom: 20rpx;
-  width: 300rpx;
+  width: 100%;
   overflow: hidden;
   white-space:nowrap;
   text-overflow:ellipsis;
@@ -75,85 +83,62 @@ page{
   display: flex;
   justify-content: space-between;
   font-size: 20rpx;
-  line-height: 50rpx;
+  /* line-height: 50rpx; */
+  padding: 0 20rpx;
 }
 .btn {
-  width: 160rpx;
-  height: 50rpx;
+  width: 220rpx;
   line-height: 50rpx;
-  color: #C70101;
-  font-size: 28rpx;
+  color: #909090;
+  font-size: 20rpx;
+}
+.btn view {
+  overflow: hidden;
+  white-space:nowrap;
+  text-overflow:ellipsis;
+}
+.btn text {
+  color: #f33a38;
+  font-size: 25rpx;
+  padding: 0 10rpx;
+}
+.btn span {
+  color: #c0aa95;
+  font-size: 25rpx;
+  padding: 0 10rpx;
 }
 .icon{
-  width: 40rpx;
-  height: 40rpx;
-  margin-top: 10rpx;
-  color: #C70101;
-  font-size: 28rpx;
-}
-.commodityBottom1{
+  margin-top: 15rpx;
+  width: 72rpx;
+  height: 72rpx;
+  color: #fff;
+  font-size: 35rpx;
+  background: linear-gradient(to right, #c0a069, #e9d5ac);
+  border-radius: 72rpx;
   display: flex;
-  justify-content: space-between;
-  font-size: 20rpx;
-  line-height: 50rpx;
-  border-top: 1px solid #eee;
-  margin-top: 20rpx;
+  align-items: center;
+  justify-content: center;
 }
-.btn1 {
-  width: 140rpx;
-  height: 30rpx;
-  line-height: 30rpx;
-  color: #333;
-  font-size: 20rpx;
-  border-right: 1px solid #eee;
-  margin-top: 10rpx;
+
+.bo {
+  width: 750rpx;
+  height: 300rpx;
 }
-.commodityTitle1{
-  width: 500rpx;
-  margin: 20rpx 0;
-  padding: 20rpx;
-  display: flex;
-  justify-content: space-between;
-  width: 98%;
-  border: 2rpx solid #FAF9F9;
-  border-radius: 20rpx;
-  box-sizing: border-box;
-  background: #FAF9F9;
+.bo image {
+  width: 100%;
+  height: 100%;
 }
-.commodityImg1{
-  width:270rpx;
-  height:360rpx;
-  border: 2rpx solid #faf9f9;
-  border-radius: 20rpx;
-}
-.commodityView1{
-  margin-top: 40rpx;
-  margin-bottom: 80rpx;
-  font-size: 28rpx;
-}
-.commodityBottom2{
-  display: flex;
-  justify-content: space-between;
-  font-size: 20rpx;
-  line-height: 50rpx;
-  margin-top: 40rpx;
-}
-.right{
-  width: 350rpx;
-}
-.commodityBottom3{
-  display: flex;
-  justify-content: space-between;
-  font-size: 20rpx;
-  line-height: 55rpx;
-  height: 60rpx;
-  border-top: 1px solid #eee;
-  padding-top: 10rpx;
-  margin-top: 20rpx;
-}
+
 </style>
 <template>
   <view class="all">
+    <swiper class='bo' indicator-dots="true" autoplay='true' interval='5000' duration='2000'>
+      <repeat for="{{bannerList}}" item="item">
+        <swiper-item>
+          <image src="{{ imgUrl + item.img }}" />
+        </swiper-item>
+      </repeat>
+    </swiper>
     <view class="index_menu_list">
       <repeat for="{{ typeList }}" for-item='item' key='index'>
         <view class="{{selected+index?'swiper-tab-item':'swiper-tab-item'}}" @tap="selected" data-id="{{item.id}}">
@@ -170,30 +155,17 @@ page{
       <view wx:else class="commodity">
         <repeat for="{{shoppingList}}" for-item="item" key='index'>
           <!-- 推荐 -->
-          <view class="commodityTitle" wx:if='{{index!=2}}'>
+          <view class="commodityTitle">
             <image src='{{  imgUrl2 + item.img  }}' class="commodityImg" @tap="goDetail" data-id='{{item.id}}'>
             <view class="commodityView">{{ item.name }}</view>
             <view class="commodityBottom">
-              <view class="btn">￥{{ item.price }}</view>
+              <view class="btn">
+                <view>
+                  ￥<text>{{ item.price }}</text>剩余:{{ item.storage }}
+                </view>
+                <view><span>{{ item.sale_count }}</span>人购买过</view>
+              </view>
               <view class="icon iconfont icon-gouwuchekong" @tap='goCart' data-id='{{item.id}}'></view>
-            </view>
-            <view class="commodityBottom1">
-              <view class="btn1">剩余:{{ item.storage }}</view>
-              <text><text style="color:#7ecef4">{{ item.sale_count }}</text>人购买过</text>
-            </view>
-          </view>
-          <view class="commodityTitle1" wx:else>
-            <image src='{{ imgUrl2 + item.img }}' class="commodityImg1"  @tap="goDetail" data-id='{{item.id}}'>
-            <view class="right">
-              <view class="commodityView1">{{ item.name }}</view>
-              <view class="commodityBottom2">
-                <view class="btn">￥{{ item.price }}</view>
-                <view class="icon iconfont icon-gouwuchekong" @tap='goCart' data-id='{{item.id}}'></view>
-              </view>
-              <view class="commodityBottom3">
-                <view class="btn1">剩余:{{ item.storage }}</view>
-                <text><text style="color:#7ecef4">{{ item.sale_count }}</text>人购买过</text>
-              </view>
             </view>
           </view>
         </repeat>
@@ -229,7 +201,8 @@ export default class Shopping extends wepy.page {
     shoppingList: [],
     imgUrl2: '',
     getUrl: '',
-    indexs: ''
+    indexs: '',
+    bannerList: []
   };
   methods = {
     bindViewTap() {
@@ -306,8 +279,9 @@ export default class Shopping extends wepy.page {
   };
   
   onLoad(options) {
-    this.imgUrl = this.$parent.globalData.imgUrl
+    this.imgUrl = this.$parent.globalData.imgUrl2
     this.imgUrl2 = this.$parent.globalData.imgUrl2
+    this.getBannerList()
     // 商品分类
     wx.request({
       url: `${this.$parent.globalData.requestUrl}/categoryList`,
@@ -325,7 +299,18 @@ export default class Shopping extends wepy.page {
       }
     })
   }
-
+  getBannerList() {
+    wx.request({
+      url: `${this.$parent.globalData.requestUrl}/rollingImgsList`,
+      method: 'GET',
+      success: data => {
+        if (data.statusCode === 200) {
+          this.bannerList = data.data.data.rolling_imgs
+          this.$apply()
+        }
+      }
+    })
+  }
   clickTab(id) {
     wx.request({
       url: `${this.$parent.globalData.requestUrl}/categoryForProduct`,

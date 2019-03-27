@@ -34,13 +34,13 @@ page{
   align-items: center;
   justify-content: space-between;
   font-size: 24rpx;
-  counter-reset: #7a7a7a;
 }
 .info view{
   width: 345rpx;
   overflow:hidden;
   text-overflow:ellipsis;
   white-space:nowrap;
+  color: #7a7a7a;
 }
 .commodity{
   width: 750rpx;
