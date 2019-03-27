@@ -1,10 +1,13 @@
 <style lang="less">
+page{
+  background-color: #f8f8f8;
+}
 .all {
   margin-bottom: 140rpx;
 }
 .bo {
   width: 100%;
-  height: 136px;
+  height: 300rpx;
   overflow: hidden;
 }
 .bo image {
@@ -29,43 +32,50 @@
   margin: 20rpx;
 }
 .commodityTitle {
-  margin: 20rpx 0;
-  padding: 20rpx;
-  width: 48%;
-  border: 2rpx solid #FAF9F9;
+  margin: 0 5rpx;
+  width: 345rpx;
+  height: 514rpx;
   border-radius: 20rpx;
-  box-sizing: border-box;
-  background: #FAF9F9;
+  background-color: #fff;
 }
 .commodityImg {
   width: 100%;
-  height: 400rpx;
-  border: 1rpx solid #faf9f9;
-  border-radius: 20rpx;
+  height: 345rpx;
+  border-radius: 20rpx 20rpx 0 0;
 }
 .commodityView {
-  font-size: 28rpx;
+  font-size: 30rpx;
+  font-weight: 600;
   text-align: center;
-  margin-bottom: 20rpx;
-  width: 300rpx;
+  
+  height: 90rpx;
+  line-height: 90rpx;
   overflow: hidden;
   white-space:nowrap;
   text-overflow:ellipsis;
 }
 .commodityBottom {
+  width: 285rpx;
+  
   display: flex;
   justify-content: space-between;
   font-size: 20rpx;
-  line-height: 50rpx;
+  margin-top: 10rpx;
+  margin: 0 30rpx;
+}
+.commodityBottom view{
+  width: 143rpx;
+  height: 40rpx;
+  line-height: 60rpx;
 }
 .btn {
-  width: 159rpx;
-  height: 50rpx;
-  line-height: 50rpx;
+  width: 125rpx;
+  height: 40rpx;
+  line-height: 40rpx;
   color: #fff;
-  background: #7ecef4;
-  font-size: 22rpx;
-  border-radius: 25rpx;
+  background: #bba38c;
+  font-size: 20rpx;
+  border-radius: 5rpx;
 }
 </style>
 <template>
@@ -87,8 +97,8 @@
           <image src='{{ imgUrl2 + item.img }}' class="commodityImg">
           <view class="commodityView">{{item.name}}</view>
           <view class="commodityBottom">
+            <view>{{ item.reservation_count }}人预约过</view>
             <button class="btn">立即预约</button>
-            <text><text style="color:#7ecef4">{{ item.reservation_count }}</text>人预约过</text>
           </view>
         </view>
       </repeat>
