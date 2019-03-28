@@ -1,12 +1,12 @@
 <style lang="less">
 @font-face {
   font-family: 'iconfont';  /* project id 1106191 */
-  src: url('//at.alicdn.com/t/font_1106191_1tc2akw3eng.eot');
-  src: url('//at.alicdn.com/t/font_1106191_1tc2akw3eng.eot?#iefix') format('embedded-opentype'),
-  url('//at.alicdn.com/t/font_1106191_1tc2akw3eng.woff2') format('woff2'),
-  url('//at.alicdn.com/t/font_1106191_1tc2akw3eng.woff') format('woff'),
-  url('//at.alicdn.com/t/font_1106191_1tc2akw3eng.ttf') format('truetype'),
-  url('//at.alicdn.com/t/font_1106191_1tc2akw3eng.svg#iconfont') format('svg');
+  src: url('//at.alicdn.com/t/font_1106191_e4q1ltmhjq.eot');
+  src: url('//at.alicdn.com/t/font_1106191_e4q1ltmhjq.eot?#iefix') format('embedded-opentype'),
+  url('//at.alicdn.com/t/font_1106191_e4q1ltmhjq.woff2') format('woff2'),
+  url('//at.alicdn.com/t/font_1106191_e4q1ltmhjq.woff') format('woff'),
+  url('//at.alicdn.com/t/font_1106191_e4q1ltmhjq.ttf') format('truetype'),
+  url('//at.alicdn.com/t/font_1106191_e4q1ltmhjq.svg#iconfont') format('svg');
 }
 
 .iconfont {
@@ -33,6 +33,10 @@
 .icon-chahao:before { content: "\e617"; } // 叉号
 .icon-duigou:before { content: "\e659"; } // 对号
 .icon-kong:before { content: "\e708"; } // 空箱子
+.icon-tianjia:before { content: "\e6c4"; } // 添加
+.icon-bianji:before { content: "\e62b"; } // 编辑
+.icon-shanchu:before { content: "\e600"; } // 删除
+.icon-moren:before { content: "\e62d"; } // 默认
 
 
 .no_order {
