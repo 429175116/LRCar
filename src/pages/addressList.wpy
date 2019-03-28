@@ -17,42 +17,6 @@ page{
   left: 30%;
   background-color: #E5E5E5;
 }
-.goods_main_list {
-  border-radius: 15rpx;
-  margin: 20rpx 40rpx;
-  margin-bottom: 10px;
-  display: flex;
-  justify-content: space-between;
-}
-.userName {
-  font-size: 30rpx;
-  color: #333;
-  float: left;
-  width: 263rpx;
-  overflow: hidden;
-  white-space:nowrap;
-  text-overflow:ellipsis;
-}
-.userRess {
-  clear: both;
-  font-size: 28rpx;
-  color: #333;
-}
-.userDeleteRess {
-  width: 5%;
-  float: right;
-  height: 100rpx;
-  z-index: 999;
-}
-.modify {
-  width: 40rpx;
-  height: 40rpx;
-  margin: auto;
-}
-.delete{
-  width: 50rpx;
-  height: 50rpx;
-}
 .address {
   font-size:24rpx;
   margin-top:20rpx;
@@ -64,81 +28,77 @@ page{
   font-size: 28rpx;
   margin-top: 480rpx;
 }
-.goods_title{
-  width: 600rpx;
-  margin: 0 40rpx;
+.addressList{
+  width: 750rpx;
+  height: auto;
+  min-height: 270rpx;
+  padding-bottom: 30rpx;
 }
-  .addressList{
-    width: 750rpx;
-    height: auto;
-    min-height: 270rpx;
-    padding-bottom: 30rpx;
-  }
-  .itemAddress{
-    width: 690rpx;
-    padding: 20rpx 30rpx;
-    background-color: #fff;
-    margin-bottom: 20rpx;
-  }
-  .itemAddress .name{
-    overflow:hidden;
-    text-overflow:ellipsis;
-    white-space:nowrap;
-  }
-  .itemAddress .name icon{
-    font-size: 30rpx;
-  }
-  .itemAddress .info view{
-    /* margin: 0 30rpx; */
-    width: 350rpx;
-    overflow: hidden;
-    white-space:nowrap;
-    text-overflow:ellipsis;
-  }
-  .itemAddress .open{
-    width: 690rpx;
-    margin-top: 20rpx;
-    border-top: 1rpx solid #e9e9e9;
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
-    height: 60rpx;
-  }
-  .itemAddress .open icon,
-  .itemAddress .open view{
-    color: #959595;
-    font-size: 25rpx;
-  }
-  .itemAddress .open view{
-    width: 95rpx;
-  }
-  .name{
-    width: 100%;
-    height: 70rpx;
-    line-height: 70rpx;
-    color: #3a3a3a;
-    font-size: 30rpx;
-    overflow:hidden;
-    text-overflow: ellipsis;
-  }
-  .itemAddress .name icon{
-    font-size: 30rpx;
-  }
-  .itemAddress .info{
-    padding-left: 30rpx;
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
-    color: #959595;
-    font-size: 30rpx;
-    
-  }
-  .moren{
-    width: 130rpx !important;
-  }
-  .morenSel, .morenSel icon{
-    color: #ca0c16 !important;
-  }
+.itemAddress{
+  width: 690rpx;
+  padding: 20rpx 30rpx;
+  background-color: #fff;
+  margin-bottom: 20rpx;
+}
+.itemAddress .name{
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+}
+.itemAddress .name icon{
+  font-size: 30rpx;
+}
+.itemAddress .info view{
+  /* margin: 0 30rpx; */
+  width: 350rpx;
+  overflow: hidden;
+  white-space:nowrap;
+  text-overflow:ellipsis;
+}
+.itemAddress .open{
+  width: 690rpx;
+  margin-top: 20rpx;
+  border-top: 1rpx solid #e9e9e9;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  height: 60rpx;
+}
+.itemAddress .open icon,
+.itemAddress .open view{
+  color: #959595;
+  font-size: 25rpx;
+}
+.itemAddress .open view{
+  width: 95rpx;
+}
+.name{
+  width: 100%;
+  height: 70rpx;
+  line-height: 70rpx;
+  color: #3a3a3a;
+  font-size: 30rpx;
+  overflow:hidden;
+  text-overflow: ellipsis;
+}
+.itemAddress .name icon{
+  font-size: 30rpx;
+}
+.itemAddress .info{
+  padding-left: 30rpx;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  color: #959595;
+  font-size: 30rpx;
+  
+}
+.moren{
+  width: 130rpx !important;
+}
+.morenSel, .morenSel icon{
+  color: #ca0c16 !important;
+}
 </style>
 <template>
   <!--pages/user/address/address.wxml-->
@@ -150,16 +110,6 @@ page{
       暂无收货地址
     </view>
     <view wx:else>
-      <!-- <repeat for="{{ addressList }}" item="item">
-        <view class='goods_main_list' @tap="order" data-id="{{ item.id }}">
-          <image src='../img/xuan.png' class='modify' data-id="{{ item.id }}" wx:if="{{ item.status == '默认地址' }}"/>
-          <image src='../img/xuan1.png' class='modify' data-id="{{ item.id }}" wx:else @tap='defaultAddress'/>
-          <view class='goods_title' id="{{ item.id }}">
-            <view class='userRess'>地址：{{ item.area + item.address }}</view>
-          </view>
-          <view class="delete iconfont icon-chahao" @tap='deleteList' data-id="{{ item.id }}"></view>
-        </view>
-      </repeat> -->
       <block wx:for="{{addressList}}" key="index" index="index" item="item" wx:if="{{addressList.length > 0}}">
         <view class="itemAddress">
           <view class="name">
