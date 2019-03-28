@@ -171,19 +171,19 @@ page{
             <view>联系电话:{{item.mobile}}</view>
           </view>
           <view class="open">
-            <view @tap="newAddress">
+            <!-- <view @tap="newAddress">
               <icon class="iconfont icon-tianjia" />
               添加
-            </view>
+            </view> -->
             <view data-index="{{index}}" @tap="modifyAddress">
               <icon class="iconfont icon-bianji" />
               编辑
             </view>
-            <view data-id="{{item.id}}" @tap="delAddress">
+            <view data-id="{{item.id}}" @tap="deleteList">
               <icon class="iconfont icon-shanchu" />
               删除
             </view>
-            <view class="moren {{ item.status == '默认地址'?'morenSel':''}}" data-id="{{item.id}}" @tap="delAddress">
+            <view class="moren {{ item.status == '默认地址'?'morenSel':''}}" data-id="{{item.id}}" @tap="defaultAddress">
               <icon class="iconfont icon-moren" />
               默认地址
             </view>
@@ -297,6 +297,7 @@ export default class AddressList extends wepy.page {
             mask: true,
             icon: 'success'
           })
+          this.getShipmentList()
         } else {
           wx.showModal({
             title: '',
