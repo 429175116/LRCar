@@ -1,110 +1,73 @@
 <style lang="less">
 page{
-  background-color: #fff;
+  background-color: #f8f8f8;
 }
-.setInfo{
-  width: 750rpx;
-  min-height: 700rpx;
-  height: auto;
-  border-radius: 30rpx;
-  background-color: #eee;
+.form-box {
+  width: 100%;
+  background: #fff;
+  padding: 20rpx;
 }
-.item{
-  width: 750rpx;
-  min-height: 90rpx;
-  height: auto;
-  border-bottom: 1rpx solid #dcdcdc;
+.row-wrap {
+  width: 690rpx;
+  height: 88rpx;
+  margin: 30rpx 0;
+  font-size: 28rpx;
   display: flex;
   align-items: center;
-  padding: 0 30rpx;
-  color: #333;
+  justify-content: center;
+  border-bottom: 1rpx solid #f1f1f1;
   font-size: 30rpx;
 }
-.label{
-  width: 150rpx;
+.row-wrap label {
+  height: 60rpx;
+  width: 230rpx;
 }
-.labelCon{
-  // display: flex;
-  // align-items: center;
-  // justify-content: center;
-  // word-wrap:break-word;
-  height: auto;
+.row-wrap input,
+.row-wrap .weui-btn {
+  height: 60rpx;
+  width: 460rpx;
 }
-.labelCon view{
-  display:inline-block;
-  border: 1rpx solid #d5d5d5;
-  border-radius: 10rpx;
-  padding: 5rpx 10rpx;
-  margin: 10rpx 10rpx;
-}
-.labelCon .new{
-  margin: 0rpx;
-  width: 30rpx;
-  height: 30rpx;
-  color: #fff;
-  line-height: 30rpx;
+.save-btn {
+  width: 550rpx;
+  height: 85rpx;
+  font-size: 30rpx;
   text-align: center;
-  // margin-left: 10rpx;
-  border-radius: 15rpx;
-  background-color: #777;
-  margin-right: 0rpx;
-  padding: 0;
-
-
-}
-.button{
-  position: absolute;
-  width: 750rpx;
-  bottom: 110rpx;
-  height: 110rpx;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.button button{
-  width: 640rpx;
-  height: 80rpx;
-  font-size: 30rpx;
   color: #fff;
-  border-radius: 40rpx;
-  background-color: #00A0E9;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  background: linear-gradient(to right, #c0a069, #e9d5ac);
+  position: fixed;
+  bottom: 60rpx;
+  left: 100rpx;
 }
 </style>
 
 <template>
   <view>
     <form class="appointment_form" bindsubmit='newAddss'>
-      <view class="setInfo">
-        <view class="item">
-          <view class="label">收货人:</view>
-          <input type="text" name="real_name" />
+      <view class="form-box">
+        <view class="row-wrap">
+          <label>收货人:</label>
+          <input type="text" placeholder="请输入收货人" name="real_name" />
         </view>
-        <view class="item">
-          <view class="label">联系方式:</view>
-          <input type="digit" name="mobile" />
+        <view class="row-wrap">
+          <label>联系方式:</label>
+          <input type="digit" placeholder="请输入电话号码" name="mobile" />
         </view>
-        <view class="item">
-          <view class="label">所在地区:</view>
+        <view class="row-wrap">
+          <label>所在地区:</label>
           <!-- <input type="text" name="area" /> -->
-          <picker mode="region" @change="bindRegionChange" value="{{region}}" custom-item="{{customItem}}">
-            <view class="picker">
+          <picker class="weui-btn" mode="region" @change="bindRegionChange" value="{{region}}" custom-item="{{customItem}}">
+            <view class="weui-btn">
               {{region}}
               <!-- {{region[0]}}{{region[1]}}{{region[2]}} -->
             </view>
           </picker>
         </view>
-        <view class="item">
-          <view class="label">详细地址:</view>
-          <input type="text" name="address" />
+        <view class="row-wrap">
+          <label>详细地址:</label>
+          <input type="text" placeholder="请输入详细地址" name="address" />
         </view>
       </view>
-      <view class="button">
-        <button class="mod_btn" formType="submit">确认</button>
-      </view>
+      <button class="save-btn" formType="submit">确认</button>
     </form>
   </view>
 </template>

@@ -1,6 +1,4 @@
 <style lang="less">
-.container {
-}
 .form-box {
   width: 100%;
   background: #fff;
